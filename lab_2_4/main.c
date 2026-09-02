@@ -7,32 +7,21 @@ void main(){
     oi_t *sensor_data = oi_alloc();
     oi_init(sensor_data);
 
-    double tot_distance_left = 200; //This is the total distance the robot as left to go
+    double tot_distance_left = 200.0; //This is the total distance the robot as left to go
 
     while(tot_distance_left > 0){ //will keep running until reach the distance wanted
         double distance_traveled = move_forward(sensor_data, tot_distance_left);
-
         tot_distance_left -= distance_traveled; //configure how much is left to traverse
 
-       // if(tot_distance_left > 0){
-//           timer_waitMillis(500);
-//           move_forward(sensor_data, -15);
-//           tot_distance_left += 15;
-//           timer_waitMillis(500);
-//           turn_clockwise(sensor_data, 90);
-//           timer_waitMillis(500);
-//           move_forward(sensor_data, 25);
-//           timer_waitMillis(500);
-//           turn_clockwise(sensor_data, -90);
-//           timer_waitMillis(500);
-
-
-
-        //}
-
-
+        if(sensor_data->bumpLeft && sensor_data->bumpRight){ //if the robot bumps into something, it will go around it
+            go_around(sensor_data, 0); //go around the object in front of it
+        }else if(sensor_data->bumpLeft){ //if the robot bumps into something on the left, it will go around it
+            go_around(sensor_data, 0); //go around the object on the right
+        }else if(sensor_data->bumpRight){ //if the robot bumps into something on the right, it will go around it
+            go_around(sensor_data, 1); //go around the object on the left
+        }
     }
-
-
+    
+    oi_setWheels(0,0);
     oi_free(sensor_data);
 }
