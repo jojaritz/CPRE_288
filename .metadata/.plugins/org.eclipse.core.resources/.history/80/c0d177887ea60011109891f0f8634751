@@ -1,0 +1,43 @@
+#include "open_interface.h"
+
+#include "movement.h"
+
+
+void move_forward(oi_t *sensor, int centimeters){
+    int wheel_speed = 250;
+
+    double sum = 0;
+    oi_setWheels(wheel_speed, wheel_speed);
+
+    int adj_centimeters = centimeters*10 - 40;
+    while (sum < adj_centimeters){
+        oi_update(sensor);
+        sum += sensor->distance;
+    }
+
+    oi_setWheels(0,0);
+}
+
+
+void turn_clockwise(oi_t *sensor, int degrees){
+    int right_wheel = 250;
+    int left_wheel = 250;
+
+   // if(degrees < 0){
+      //  right_wheel = -250;
+    //}else if (degrees > 0){
+      //  left_wheel = -250;
+    //}
+
+    oi_setWheels(-150, 150);
+
+
+    double sum = 0;
+
+    while((-sum) < (degrees-30)){
+        oi_update(sensor);
+        sum += sensor->angle;
+    }
+
+    oi_setWheels(0,0);
+}
