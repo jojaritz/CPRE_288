@@ -1,18 +1,27 @@
 #include "open_interface.h"
 #include "Timer.h"
 #include "movement.h"
+#include "lcd.h"
 
 
 void main(){
+
+    timer_init(); // Initialize Timer, needed before any LCD screen fucntions can be called
+                  // and enables time functions (e.g. timer_waitMillis)
+
+    lcd_init();// Initialize the the LCD screen.  This also clears the screen.
+
+
     oi_t *sensor_data = oi_alloc();
     oi_init(sensor_data);
 
     double tot_distance_left = 200.0; //This is the total distance the robot as left to go
-
+    //double distance_traveled = move_forward(sensor_data, tot_distance_left);
+        lcd_printf("%f", tot_distance_left);
     while(tot_distance_left > 0){ //will keep running until reach the distance wanted
         double distance_traveled = move_forward(sensor_data, tot_distance_left);
         tot_distance_left -= distance_traveled; //configure how much is left to traverse
-
+        lcd_printf("%f", tot_distance_left);
         if(sensor_data->bumpLeft && sensor_data->bumpRight){ //if the robot bumps into something, it will go around it
             go_around(sensor_data, 0); //go around the object in front of it
         }else if(sensor_data->bumpLeft){ //if the robot bumps into something on the left, it will go around it
@@ -20,6 +29,8 @@ void main(){
         }else if(sensor_data->bumpRight){ //if the robot bumps into something on the right, it will go around it
             go_around(sensor_data, 1); //go around the object on the left
         }
+
+        timer_waitMillis(500);
     }
     
     oi_setWheels(0,0);
