@@ -2,6 +2,7 @@
 #include "movement.h"
 #include "math.h"
 #include "Timer.h"
+#include "cyBot_uart.h"
 
 
 double move_forward(oi_t *sensor, double centimeters){
@@ -90,4 +91,12 @@ void go_around(oi_t *sensor_data, int direction){//direction 0 is move right(lef
         turn_clockwise(sensor_data, 90);
     }
     timer_waitMillis(500);
+}
+
+void uart_sendString(char *string){//this loops through the string to send it
+    int i = 0;
+    while(string[i] != '\0'){
+        cyBot_sendByte(string[i]);
+        i++;
+    }
 }
