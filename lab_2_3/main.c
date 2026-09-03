@@ -7,9 +7,9 @@ void main(){
     oi_t *sensor_data = oi_alloc();
     oi_init(sensor_data);
     int i = 0;
-       for(i = 0; i < 4; i++){
+       for(i = 0; i < 4; i++){ //this runs 4 times which makes the robot move in a square pattern
            move_forward(sensor_data, 50);
-           timer_waitMillis(500);
+           timer_waitMillis(500); //wait for a little bit to allow the robot to stop moving before turning
            turn_clockwise(sensor_data, 90);
                timer_waitMillis(500);
        }
