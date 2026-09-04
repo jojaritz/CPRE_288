@@ -11,7 +11,7 @@ double move_forward(oi_t *sensor, double centimeters){
     double sum = 0;
     oi_setWheels(wheel_speed, wheel_speed);
 
-    double adj_centimeters = (centimeters*10);  //- 40.0; //This is the adjustment for the distance traveled, it is based on testing and the amount of centimeters that are wanted to be traveled
+    double adj_centimeters = (centimeters*10); //- 60; //This is the adjustment for the distance traveled, it is based on testing and the amount of centimeters that are wanted to be traveled
     while (sum <= adj_centimeters){ //This is the loop that goes until the sum of the distance traveled reaches the amount of wanted centimeters
         oi_update(sensor);
         sum += sensor->distance;
@@ -32,8 +32,8 @@ void move_backward(oi_t *sensor, double centimeters){
     double sum = 0;
     oi_setWheels(wheel_speed, wheel_speed);
 
-    double adj_centimeters = (centimeters*10) - (centimeters*.04); //This is the adjustment for the distance traveled, it is based on testing and the amount of centimeters that are wanted to be traveled
-    while (fabs(sum) < adj_centimeters){ //This is the loop that goes unti the sum of the distance traveled reaches the amount of wanted centimeters
+    double adj_centimeters = (centimeters*10) - 40.0; //(centimeters*.04); //This is the adjustment for the distance traveled, it is based on testing and the amount of centimeters that are wanted to be traveled
+    while (fabs(sum) < adj_centimeters){ //This is the loop that goes until the sum of the distance traveled reaches the amount of wanted centimeters
         oi_update(sensor);
         sum += fabs(sensor->distance);
 
@@ -82,8 +82,7 @@ void go_around(oi_t *sensor_data, int direction){//direction 0 is move right(lef
         move_forward(sensor_data, 25);
         timer_waitMillis(500);
         turn_counter_clockwise(sensor_data, 90);
-        timer_waitMillis(500);
-    }else if(direction == 1){
+    }else{
         turn_counter_clockwise(sensor_data, 90);
         timer_waitMillis(500);
         move_forward(sensor_data, 25);
