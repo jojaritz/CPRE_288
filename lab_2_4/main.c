@@ -7,7 +7,7 @@ void main(){
     oi_t *sensor_data = oi_alloc();
     oi_init(sensor_data);
 
-    double tot_distance_left = (200.0-15.0); //This is the total distance the robot as left to go
+    double tot_distance_left = (200.0-25.0); //This is the total distance the robot as left to go
 
     while(tot_distance_left > 0){ //will keep running until reach the distance wanted
         double distance_traveled = move_forward(sensor_data, tot_distance_left);

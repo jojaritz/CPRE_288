@@ -26,7 +26,7 @@ void turn_clockwise(oi_t *sensor, int degrees){ //This turns clockwise
 
     double sum = 0;
 
-    while((-sum) < (degrees-12)){ //a correction factor of 12 degrees is used to account for overshoot
+    while((-sum) < (degrees-13)){ //a correction factor of 12 degrees is used to account for overshoot
         oi_update(sensor);
         sum += sensor->angle;
     }
