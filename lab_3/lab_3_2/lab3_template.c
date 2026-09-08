@@ -21,7 +21,7 @@
 int main(void) {
 	button_init();
 	lcd_init();
-	            // Don't forget to initialze the cyBot UART before trying to use it
+	cyBot_uart_init();            // Don't forget to initialze the cyBot UART before trying to use it
 	
 	// YOUR CODE HERE
 	
