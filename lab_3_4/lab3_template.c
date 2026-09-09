@@ -22,19 +22,25 @@ int main(void) {
 	button_init();
 	lcd_init();
 	cyBot_uart_init();            // Don't forget to initialze the cyBot UART before trying to use it
-	
+	timer_init();
 	// YOUR CODE HERE
 	
 	
 	while(1)
 	{
 	
-      uint8_t current_button = button_getButton();
+	    uint8_t button_num = button_getButton();
+	    char current_button = (char)(button_num + '0');
 
-		lcd_printf("%d", current_button);
+      lcd_printf("%c", current_button);
+
+
+          cyBot_sendByte(current_button);
+          //timer_waitMillis(500);
 
 
 	
 	}
 	
+
 }
