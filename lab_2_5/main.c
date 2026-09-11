@@ -15,7 +15,7 @@ void main(){
     oi_init(sensor_data);
     cyBot_uart_init();
     int running = 1;
-    
+
     while(running){
         char data = cyBot_getByte();
         lcd_printf("Data: %c", data);
@@ -44,7 +44,7 @@ void main(){
 
 
 
-    
+
     oi_setWheels(0,0);
     oi_free(sensor_data);
 }

@@ -31,12 +31,28 @@ int main(void) {
 	
 	    uint8_t button_num = button_getButton();
 	    char current_button = (char)(button_num + '0');
+	    char message[20] = " ";
 
-      lcd_printf("%c", current_button);
+	    if(current_button == '4') {
+	        strcpy(message, "last place :( ");
+	    } else if(current_button == '3') {
+	        strcpy(message, "2nd loser... ");
+	    } else if(current_button == '2') {
+	        strcpy(message, "good try :D ");
+	    } else if(current_button == '1') {
+	        strcpy(message, "you did it! yay ");
+	    } else {
+	        strcpy(message, "nada ");
+	    }
 
+	    lcd_printf("%s", message);
 
-          cyBot_sendByte(current_button);
-          //timer_waitMillis(500);
+	    int i = 0;
+	    for(i; i<20; i++) {
+	        cyBot_sendByte(message[i]);
+	    }
+
+          timer_waitMillis(500);
 
 
 	
