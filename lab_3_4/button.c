@@ -45,7 +45,7 @@ void button_init() {
 	SYSCTL_RCGCGPIO_R |= 0x00000010;
 
 	// 2) Set the buttons as inputs, do not modify other PORTE wires
-	 GPIO_PORTE_DIR_R &= 0x00;
+	 GPIO_PORTE_DIR_R &= 0xFFFFFFF0;
 	
 	// 3) Enable digital functionality for button inputs, 
 	//    do not modify other PORTE enables
