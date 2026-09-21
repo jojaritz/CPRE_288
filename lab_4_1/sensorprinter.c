@@ -24,11 +24,14 @@ int main(void) {
 	// YOUR CODE HERE
 	
 //	int i = 0;
-//	printf("[");
+//	//printf("[");
+//    printf("Degrees   Distance (m)\n");
 //	for (i; i < 46; i++) {
-//	    printf("\'%.1f\', ", sensor_data_array[i]);
+//	    int a= i*4;
+//	    printf("%-7d", a);
+//	    printf("%.1f \n", sensor_data_array[i]);
 //	}
-//	printf("]");
+	//printf("]");
 
     cyBot_uart_init();
 
@@ -37,8 +40,8 @@ int main(void) {
     lcd_init();
 
     // make sure to find calibration value first, different for each cyBOT
-    right_calibration_value = 274750;
-    left_calibration_value = 1251250;
+    right_calibration_value = 238000;
+    left_calibration_value = 1225000;
 
     cyBOT_Scan_t currentScan;
     currentScan.sound_dist = 0;
@@ -76,13 +79,13 @@ int main(void) {
     }
 
 
-    // above code is part 2 ^^^ down below is part 3
+//     //above code is part 2 ^^^ down below is part 3
 //    timer_init();
 //    lcd_init();
 //    cyBOT_init_Scan(0b0011);
-//    //cyBOT_SERVO_cal(); //only used to calibrate
-//    right_calibration_value = 274750;
-//    left_calibration_value = 1251250;
+//    cyBOT_SERVO_cal(); //only used to calibrate
+//    right_calibration_value = 238000;
+//    left_calibration_value = 1225000;
 //
 //    // 0 degrees value is 274750
 //    // 180 degrees value is 1251250 both for cybot 25 (easy to find for any)
