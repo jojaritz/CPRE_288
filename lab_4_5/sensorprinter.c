@@ -43,22 +43,13 @@ void print_detected_objects(void);
 
 int main(void) {
 
-    // YOUR CODE HERE
-
-//  int i = 0;
-//  printf("[");
-//  for (i; i < 46; i++) {
-//      printf("\'%.1f\', ", sensor_data_array[i]);
-//  }
-//  printf("]");
 
     cyBot_uart_init();
 
     cyBOT_init_Scan(0b0011);
     timer_init();
     lcd_init();
-    //oi_t *sensor_data = oi_alloc();
-    //oi_init(sensor_data);
+
 
     // make sure to find calibration value first, different for each cyBOT
     right_calibration_value = 274750;
@@ -75,18 +66,6 @@ int main(void) {
         lcd_printf("%c", got_Byte);
         if(got_Byte == 'm') {
 
-           // lcd_printf("SHFVLHFSBJB");//why do we have this here? it prints out random letters to the lcd when m is pressed, but it doesn't do anything else. I think we can remove it.
-
-            // creates the header for user to know what the printed values are
-            // char infoHeader[26] = " ";
-            // strcpy(infoHeader, "Degrees   Distance (cm)\n\r");
-            // int x = 0;
-            // for(x; x < 25; x++) {
-            //     cyBot_sendByte(infoHeader[x]);
-            // }
-            // object_count = 0;// Reset object count before starting a new scan
-            // object_detect(currentScanPtr, -1);
-
             // does the 180 degree scan and prints it out to putty(m has already been pressed by the time it gets here)
 
             int i = 0;
@@ -96,50 +75,15 @@ int main(void) {
                 
                 object_detect(sensor_data_array[i/2], i);
 
-                //char distance_to_char[20];
-                //sprintf(distance_to_char, "%-7d   %.1f\n\r", i, currentScanPtr->sound_dist);
-                //int j = 0;
-                //cyBot_send_string(distance_to_char);
             }
-            //object_detect(currentScanPtr, 181);
-            object_detect(sensor_data_array[i/2], 181);
             print_detected_objects();
-            //and then compare the different angle differences and print out the smallest angle difference to putty
+            //and then compare the different linear widths (used to do angle) differences and print out the smallest width difference to putty
         }
 
-
-
-
-
-    }
-
-
-
-
-
-
-    // above code is part 2 ^^^ down below is part 3
-//    timer_init();
-//    lcd_init();
-//    cyBOT_init_Scan(0b0011);
-//    //cyBOT_SERVO_cal(); //only used to calibrate
-//    right_calibration_value = 274750;
-//    left_calibration_value = 1251250;
-//
-//    // 0 degrees value is 274750
-//    // 180 degrees value is 1251250 both for cybot 25 (easy to find for any)
-//
-//    int i = 0;
-//    cyBOT_Scan_t scan;
-//    for(i; i<=180; i+=2) {
-//        cyBOT_Scan(i, &scan);
-//    }
-//
-//    return 0;
-
+}
 }
 
-void cyBot_send_string(const char *str) {
+void cyBot_send_string(const char *str) { //same as lab 2, loops through the string to send it
     while (*str != '\0') {
         cyBot_sendByte(*str);
         str++;
@@ -156,42 +100,11 @@ void object_detect(float distance, int current_angle){
     static int sample_count = 0;
     float current_dist = distance;
 
-    if (current_angle < 0 ) { // sentinel value used to force a reset
-        on_object = 0;
-        start_angle = 0;
-        prev_angle = 0;
-        prev_dist = -1.0f;
-        dist_sum = 0.0f;
-        sample_count = 0;
-        return;
-    }
-
     // Initialize prev_dist on the very first sample
     if (prev_dist < 0.0f) {
         prev_dist = current_dist;
         prev_angle = current_angle;
         return;
-    }
-
-    if(on_object && current_angle > 180) {
-        on_object = 0;
-        int end_angle = prev_angle;
-        int radial_w = end_angle - start_angle;
-        if (radial_w >= 4 && object_count < 10) {
-        detected_objects[object_count].id = object_count + 1;
-        detected_objects[object_count].start_angle = start_angle;
-        detected_objects[object_count].end_angle = end_angle;
-        detected_objects[object_count].center_angle = (start_angle + end_angle) / 2;
-        detected_objects[object_count].radial_width = radial_w;
-        detected_objects[object_count].distance = dist_sum / sample_count;
-
-        float avg_dist = dist_sum / sample_count;// Calculate the linear width of the detected object
-        float theta_rad = (radial_w * M_PI) / 180.0;
-        detected_objects[object_count].linear_width = 2.0 * avg_dist * sin(theta_rad / 2.0);
-
-        object_count++;
-        }
-    return;
     }
 
     if (!on_object) {//check if we are currently on an object or not
@@ -250,24 +163,25 @@ void print_detected_objects(void) {
     int i;
     for (i = 0; i < object_count; i++) {
         sprintf(out, "%-7d   %-5d   %-12.1f   %-16d   %-16.1f\n\r",
-                detected_objects[i].id,
+                detected_objects[i].id, //goes back and prints all of the detected objects to putty
                 detected_objects[i].center_angle,
                 detected_objects[i].distance,
                 detected_objects[i].radial_width,
                 detected_objects[i].linear_width);
         cyBot_send_string(out);
 
-        // if (detected_objects[i].radial_width < min_radial) {
+        // if (detected_objects[i].radial_width < min_radial) { //this was the original code, but we want to find the smallest linear width, not the smallest radial width
         //     min_radial = detected_objects[i].radial_width;
         //     smallest_idx = i;
         // }
-        if (detected_objects[i].linear_width < min_linear) {
+        if (detected_objects[i].linear_width < min_linear) { //calculates the smallest linear width and then prints out the object number, angle, and width to putty
             min_linear = detected_objects[i].linear_width;
             smallest_idx = i;
         }
     }
 
     if (smallest_idx != -1) {
+        // Print the smallest object's information
         sprintf(out, "\n\rSmallest length Object: #%d at %d deg (Width: %.1f cm)\n\r",
                 detected_objects[smallest_idx].id,
                 detected_objects[smallest_idx].center_angle,
