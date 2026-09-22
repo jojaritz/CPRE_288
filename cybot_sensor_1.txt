@@ -1,0 +1,168 @@
+=~=~=~=~=~=~=~=~=~=~=~= PuTTY log 2026.09.22 09:50:46 =~=~=~=~=~=~=~=~=~=~=~=
+Degrees   Distance (cm)
+0         311.8
+2         71.1
+4         38.3
+6         204.1
+8         204.1
+10        203.6
+12        203.6
+14        203.7
+16        203.6
+18        203.6
+20        41.4
+22        40.5
+24        40.2
+26        39.9
+28        39.4
+30        39.4
+32        39.3
+34        38.8
+36        38.8
+38        38.8
+40        38.3
+42        38.3
+44        38.3
+46        38.3
+48        38.3
+50        38.3
+52        38.3
+54        38.3
+56        38.3
+58        38.4
+60        38.8
+62        38.9
+64        39.4
+66        39.4
+68        39.5
+70        40.2
+72        40.5
+74        41.0
+76        41.9
+78        305.7
+80        304.1
+82        305.7
+84        305.2
+86        302.6
+88        306.5
+90        302.7
+92        303.1
+94        313.3
+96        302.7
+98        310.5
+100       313.5
+102       304.8
+104       302.7
+106       70.2
+108       69.7
+110       69.2
+112       69.2
+114       68.7
+116       68.7
+118       68.7
+120       68.6
+122       68.6
+124       68.3
+126       68.3
+128       68.7
+130       68.7
+132       68.7
+134       68.7
+136       68.8
+138       69.2
+140       69.7
+142       70.2
+144       70.2
+146       311.5
+148       312.0
+150       311.5
+152       312.0
+154       297.6
+156       182.6
+158       182.1
+160       180.8
+162       180.7
+164       181.9
+166       202.0
+168       198.9
+170       184.1
+172       184.6
+174       183.4
+176       181.5
+178       181.2
+180       181.4
+Object#   Angle   Distance   Angular Width   Linear Width
+1         90      0.7            52                 0.6             
+2         149     0.7            46                 0.5             
+
+Smallest length Object: #2 at 149 deg (Width: 0.5 cm)
+Object#   Angle   Distance   Angular Width   Linear Width
+1         90      0.7            52                 0.6             
+2         149     0.7            46                 0.5             
+
+Smallest length Object: #2 at 149 deg (Width: 0.5 cm)
+Object#   Angle   Distance   Angular Width   Linear Width
+1         90      0.7            52                 0.6             
+2         149     0.7            46                 0.5             
+3         90      0.7            52                 0.6             
+4         149     0.7            46                 0.5             
+
+Smallest length Object: #2 at 149 deg (Width: 0.5 cm)
+Object#   Angle   Distance   Angular Width   Linear Width
+1         90      0.7            52                 0.6             
+2         149     0.7            46                 0.5             
+
+Smallest length Object: #2 at 149 deg (Width: 0.5 cm)
+Object#   Angle   Distance   Angular Width   Linear Width
+1         90      0.7            52                 0.6             
+2         149     0.7            46                 0.5             
+
+Smallest length Object: #2 at 149 deg (Width: 0.5 cm)
+Object#   Angle   Distance   Angular Width   Linear Width
+1         48      0.4            56                 0.4             
+2         125     0.7            38                 0.5             
+
+Smallest length Object: #1 at 48 deg (Width: 0.4 cm)
+Object#   Angle   Distance   Angular Width   Linear Width
+1         58      0.6            52                 0.5             
+2         133     0.4            54                 0.4             
+
+Smallest length Object: #2 at 133 deg (Width: 0.4 cm)
+Object#   Angle   Distance   Angular Width   Linear Width
+1         45      0.8            74                 1.0             
+2         133     0.4            54                 0.4             
+
+Smallest length Object: #2 at 133 deg (Width: 0.4 cm)
+Object#   Angle   Distance   Angular Width   Linear Width
+1         45      0.8            74                 1.0             
+2         133     0.4            54                 0.4             
+3         45      0.8            74                 1.0             
+4         133     0.4            54                 0.4             
+
+Smallest length Object: #2 at 133 deg (Width: 0.4 cm)
+Object#   Angle   Distance   Angular Width   Linear Width
+1         45      0.8            74                 1.0             
+2         133     0.4            54                 0.4             
+
+Smallest length Object: #2 at 133 deg (Width: 0.4 cm)
+Object#   Angle   Distance   Angular Width   Linear Width
+1         45      0.8            74                 1.0             
+2         133     0.4            54                 0.4             
+
+Smallest length Object: #2 at 133 deg (Width: 0.4 cm)
+Object#   Angle   Distance   Angular Width   Linear Width
+1         58      0.4            48                 0.3             
+2         133     0.4            54                 0.4             
+
+Smallest length Object: #1 at 58 deg (Width: 0.3 cm)
+Object#   Angle   Distance   Angular Width   Linear Width
+1         58      0.4            56                 0.4             
+2         133     0.4            54                 0.4             
+
+Smallest length Object: #2 at 133 deg (Width: 0.4 cm)
+Object#   Angle   Distance   Angular Width   Linear Width
+1         48      0.4            56                 0.4             
+2         125     0.7            38                 0.5             
+
+Smallest length Object: #1 at 48 deg (Width: 0.4 cm)
+

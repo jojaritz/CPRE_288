@@ -17,7 +17,12 @@
 //#warning "Possible unimplemented functions"
 #define REPLACEME 0
 
-
+void cyBot_send_string(const char *str) { //same as lab 2, loops through the string to send it
+    while (*str != '\0') {
+        cyBot_sendByte(*str);
+        str++;
+    }
+}
 
 int main(void) {
 
@@ -58,7 +63,7 @@ int main(void) {
 
             // creates the header for user to know what the printed values are
             char infoHeader[25] = " ";
-            strcpy(infoHeader, "Degrees   Distance (cm)\n\r");
+            strcpy(infoHeader, "Degrees   Distance (cm)\r\n");
             int x = 0;
             for(x; x < 25; x++) {
                 cyBot_sendByte(infoHeader[x]);
@@ -68,11 +73,8 @@ int main(void) {
             for(i; i<=180; i += 2) {
                 cyBOT_Scan(i, currentScanPtr);
                 char distance_to_char[20];
-                sprintf(distance_to_char, "%-7d   %.1f\n\r", i, currentScanPtr->sound_dist);
-                int j = 0;
-                for(j; j < 20; j++) {
-                    cyBot_sendByte(distance_to_char[j]);
-                }
+                sprintf(distance_to_char, "%-7d   %.1f\r\n", i, currentScanPtr->sound_dist);
+                cyBot_send_string(distance_to_char);
             }
         }
 
