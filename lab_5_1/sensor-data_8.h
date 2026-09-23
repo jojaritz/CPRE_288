@@ -1,8 +1,7 @@
 #ifndef SENSOR_DATA_8_H 
 #define SENSOR_DATA_8_H 
 
-float sensor_data_array[92] = { 
-Distance, 
+float sensor_data_array[91] = {
 18.9, 
 28.0, 
 60.8, 
@@ -93,7 +92,7 @@ Distance,
 17.3, 
 17.3, 
 17.3, 
-17.3
+17.4
 }; 
 
 #endif 
