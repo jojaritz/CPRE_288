@@ -33,7 +33,7 @@ typedef struct {
     float linear_width;
 } Object;
 
-Object detected_objects[10]; // Array to hold detected objects
+Object detected_objects[4]; // Array to hold detected objects
 int object_count = 0;
 
 // void object_detect(cyBOT_Scan_t *distance, int current_angle);
