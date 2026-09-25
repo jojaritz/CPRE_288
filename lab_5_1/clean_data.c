@@ -56,7 +56,8 @@ int main(void) {
     }
 
     for (i = 0; i < sensor_data_count; i++) {
-        printf("%.1f\n", sensor_data_array_cleaned[i]);
+        float value = sensor_data_array_cleaned[i]/100.1;
+        printf("%.1f\n", value);
     }
 
     return 0;
