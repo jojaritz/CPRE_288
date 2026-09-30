@@ -151,11 +151,17 @@ void object_detect(float distance, int current_angle){
 
     // Initialize prev_dist on the very first sample
     if (prev_dist < 0.0f) {
+        if(distance < 2.0){//checks if the distance is less than 2.0 m, consider it an object
+            on_object = 1;
+             start_angle = current_angle;
+             dist_sum = current_dist;
+             sample_count = 1;
+        }
         prev_dist = current_dist;
         prev_angle = current_angle;
         return;
     }
-
+    
     if (!on_object) {//check if we are currently on an object or not
         // Look for a large enough distance drop to indicate the leading edge of an object
         if ((prev_dist - current_dist) > DELTA_THRESHOLD) {
@@ -173,7 +179,7 @@ void object_detect(float distance, int current_angle){
             int radial_w = end_angle - start_angle;
 
             // check if the angle detected is too small to be an object
-            if (radial_w >= 4 && object_count < 10) {
+            if (radial_w >= 4 && object_count < 4) {
                 detected_objects[object_count].id = object_count + 1; //update all object values in the struct
                 detected_objects[object_count].start_angle = start_angle;
                 detected_objects[object_count].end_angle = end_angle;
@@ -197,6 +203,29 @@ void object_detect(float distance, int current_angle){
     // Update history for next function call
     prev_dist = current_dist;
     prev_angle = current_angle;
+
+    if(current_angle == 180) {//catches object if it is at the edge of the scan range
+        if (on_object) {
+            int end_angle = prev_angle; // The object ended at the previous angle
+            int radial_w = end_angle - start_angle;
+
+            // check if the angle detected is too small to be an object
+            if (radial_w >= 4 && object_count < 4) {
+                detected_objects[object_count].id = object_count + 1; //update all object values in the struct
+                detected_objects[object_count].start_angle = start_angle;
+                detected_objects[object_count].end_angle = end_angle;
+                detected_objects[object_count].center_angle = (start_angle + end_angle) / 2;
+                detected_objects[object_count].radial_width = radial_w;
+                detected_objects[object_count].distance = dist_sum / sample_count;
+
+                float avg_dist = dist_sum / sample_count;   // Calculate the linear width of the detected object
+                float theta_rad = (radial_w * M_PI) / 180.0;
+                detected_objects[object_count].linear_width = 2.0 * avg_dist * sin(theta_rad / 2.0);
+
+                object_count++;
+            }
+        }
+    }
 }
 
 
@@ -231,10 +260,13 @@ void print_detected_objects(void) {
 
     if (smallest_idx != -1) {
         // Print the smallest object's information
-        sprintf(out, "\n\rSmallest length Object: #%d at %d deg (Width: %.1f cm)\n\r",
+        float center_rad = detected_objects[smallest_idx].center_angle * M_PI / 180.0;
+        int accurate_angle = (int)(atan2(14.0 + detected_objects[smallest_idx].distance * sin(center_rad),detected_objects[smallest_idx].distance * cos(center_rad)) * (180.0 / M_PI));
+        sprintf(out, "\n\rSmallest length Object: #%d at %d deg (Width: %.1f cm), Accurate Angle: %d deg\n\r",
                 detected_objects[smallest_idx].id,
                 detected_objects[smallest_idx].center_angle,
-                detected_objects[smallest_idx].linear_width);
+                detected_objects[smallest_idx].linear_width,
+                accurate_angle);
         cyBot_send_string(out);
         cyBOT_Scan_t target_scan;
         cyBOT_Scan(detected_objects[smallest_idx].center_angle, &target_scan);
@@ -285,6 +317,7 @@ int clean_data(void) {
 
     for (i = 0; i < sensor_data_count; i++) {
         float value = sensor_data_array2_cleaned[i]/100.1;
+        sensor_data_array2_cleaned[i] = value;
 
         char distance_to_char[20];
         sprintf(distance_to_char, "%-7d   %.1f\n\r", i*2, value);
