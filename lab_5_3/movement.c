@@ -6,7 +6,7 @@
 
 
 double move_forward(oi_t *sensor, double centimeters){
-    int wheel_speed = 250;
+    int wheel_speed = 150;
 
 
     double sum = 0;
@@ -33,7 +33,7 @@ void move_backward(oi_t *sensor, double centimeters){
     double sum = 0;
     oi_setWheels(wheel_speed, wheel_speed);
 
-    double adj_centimeters = (centimeters*10) - 40.0; //(centimeters*.04); //This is the adjustment for the distance traveled, it is based on testing and the amount of centimeters that are wanted to be traveled
+    double adj_centimeters = (centimeters*10) - 10.0; //(centimeters*.04); //This is the adjustment for the distance traveled, it is based on testing and the amount of centimeters that are wanted to be traveled
     while (fabs(sum) < adj_centimeters){ //This is the loop that goes until the sum of the distance traveled reaches the amount of wanted centimeters
         oi_update(sensor);
         sum += fabs(sensor->distance);
@@ -50,7 +50,7 @@ void turn_clockwise(oi_t *sensor, int degrees){
 
     double sum = 0;
 
-    while(fabs(sum) < (degrees-20)){ // -12 accounts for the overshoot of the robot when turning, this was found through testing
+    while(fabs(sum) < (degrees-1)){ // -12 accounts for the overshoot of the robot when turning, this was found through testing
         oi_update(sensor);
         sum += sensor->angle;
     }
@@ -64,7 +64,7 @@ void turn_counter_clockwise(oi_t *sensor, int degrees){
 
     double sum = 0;
 
-    while(fabs(sum) < (degrees-12)){ // -12 accounts for the overshoot of the robot when turning, this was found through testing
+    while(fabs(sum) < (degrees)){ // -12 accounts for the overshoot of the robot when turning, this was found through testing
         oi_update(sensor);
         sum += sensor->angle;
     }

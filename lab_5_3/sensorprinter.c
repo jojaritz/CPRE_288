@@ -74,13 +74,13 @@ int main(void) {
         lcd_printf("%c", got_Byte);
 
         if(got_Byte == 'w') {
-                move_forward(sensor_data, 15);
+                move_forward(sensor_data, 5);
         } else if(got_Byte == 's') {
-                move_backward(sensor_data, 15);
+                move_backward(sensor_data, 5);
         } else if(got_Byte == 'a') {
-                turn_counter_clockwise(sensor_data, 45);
+                turn_counter_clockwise(sensor_data, 20);
         } else if(got_Byte == 'd') {
-                turn_clockwise(sensor_data, 45);
+                turn_clockwise(sensor_data, 20);
         } else if(got_Byte == 'm') {
             object_count = 0; // Reset the object count before starting a new scan
             char infoHeader[40] = " ";
