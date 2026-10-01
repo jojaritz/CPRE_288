@@ -71,7 +71,7 @@ int main(void) {
         char got_Byte = (char)cyBot_getByte();
         lcd_printf("%c", got_Byte);
         if(got_Byte == 'm') {
-
+            object_count = 0; // Reset the object count before starting a new scan
             char infoHeader[40] = " ";
             strcpy(infoHeader, "Degrees   Distance (cm) **RAW DATA**\n\r");
             int x = 0;
@@ -103,7 +103,7 @@ int main(void) {
             clean_data();
             int j = 0;
             for(j; j<91; j++) {
-                object_detect(sensor_data_array2_cleaned[j/2], j);
+                object_detect(sensor_data_array2_cleaned[j], j*2);
             }
 
             print_detected_objects();

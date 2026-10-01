@@ -160,6 +160,16 @@ void object_detect(float distance, int current_angle){
     static int sample_count = 0;
     float current_dist = distance;
 
+    if (current_angle == 0) {
+        on_object = 0;
+        start_angle = 0;
+        prev_angle = 0;
+        prev_dist = distance;
+        dist_sum = 0.0f;
+        sample_count = 0;
+        return;
+    }
+
     // Initialize prev_dist on the very first sample
     if (prev_dist < 0.0f) {
         if(distance < 2.0){//checks if the distance is less than 2.0 m, consider it an object
@@ -272,7 +282,7 @@ void print_detected_objects(void) {
     if (smallest_idx != -1) {
         // Print the smallest object's information
         float center_rad = detected_objects[smallest_idx].center_angle * M_PI / 180.0;
-        int accurate_angle = (int)(atan2(14.0 + detected_objects[smallest_idx].distance * sin(center_rad),detected_objects[smallest_idx].distance * cos(center_rad)) * (180.0 / M_PI));
+        int accurate_angle = (int)(atan2(.14 + detected_objects[smallest_idx].distance * sin(center_rad),detected_objects[smallest_idx].distance * cos(center_rad)) * (180.0 / M_PI));
         sprintf(out, "\n\rSmallest length Object: #%d at %d deg (Width: %.1f cm), Accurate Angle: %d deg\n\r",
                 detected_objects[smallest_idx].id,
                 detected_objects[smallest_idx].center_angle,
