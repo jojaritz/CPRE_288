@@ -33,19 +33,19 @@ int main(void) {
 	button_init();
 	lcd_init();
 	
-    // (Uncomment ME for PuTTy to CyBot UART init part of lab) cyBot_uart_init_clean();  // Clean UART initialization, before running your UART GPIO init code
+    cyBot_uart_init_clean();  // Clean UART initialization, before running your UART GPIO init code
 
 	// Complete this code for configuring the  (GPIO) part of UART initialization
-     // SYSCTL_RCGCGPIO_R |= FIXME;
-     // timer_waitMillis(1);            // Small delay before accessing device after turning on clock
-     // GPIO_PORTB_AFSEL_R |= FIXME;  
-     // GPIO_PORTB_PCTL_R &= FIXME;     // Force 0's in the disired locations
-     // GPIO_PORTB_PCTL_R |= FIXME;     // Force 1's in the disired locations
-     // GPIO_PORTB_DEN_R |= FIXME;
-     // GPIO_PORTB_DIR_R &= FIXME;      // Force 0's in the disired locations
-     // GPIO_PORTB_DIR_R |= FIXME;      // Force 1's in the disired locataions
+     SYSCTL_RCGCGPIO_R |= 0x02;
+     timer_waitMillis(1);            // Small delay before accessing device after turning on clock
+     GPIO_PORTB_AFSEL_R |= 0x03;  
+     GPIO_PORTB_PCTL_R &= ~(0x000000FF);     // Force 0's in the disired locations
+     GPIO_PORTB_PCTL_R |= 0x000000FF;     // Force 1's in the disired locations
+     GPIO_PORTB_DEN_R |= 0x03;
+     GPIO_PORTB_DIR_R &= ~(0x000000FF);      // Force 0's in the disired locations
+     GPIO_PORTB_DIR_R |= 0x000000FF;      // Force 1's in the disired locataions
     
-    // (Uncomment ME for UART init part of lab) cyBot_uart_init_last_half();  // Completes the UART device initialization part of configuration
+    (Uncomment ME for UART init part of lab) cyBot_uart_init_last_half();  // Completes the UART device initialization part of configuration
 	
 	// Initialze scan sensors
     // cyBOT_init_Scan();
