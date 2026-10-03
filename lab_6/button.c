@@ -46,7 +46,7 @@ void button_init() {
 	SYSCTL_RCGCGPIO_R |= 0x00000010;
 
 	// 2) Set the buttons as inputs, do not modify other PORTE wires
-	GPIO_PORTE_DIR_R &= 0x00;
+	GPIO_PORTE_DIR_R &= 0xFFFFFFF0;
 	
 	// 3) Enable digital functionality for button inputs, 
 	//    do not modify other PORTE enables
@@ -77,13 +77,13 @@ void init_button_interrupts() {
 
     // 3) Set pins 0-3 to use both edges. We want to update the LCD
     //    when a button is pressed, and when the button is released.
-    GPIO_PORTE_IBE_R |= 0x01;
+    GPIO_PORTE_IBE_R |= 0x0F;
 
     // 4) Clear the interrupts
-    GPIO_PORTE_ICR_R = 0x11;
+    GPIO_PORTE_ICR_R = 0x0F;
 
     // 5) Unmask the bits for pins 0-3
-    GPIO_PORTE_IM_R |= 0x11;
+    GPIO_PORTE_IM_R |= 0x0F;
 
     //#warning: "Unimplemented function: void init_button_interrupts() -- You must configure interrupts" // delete warning after implementing
     // TODO: Complete code below
@@ -102,7 +102,7 @@ void gpioe_handler() {
 
 //#warning: "Unimplemented function: void gpioe_handler() -- You must configure interrupts" // delete warning after implementing
     // Clear interrupt status register
-     GPIO_PORTE_ICR_R = 0x11;
+     GPIO_PORTE_ICR_R = 0xFF;
      button_event = 1;
     button_num = button_getButton();
 }
