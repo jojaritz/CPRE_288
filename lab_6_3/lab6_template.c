@@ -66,25 +66,33 @@ int main(void) {
 	currentScan.IR_raw_val = 0;
 	cyBOT_Scan_t *currentScanPtr = &currentScan;
 
+	static int previous_Scan = 0;
+	static int current_scan = 0;
+
  	while(1)
 	{
 		
 
-
+ 	    if(fabs(previous_scan - current_scan) > (current_scan*.2) ){
 
 		timer_waitMillis(500);
 
 		cyBOT_Scan(90,currentScanPtr);
 
-		char message[20] = " ";
+		char message[100] = " ";
 
-		message = (char)(currentScanPtr->IR_raw_val);
+		//message = (char)(currentScanPtr->IR_raw_val);
+		int current_scan = currentScanPtr->IR_raw_val
 
+		snprintf(message, sizeof(message), "%d", current_scan);
+		
 		int i = 0;
-	    for(i; i<20; i++) {
+	    for(i; i<100; i++) {
 	        cyBot_sendByte(message[i]);
 	    }
+	    previous_scan = current_scan;
 
+ 	    }
 	    // uint8_t button_num = button_getButton();
 	    // char current_button = (char)(button_num + '0');
 	    // char message[20] = " ";
