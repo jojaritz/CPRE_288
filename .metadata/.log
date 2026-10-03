@@ -9141,3 +9141,9 @@ java.nio.channels.ClosedByInterruptException
 !ENTRY com.ti.ccstudio.debug 1 0 2026-10-03 14:27:36.688
 !MESSAGE DS_ERROR: CORTEX_M4_0: Trouble Halting Target CPU 
 
+
+!ENTRY org.eclipse.cdt.core 1 0 2026-10-03 14:42:24.426
+!MESSAGE Indexed 'lab_3_4' (5 sources, 22 headers) in 0.181 sec: 695 declarations; 1,245 references; 0 unresolved inclusions; 13 syntax errors; 0 unresolved names (0%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2026-10-03 14:48:13.955
+!MESSAGE Indexed 'lab_6_3' (7 sources, 28 headers) in 0.253 sec: 1,435 declarations; 2,673 references; 0 unresolved inclusions; 14 syntax errors; 0 unresolved names (0%)

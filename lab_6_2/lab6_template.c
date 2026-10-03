@@ -40,17 +40,17 @@ int main(void) {
      SYSCTL_RCGCGPIO_R |= 0b10;
      timer_waitMillis(1);            // Small delay before accessing device after turning on clock
      GPIO_PORTB_AFSEL_R |= 0x03;  
-     GPIO_PORTB_PCTL_R &= 0xFFFFFF11;     // Force 0's in the disired locations
+     GPIO_PORTB_PCTL_R &= 0xFFFFFF00;     // Force 0's in the disired locations
      GPIO_PORTB_PCTL_R |= 0x11;     // Force 1's in the disired locations
      GPIO_PORTB_DEN_R |= 0x03;
-     GPIO_PORTB_DIR_R &= 0b00;      // Force 0's in the disired locations
+     GPIO_PORTB_DIR_R &= ~0x03;      // Force 0's in the disired locations
      GPIO_PORTB_DIR_R |= 0b10;      // Force 1's in the disired locataions
     
     //(Uncomment ME for UART init part of lab)
      cyBot_uart_init_last_half();  // Completes the UART device initialization part of configuration
 	
 	// Initialze scan sensors
-    // cyBOT_init_Scan();
+     //cyBot_uart_init();
 
     //cyBot_uart_init();            // Don't forget to initialze the cyBot UART before trying to use it
     timer_init();
