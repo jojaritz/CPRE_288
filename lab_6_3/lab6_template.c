@@ -69,8 +69,8 @@ int main(void) {
 	//int previous_scan = 0;
 	//int current_scan = 0;
 
- 	while(1)
-	{
+ //	while(1)
+	//{
 		
 
  	   // if(abs(previous_scan - current_scan) > (current_scan*.2) ){
@@ -84,12 +84,17 @@ int main(void) {
 		//message = (char)(currentScanPtr->IR_raw_val);
 		int current_scan = currentScanPtr->IR_raw_val;
 
+		lcd_printf("%d", current_scan);
+
 		snprintf(message, sizeof(message), "%d", current_scan);
 		
 		int i = 0;
 	    for(i; i<strlen(message); i++) {
 	        cyBot_sendByte(message[i]);
-	    }
+
+		//TO CONVERT FROM IR RAW, USE THIS EQUATION cm = 22241/(IR_RAW -620.4)
+
+	  //  }
 	    //previous_scan = current_scan;
 
  	  //  }
