@@ -90,7 +90,6 @@ void cyBot_send_string(const char *str) { //same as lab 2, loops through the str
     }
 }
 
-//void object_detect(cyBOT_Scan_t *distance, int current_angle){
 void object_detect(float distance, int current_angle){
     static int on_object = 0;
     static int start_angle = 0;
@@ -102,6 +101,12 @@ void object_detect(float distance, int current_angle){
 
     // Initialize prev_dist on the very first sample
     if (prev_dist < 0.0f) {
+        if(distance < 2.0){//checks if the distance is less than 2.0 m, consider it an object
+            on_object = 1;
+             start_angle = current_angle;
+             dist_sum = current_dist;
+             sample_count = 1;
+        }
         prev_dist = current_dist;
         prev_angle = current_angle;
         return;
@@ -124,7 +129,7 @@ void object_detect(float distance, int current_angle){
             int radial_w = end_angle - start_angle;
 
             // check if the angle detected is too small to be an object
-            if (radial_w >= 4 && object_count < 10) {
+            if (radial_w >= 4 && object_count < 4) {
                 detected_objects[object_count].id = object_count + 1; //update all object values in the struct
                 detected_objects[object_count].start_angle = start_angle;
                 detected_objects[object_count].end_angle = end_angle;
@@ -144,12 +149,33 @@ void object_detect(float distance, int current_angle){
             sample_count++;
         }
     }
-
     // Update history for next function call
     prev_dist = current_dist;
     prev_angle = current_angle;
-}
 
+    if(current_angle == 180) {//catches object if it is at the edge of the scan range
+        if (on_object) {
+            int end_angle = prev_angle; // The object ended at the previous angle
+            int radial_w = end_angle - start_angle;
+
+            // check if the angle detected is too small to be an object
+            if (radial_w >= 4 && object_count < 4) {
+                detected_objects[object_count].id = object_count + 1; //update all object values in the struct
+                detected_objects[object_count].start_angle = start_angle;
+                detected_objects[object_count].end_angle = end_angle;
+                detected_objects[object_count].center_angle = (start_angle + end_angle) / 2;
+                detected_objects[object_count].radial_width = radial_w;
+                detected_objects[object_count].distance = dist_sum / sample_count;
+
+                float avg_dist = dist_sum / sample_count;   // Calculate the linear width of the detected object
+                float theta_rad = (radial_w * M_PI) / 180.0;
+                detected_objects[object_count].linear_width = 2.0 * avg_dist * sin(theta_rad / 2.0);
+
+                object_count++;
+            }
+        }
+    }
+}
 
 
 void print_detected_objects(void) {

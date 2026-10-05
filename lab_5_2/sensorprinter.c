@@ -149,6 +149,16 @@ void object_detect(float distance, int current_angle){
     static int sample_count = 0;
     float current_dist = distance;
 
+    if (current_angle == 0) {
+        on_object = 0;
+        start_angle = 0;
+        prev_angle = 0;
+        prev_dist = distance;
+        dist_sum = 0.0f;
+        sample_count = 0;
+        return;
+    }
+
     // Initialize prev_dist on the very first sample
     if (prev_dist < 0.0f) {
         if(distance < 2.0){//checks if the distance is less than 2.0 m, consider it an object
@@ -262,7 +272,7 @@ void print_detected_objects(void) {
         // Print the smallest object's information
         float center_rad = detected_objects[smallest_idx].center_angle * M_PI / 180.0;
         int accurate_angle = (int)(atan2(14.0 + detected_objects[smallest_idx].distance * sin(center_rad),detected_objects[smallest_idx].distance * cos(center_rad)) * (180.0 / M_PI));
-        sprintf(out, "\n\rSmallest length Object: #%d at %d deg (Width: %.1f cm), Accurate Angle: %d deg\n\r",
+        sprintf(out, "\n\rSmallest length Object: #%d at %d deg (Width: %.2f cm), Accurate Angle: %d deg\n\r",
                 detected_objects[smallest_idx].id,
                 detected_objects[smallest_idx].center_angle,
                 detected_objects[smallest_idx].linear_width,
@@ -316,11 +326,11 @@ int clean_data(void) {
     }
 
     for (i = 0; i < sensor_data_count; i++) {
-        float value = sensor_data_array2_cleaned[i]/100.1;
+        float value = sensor_data_array2_cleaned[i]/100.0;
         sensor_data_array2_cleaned[i] = value;
 
         char distance_to_char[20];
-        sprintf(distance_to_char, "%-7d   %.1f\n\r", i*2, value);
+        sprintf(distance_to_char, "%-7d   %.2f\n\r", i*2, value);
         cyBot_send_string(distance_to_char);
 
         //printf("%.1f\n", value);
