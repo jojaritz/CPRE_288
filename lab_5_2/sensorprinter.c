@@ -161,7 +161,7 @@ void object_detect(float distance, int current_angle){
 
     // Initialize prev_dist on the very first sample
     if (prev_dist < 0.0f) {
-        if(distance < 2.0){//checks if the distance is less than 2.0 m, consider it an object
+        if(distance < 1.0){//checks if the distance is less than 2.0 m, consider it an object
             on_object = 1;
              start_angle = current_angle;
              dist_sum = current_dist;
