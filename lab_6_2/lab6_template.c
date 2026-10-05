@@ -60,7 +60,7 @@ int main(void) {
  	while(1)
 	{
 
-	    uint8_t button_num = button_getButton();
+	    //uint8_t button_num = button_getButton();
 	    char current_button = (char)(button_num + '0');
 	    char message[20] = " ";
 

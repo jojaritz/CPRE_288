@@ -79,12 +79,12 @@ int main(void) {
 
 		cyBOT_Scan(90,currentScanPtr);
 
-		char message[100] = "";
+		char message[50] = "";
 
 		//message = (char)(currentScanPtr->IR_raw_val);
 		int current_scan = currentScanPtr->IR_raw_val;
-
-		lcd_printf("%d", current_scan);
+		int calibrated_val = 22241 / (current_scan - 620.4);
+		lcd_printf("cal val %d raw val %d", calibrated_val, current_scan);
 
 		snprintf(message, sizeof(message), "%d", current_scan);
 		

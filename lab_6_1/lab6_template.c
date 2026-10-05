@@ -19,7 +19,7 @@
 #include "cyBot_Scan.h"  // For scan sensors 
 
 
-#warning "Possible unimplemented functions"
+//#warning "Possible unimplemented functions"
 #define REPLACEME 0
 
 
@@ -33,22 +33,26 @@ int main(void) {
 	button_init();
 	lcd_init();
 	
-    cyBot_uart_init_clean();  // Clean UART initialization, before running your UART GPIO init code
+    //cyBot_uart_init_clean();  // Clean UART initialization, before running your UART GPIO init code
 
 	// Complete this code for configuring the  (GPIO) part of UART initialization
-     SYSCTL_RCGCGPIO_R |= 0x02;
+     SYSCTL_RCGCGPIO_R |= 0x00000002;
      timer_waitMillis(1);            // Small delay before accessing device after turning on clock
-     GPIO_PORTB_AFSEL_R |= 0x03;  
+     GPIO_PORTB_AFSEL_R |= 0x03;
      GPIO_PORTB_PCTL_R &= ~(0x000000FF);     // Force 0's in the disired locations
      GPIO_PORTB_PCTL_R |= 0x000000FF;     // Force 1's in the disired locations
      GPIO_PORTB_DEN_R |= 0x03;
      GPIO_PORTB_DIR_R &= ~(0x000000FF);      // Force 0's in the disired locations
      GPIO_PORTB_DIR_R |= 0x000000FF;      // Force 1's in the disired locataions
-    
-    (Uncomment ME for UART init part of lab) cyBot_uart_init_last_half();  // Completes the UART device initialization part of configuration
+
+    //(Uncomment ME for UART init part of lab)
+     //cyBot_uart_init_last_half();  // Completes the UART device initialization part of configuration
 	
 	// Initialze scan sensors
     // cyBOT_init_Scan();
+    cyBot_uart_init();            // Don't forget to initialze the cyBot UART before trying to use it
+    timer_init();
+    init_button_interrupts();
 
 
 
@@ -58,6 +62,14 @@ int main(void) {
 	{
 	
       // YOUR CODE HERE
+	    if(button_event == 1){
+
+            lcd_printf("1");
+            button_event = 0;
+
+	    } else {
+	        lcd_printf("%d", button_num);
+	    }
   
 
 
