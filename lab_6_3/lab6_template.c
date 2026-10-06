@@ -82,7 +82,8 @@ int main(void) {
 		char message[50] = "";
 
 		int sum = 0;
-		for(int i = 0; i < 20; i++) {
+		int k;
+		for(k = 0; k < 20; k++) {
 			sum += currentScanPtr->IR_raw_val;
 		}
 		int average = sum / 20;
