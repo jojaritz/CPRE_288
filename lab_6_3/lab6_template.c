@@ -81,12 +81,18 @@ int main(void) {
 
 		char message[50] = "";
 
-		//message = (char)(currentScanPtr->IR_raw_val);
-		int current_scan = currentScanPtr->IR_raw_val;
-		int calibrated_val = 22241 / (current_scan - 620.4);
-		lcd_printf("cal val %d raw val %d", calibrated_val, current_scan);
+		int sum = 0;
+		for(int i = 0; i < 20; i++) {
+			sum += currentScanPtr->IR_raw_val;
+		}
+		int average = sum / 20;
 
-		snprintf(message, sizeof(message), "%d", current_scan);
+		//message = (char)(currentScanPtr->IR_raw_val);
+		//int current_scan = currentScanPtr->IR_raw_val;
+		int calibrated_val = 22241 / (average - 620.4);
+		lcd_printf("cal val %d raw val %d", calibrated_val, average);
+
+		snprintf(message, sizeof(message), "%d", average);
 		
 		int i = 0;
 	    for(i; i<strlen(message); i++) {
