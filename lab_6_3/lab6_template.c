@@ -12,6 +12,7 @@
 #include "button.h"
 #include "timer.h"
 #include "lcd.h"
+#include <math.h>
 
 #include "cyBot_uart.h"  // Functions for communiticate between CyBot and Putty (via UART)
                          // PuTTy: Buad=115200, 8 data bits, No Flow Control, No Party,  COM1
@@ -90,7 +91,8 @@ int main(void) {
 
 		//message = (char)(currentScanPtr->IR_raw_val);
 		//int current_scan = currentScanPtr->IR_raw_val;
-		int calibrated_val = 22241 / (average - 620.4);
+		//int calibrated_val = 22241 / (average - 620.4);
+		int calibrated_val = (int) pow((average/10066.0), -1.736);
 		lcd_printf("cal val %d raw val %d", calibrated_val, average);
 
 		snprintf(message, sizeof(message), "%d", average);

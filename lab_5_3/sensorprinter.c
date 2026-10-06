@@ -99,7 +99,7 @@ int main(void) {
                 sensor_data_array2[i/2] = currentScanPtr->sound_dist;
 
                 char distance_to_char[20];
-                sprintf(distance_to_char, "%-7d   %.1f\n\r", i, currentScanPtr->sound_dist);
+                sprintf(distance_to_char, "%-7d   %.2f\n\r", i, currentScanPtr->sound_dist);
                 cyBot_send_string(distance_to_char);
 
             }
@@ -283,7 +283,7 @@ void print_detected_objects(void) {
         // Print the smallest object's information
         float center_rad = detected_objects[smallest_idx].center_angle * M_PI / 180.0;
         int accurate_angle = (int)(atan2(.14 + detected_objects[smallest_idx].distance * sin(center_rad),detected_objects[smallest_idx].distance * cos(center_rad)) * (180.0 / M_PI));
-        sprintf(out, "\n\rSmallest length Object: #%d at %d deg (Width: %.1f cm), Accurate Angle: %d deg\n\r",
+        sprintf(out, "\n\rSmallest length Object: #%d at %d deg (Width: %.2f cm), Accurate Angle: %d deg\n\r",
                 detected_objects[smallest_idx].id,
                 detected_objects[smallest_idx].center_angle,
                 detected_objects[smallest_idx].linear_width,
@@ -341,7 +341,7 @@ int clean_data(void) {
         sensor_data_array2_cleaned[i] = value;
 
         char distance_to_char[20];
-        sprintf(distance_to_char, "%-7d   %.1f\n\r", i*2, value);
+        sprintf(distance_to_char, "%-7d   %.2f\n\r", i*2, value);
         cyBot_send_string(distance_to_char);
 
         //printf("%.1f\n", value);
