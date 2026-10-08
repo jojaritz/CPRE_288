@@ -19,25 +19,26 @@ volatile  char flag;       // Your UART interupt can update this flag
                            // in uart_data                     
 
 
-void main() //*******I have not changed any of this code for part 3 yet, still part 1 and 2 code.*******
+void main() //*******All I changed was the receiving parts are now using the uart_data variable instead of current_char. This means that the interrupts are handling receiving comms*******
 {
 
   timer_init();
   lcd_init();
   uart_init();
+  uart_interrupt_init();
 
   char buffer[21] = "";
   char current_char;
   int amountInBuff = 0;
 
   while(1){
-      current_char = uart_receive();
+      current_char = uart_receive(); //this stays to show that uart_data is changing even if not explicitly stated in the main, and so we can use it in the transmitting part.
       amountInBuff++;
 
-      if ((amountInBuff == 20) && (current_char != '\r')){
+      if ((amountInBuff == 20) && (uart_data != '\r')){
 
-          lcd_printf(" %c: %d ", current_char, amountInBuff);
-          buffer[amountInBuff - 1] = current_char;
+          lcd_printf(" %c: %d ", uart_data, amountInBuff);
+          buffer[amountInBuff - 1] = uart_data;
           buffer[20] = '\0';
           uart_sendChar(current_char);
 
@@ -52,7 +53,7 @@ void main() //*******I have not changed any of this code for part 3 yet, still p
           uart_sendChar('\n');
           uart_sendStr(buffer);
 
-      } else if (current_char == '\r') {
+      } else if (uart_data == '\r') {
 
         buffer[amountInBuff - 1] = '\0';
 
@@ -67,8 +68,8 @@ void main() //*******I have not changed any of this code for part 3 yet, still p
 
       } else {
 
-          lcd_printf(" %c: %d ", current_char, amountInBuff);
-          buffer[amountInBuff - 1] = current_char;
+          lcd_printf(" %c: %d ", uart_data, amountInBuff);
+          buffer[amountInBuff - 1] = uart_data;
           uart_sendChar(current_char);
 
       }
