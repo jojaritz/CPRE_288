@@ -8613,3 +8613,366 @@ Finished building target: "lab_7_3.out"
  
 
 **** Build Finished ****
+
+**** Build of configuration Debug for project lab_7_3 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../sensorprinter.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_7_3" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="sensorprinter.d_raw"  "../sensorprinter.c"
+"../sensorprinter.c", line 90: warning #176-D: expression has no effect
+"../sensorprinter.c", line 98: warning #176-D: expression has no effect
+"../sensorprinter.c", line 108: warning #177-D: subscript out of range
+"../sensorprinter.c", line 108: warning #515-D: a value of type "char *" cannot be assigned to an entity of type "char"
+"../sensorprinter.c", line 111: warning #176-D: expression has no effect
+"../sensorprinter.c", line 115: warning #225-D: function "clean_data" declared implicitly
+"../sensorprinter.c", line 117: warning #176-D: expression has no effect
+"../sensorprinter.c", line 260: warning #179-D: variable "min_radial" was declared but never referenced
+Finished building: "../sensorprinter.c"
+ 
+Building target: "lab_7_3.out"
+Invoking: Arm Linker
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"lab_7_3.map" --heap_size=1024 --stack_size=2048 -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="lab_7_3_linkInfo.xml" --rom_model -o "lab_7_3.out" "./Lab7_template_extra_help.obj" "./Timer.obj" "./button.obj" "./lcd.obj" "./movement.obj" "./open_interface.obj" "./sensorprinter.obj" "./tm4c123gh6pm_startup_ccs.obj" "./uart.obj" "../libcybotScan.lib" "../tm4c123gh6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ccs/Debug/driverlib.lib" 
+<Linking>
+Finished building target: "lab_7_3.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_7_3 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../sensorprinter.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_7_3" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="sensorprinter.d_raw"  "../sensorprinter.c"
+"../sensorprinter.c", line 89: warning #176-D: expression has no effect
+"../sensorprinter.c", line 97: warning #176-D: expression has no effect
+"../sensorprinter.c", line 107: warning #177-D: subscript out of range
+"../sensorprinter.c", line 107: warning #515-D: a value of type "char *" cannot be assigned to an entity of type "char"
+"../sensorprinter.c", line 110: warning #176-D: expression has no effect
+"../sensorprinter.c", line 114: warning #225-D: function "clean_data" declared implicitly
+"../sensorprinter.c", line 116: warning #176-D: expression has no effect
+"../sensorprinter.c", line 259: warning #179-D: variable "min_radial" was declared but never referenced
+Finished building: "../sensorprinter.c"
+ 
+Building target: "lab_7_3.out"
+Invoking: Arm Linker
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"lab_7_3.map" --heap_size=1024 --stack_size=2048 -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="lab_7_3_linkInfo.xml" --rom_model -o "lab_7_3.out" "./Lab7_template_extra_help.obj" "./Timer.obj" "./button.obj" "./lcd.obj" "./movement.obj" "./open_interface.obj" "./sensorprinter.obj" "./tm4c123gh6pm_startup_ccs.obj" "./uart.obj" "../libcybotScan.lib" "../tm4c123gh6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ccs/Debug/driverlib.lib" 
+<Linking>
+Finished building target: "lab_7_3.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_7_3 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../sensorprinter.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_7_3" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="sensorprinter.d_raw"  "../sensorprinter.c"
+"../sensorprinter.c", line 89: warning #176-D: expression has no effect
+"../sensorprinter.c", line 97: warning #176-D: expression has no effect
+"../sensorprinter.c", line 107: warning #177-D: subscript out of range
+"../sensorprinter.c", line 107: warning #515-D: a value of type "char *" cannot be assigned to an entity of type "char"
+"../sensorprinter.c", line 110: warning #176-D: expression has no effect
+"../sensorprinter.c", line 114: warning #225-D: function "clean_data" declared implicitly
+"../sensorprinter.c", line 116: warning #176-D: expression has no effect
+"../sensorprinter.c", line 259: warning #179-D: variable "min_radial" was declared but never referenced
+Finished building: "../sensorprinter.c"
+ 
+Building target: "lab_7_3.out"
+Invoking: Arm Linker
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"lab_7_3.map" --heap_size=1024 --stack_size=2048 -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="lab_7_3_linkInfo.xml" --rom_model -o "lab_7_3.out" "./Lab7_template_extra_help.obj" "./Timer.obj" "./button.obj" "./lcd.obj" "./movement.obj" "./open_interface.obj" "./sensorprinter.obj" "./tm4c123gh6pm_startup_ccs.obj" "./uart.obj" "../libcybotScan.lib" "../tm4c123gh6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ccs/Debug/driverlib.lib" 
+<Linking>
+Finished building target: "lab_7_3.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_7_3 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../sensorprinter.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_7_3" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="sensorprinter.d_raw"  "../sensorprinter.c"
+"../sensorprinter.c", line 88: warning #176-D: expression has no effect
+"../sensorprinter.c", line 96: warning #176-D: expression has no effect
+"../sensorprinter.c", line 106: warning #177-D: subscript out of range
+"../sensorprinter.c", line 106: warning #515-D: a value of type "char *" cannot be assigned to an entity of type "char"
+"../sensorprinter.c", line 109: warning #176-D: expression has no effect
+"../sensorprinter.c", line 113: warning #225-D: function "clean_data" declared implicitly
+"../sensorprinter.c", line 115: warning #176-D: expression has no effect
+"../sensorprinter.c", line 258: warning #179-D: variable "min_radial" was declared but never referenced
+Finished building: "../sensorprinter.c"
+ 
+Building target: "lab_7_3.out"
+Invoking: Arm Linker
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"lab_7_3.map" --heap_size=1024 --stack_size=2048 -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="lab_7_3_linkInfo.xml" --rom_model -o "lab_7_3.out" "./Lab7_template_extra_help.obj" "./Timer.obj" "./button.obj" "./lcd.obj" "./movement.obj" "./open_interface.obj" "./sensorprinter.obj" "./tm4c123gh6pm_startup_ccs.obj" "./uart.obj" "../libcybotScan.lib" "../tm4c123gh6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ccs/Debug/driverlib.lib" 
+<Linking>
+Finished building target: "lab_7_3.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_7_3 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../sensorprinter.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_7_3" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="sensorprinter.d_raw"  "../sensorprinter.c"
+"../sensorprinter.c", line 88: warning #176-D: expression has no effect
+"../sensorprinter.c", line 96: warning #176-D: expression has no effect
+"../sensorprinter.c", line 107: warning #177-D: subscript out of range
+"../sensorprinter.c", line 107: warning #515-D: a value of type "char *" cannot be assigned to an entity of type "char"
+"../sensorprinter.c", line 110: warning #176-D: expression has no effect
+"../sensorprinter.c", line 114: warning #225-D: function "clean_data" declared implicitly
+"../sensorprinter.c", line 116: warning #176-D: expression has no effect
+"../sensorprinter.c", line 259: warning #179-D: variable "min_radial" was declared but never referenced
+Finished building: "../sensorprinter.c"
+ 
+Building target: "lab_7_3.out"
+Invoking: Arm Linker
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"lab_7_3.map" --heap_size=1024 --stack_size=2048 -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="lab_7_3_linkInfo.xml" --rom_model -o "lab_7_3.out" "./Lab7_template_extra_help.obj" "./Timer.obj" "./button.obj" "./lcd.obj" "./movement.obj" "./open_interface.obj" "./sensorprinter.obj" "./tm4c123gh6pm_startup_ccs.obj" "./uart.obj" "../libcybotScan.lib" "../tm4c123gh6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ccs/Debug/driverlib.lib" 
+<Linking>
+Finished building target: "lab_7_3.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_7_3 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../sensorprinter.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_7_3" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="sensorprinter.d_raw"  "../sensorprinter.c"
+"../sensorprinter.c", line 88: warning #176-D: expression has no effect
+"../sensorprinter.c", line 96: warning #176-D: expression has no effect
+"../sensorprinter.c", line 107: warning #177-D: subscript out of range
+"../sensorprinter.c", line 107: warning #515-D: a value of type "char *" cannot be assigned to an entity of type "char"
+"../sensorprinter.c", line 110: warning #176-D: expression has no effect
+"../sensorprinter.c", line 114: warning #225-D: function "clean_data" declared implicitly
+"../sensorprinter.c", line 116: warning #176-D: expression has no effect
+"../sensorprinter.c", line 259: warning #179-D: variable "min_radial" was declared but never referenced
+Finished building: "../sensorprinter.c"
+ 
+Building target: "lab_7_3.out"
+Invoking: Arm Linker
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"lab_7_3.map" --heap_size=1024 --stack_size=2048 -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="lab_7_3_linkInfo.xml" --rom_model -o "lab_7_3.out" "./Lab7_template_extra_help.obj" "./Timer.obj" "./button.obj" "./lcd.obj" "./movement.obj" "./open_interface.obj" "./sensorprinter.obj" "./tm4c123gh6pm_startup_ccs.obj" "./uart.obj" "../libcybotScan.lib" "../tm4c123gh6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ccs/Debug/driverlib.lib" 
+<Linking>
+Finished building target: "lab_7_3.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_7_3 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../sensorprinter.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_7_3" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="sensorprinter.d_raw"  "../sensorprinter.c"
+"../sensorprinter.c", line 88: warning #176-D: expression has no effect
+"../sensorprinter.c", line 96: warning #176-D: expression has no effect
+"../sensorprinter.c", line 107: warning #177-D: subscript out of range
+"../sensorprinter.c", line 107: warning #515-D: a value of type "char *" cannot be assigned to an entity of type "char"
+"../sensorprinter.c", line 110: warning #176-D: expression has no effect
+"../sensorprinter.c", line 114: warning #225-D: function "clean_data" declared implicitly
+"../sensorprinter.c", line 116: warning #176-D: expression has no effect
+"../sensorprinter.c", line 259: warning #179-D: variable "min_radial" was declared but never referenced
+Finished building: "../sensorprinter.c"
+ 
+Building target: "lab_7_3.out"
+Invoking: Arm Linker
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"lab_7_3.map" --heap_size=1024 --stack_size=2048 -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="lab_7_3_linkInfo.xml" --rom_model -o "lab_7_3.out" "./Lab7_template_extra_help.obj" "./Timer.obj" "./button.obj" "./lcd.obj" "./movement.obj" "./open_interface.obj" "./sensorprinter.obj" "./tm4c123gh6pm_startup_ccs.obj" "./uart.obj" "../libcybotScan.lib" "../tm4c123gh6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ccs/Debug/driverlib.lib" 
+<Linking>
+Finished building target: "lab_7_3.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_7_3 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../sensorprinter.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_7_3" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="sensorprinter.d_raw"  "../sensorprinter.c"
+ 
+>> Compilation failure
+subdir_rules.mk:9: recipe for target 'sensorprinter.obj' failed
+"../sensorprinter.c", line 88: warning #176-D: expression has no effect
+"../sensorprinter.c", line 96: warning #176-D: expression has no effect
+"../sensorprinter.c", line 107: warning #177-D: subscript out of range
+"../sensorprinter.c", line 107: warning #515-D: a value of type "char *" cannot be assigned to an entity of type "char"
+"../sensorprinter.c", line 110: warning #176-D: expression has no effect
+"../sensorprinter.c", line 114: warning #225-D: function "clean_data" declared implicitly
+"../sensorprinter.c", line 116: warning #176-D: expression has no effect
+"../sensorprinter.c", line 259: warning #179-D: variable "min_radial" was declared but never referenced
+"../sensorprinter.c", line 343: error #20: identifier "val" is undefined
+1 error detected in the compilation of "../sensorprinter.c".
+gmake: *** [sensorprinter.obj] Error 1
+gmake: Target 'all' not remade because of errors.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_7_3 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../sensorprinter.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_7_3" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="sensorprinter.d_raw"  "../sensorprinter.c"
+"../sensorprinter.c", line 88: warning #176-D: expression has no effect
+"../sensorprinter.c", line 96: warning #176-D: expression has no effect
+"../sensorprinter.c", line 107: warning #177-D: subscript out of range
+"../sensorprinter.c", line 107: warning #515-D: a value of type "char *" cannot be assigned to an entity of type "char"
+"../sensorprinter.c", line 110: warning #176-D: expression has no effect
+"../sensorprinter.c", line 114: warning #225-D: function "clean_data" declared implicitly
+"../sensorprinter.c", line 116: warning #176-D: expression has no effect
+"../sensorprinter.c", line 259: warning #179-D: variable "min_radial" was declared but never referenced
+Finished building: "../sensorprinter.c"
+ 
+Building target: "lab_7_3.out"
+Invoking: Arm Linker
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"lab_7_3.map" --heap_size=1024 --stack_size=2048 -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="lab_7_3_linkInfo.xml" --rom_model -o "lab_7_3.out" "./Lab7_template_extra_help.obj" "./Timer.obj" "./button.obj" "./lcd.obj" "./movement.obj" "./open_interface.obj" "./sensorprinter.obj" "./tm4c123gh6pm_startup_ccs.obj" "./uart.obj" "../libcybotScan.lib" "../tm4c123gh6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ccs/Debug/driverlib.lib" 
+<Linking>
+Finished building target: "lab_7_3.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_7_3 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../sensorprinter.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_7_3" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="sensorprinter.d_raw"  "../sensorprinter.c"
+"../sensorprinter.c", line 88: warning #176-D: expression has no effect
+"../sensorprinter.c", line 96: warning #176-D: expression has no effect
+"../sensorprinter.c", line 107: warning #177-D: subscript out of range
+"../sensorprinter.c", line 107: warning #515-D: a value of type "char *" cannot be assigned to an entity of type "char"
+"../sensorprinter.c", line 110: warning #176-D: expression has no effect
+"../sensorprinter.c", line 114: warning #225-D: function "clean_data" declared implicitly
+"../sensorprinter.c", line 116: warning #176-D: expression has no effect
+"../sensorprinter.c", line 259: warning #179-D: variable "min_radial" was declared but never referenced
+Finished building: "../sensorprinter.c"
+ 
+Building target: "lab_7_3.out"
+Invoking: Arm Linker
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"lab_7_3.map" --heap_size=1024 --stack_size=2048 -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="lab_7_3_linkInfo.xml" --rom_model -o "lab_7_3.out" "./Lab7_template_extra_help.obj" "./Timer.obj" "./button.obj" "./lcd.obj" "./movement.obj" "./open_interface.obj" "./sensorprinter.obj" "./tm4c123gh6pm_startup_ccs.obj" "./uart.obj" "../libcybotScan.lib" "../tm4c123gh6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ccs/Debug/driverlib.lib" 
+<Linking>
+Finished building target: "lab_7_3.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_7_3 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../sensorprinter.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_7_3" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="sensorprinter.d_raw"  "../sensorprinter.c"
+"../sensorprinter.c", line 88: warning #176-D: expression has no effect
+"../sensorprinter.c", line 96: warning #176-D: expression has no effect
+"../sensorprinter.c", line 107: warning #177-D: subscript out of range
+"../sensorprinter.c", line 107: warning #515-D: a value of type "char *" cannot be assigned to an entity of type "char"
+"../sensorprinter.c", line 110: warning #176-D: expression has no effect
+"../sensorprinter.c", line 114: warning #225-D: function "clean_data" declared implicitly
+"../sensorprinter.c", line 116: warning #176-D: expression has no effect
+"../sensorprinter.c", line 259: warning #179-D: variable "min_radial" was declared but never referenced
+Finished building: "../sensorprinter.c"
+ 
+Building target: "lab_7_3.out"
+Invoking: Arm Linker
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"lab_7_3.map" --heap_size=1024 --stack_size=2048 -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="lab_7_3_linkInfo.xml" --rom_model -o "lab_7_3.out" "./Lab7_template_extra_help.obj" "./Timer.obj" "./button.obj" "./lcd.obj" "./movement.obj" "./open_interface.obj" "./sensorprinter.obj" "./tm4c123gh6pm_startup_ccs.obj" "./uart.obj" "../libcybotScan.lib" "../tm4c123gh6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ccs/Debug/driverlib.lib" 
+<Linking>
+Finished building target: "lab_7_3.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_7_3 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../sensorprinter.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_7_3" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="sensorprinter.d_raw"  "../sensorprinter.c"
+"../sensorprinter.c", line 88: warning #176-D: expression has no effect
+"../sensorprinter.c", line 96: warning #176-D: expression has no effect
+"../sensorprinter.c", line 107: warning #177-D: subscript out of range
+"../sensorprinter.c", line 107: warning #515-D: a value of type "char *" cannot be assigned to an entity of type "char"
+"../sensorprinter.c", line 110: warning #176-D: expression has no effect
+"../sensorprinter.c", line 114: warning #225-D: function "clean_data" declared implicitly
+"../sensorprinter.c", line 116: warning #176-D: expression has no effect
+"../sensorprinter.c", line 259: warning #179-D: variable "min_radial" was declared but never referenced
+Finished building: "../sensorprinter.c"
+ 
+Building target: "lab_7_3.out"
+Invoking: Arm Linker
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"lab_7_3.map" --heap_size=1024 --stack_size=2048 -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="lab_7_3_linkInfo.xml" --rom_model -o "lab_7_3.out" "./Lab7_template_extra_help.obj" "./Timer.obj" "./button.obj" "./lcd.obj" "./movement.obj" "./open_interface.obj" "./sensorprinter.obj" "./tm4c123gh6pm_startup_ccs.obj" "./uart.obj" "../libcybotScan.lib" "../tm4c123gh6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ccs/Debug/driverlib.lib" 
+<Linking>
+Finished building target: "lab_7_3.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_7_3 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../sensorprinter.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_7_3" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="sensorprinter.d_raw"  "../sensorprinter.c"
+"../sensorprinter.c", line 88: warning #176-D: expression has no effect
+"../sensorprinter.c", line 96: warning #176-D: expression has no effect
+"../sensorprinter.c", line 107: warning #177-D: subscript out of range
+"../sensorprinter.c", line 107: warning #515-D: a value of type "char *" cannot be assigned to an entity of type "char"
+"../sensorprinter.c", line 110: warning #176-D: expression has no effect
+"../sensorprinter.c", line 114: warning #225-D: function "clean_data" declared implicitly
+"../sensorprinter.c", line 116: warning #176-D: expression has no effect
+"../sensorprinter.c", line 259: warning #179-D: variable "min_radial" was declared but never referenced
+Finished building: "../sensorprinter.c"
+ 
+Building target: "lab_7_3.out"
+Invoking: Arm Linker
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"lab_7_3.map" --heap_size=1024 --stack_size=2048 -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="lab_7_3_linkInfo.xml" --rom_model -o "lab_7_3.out" "./Lab7_template_extra_help.obj" "./Timer.obj" "./button.obj" "./lcd.obj" "./movement.obj" "./open_interface.obj" "./sensorprinter.obj" "./tm4c123gh6pm_startup_ccs.obj" "./uart.obj" "../libcybotScan.lib" "../tm4c123gh6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ccs/Debug/driverlib.lib" 
+<Linking>
+Finished building target: "lab_7_3.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_7_3 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../sensorprinter.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_7_3" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="sensorprinter.d_raw"  "../sensorprinter.c"
+"../sensorprinter.c", line 88: warning #176-D: expression has no effect
+"../sensorprinter.c", line 96: warning #176-D: expression has no effect
+"../sensorprinter.c", line 107: warning #177-D: subscript out of range
+"../sensorprinter.c", line 107: warning #515-D: a value of type "char *" cannot be assigned to an entity of type "char"
+"../sensorprinter.c", line 110: warning #176-D: expression has no effect
+"../sensorprinter.c", line 114: warning #225-D: function "clean_data" declared implicitly
+"../sensorprinter.c", line 116: warning #176-D: expression has no effect
+"../sensorprinter.c", line 278: warning #179-D: variable "min_radial" was declared but never referenced
+Finished building: "../sensorprinter.c"
+ 
+Building target: "lab_7_3.out"
+Invoking: Arm Linker
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"lab_7_3.map" --heap_size=1024 --stack_size=2048 -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="lab_7_3_linkInfo.xml" --rom_model -o "lab_7_3.out" "./Lab7_template_extra_help.obj" "./Timer.obj" "./button.obj" "./lcd.obj" "./movement.obj" "./open_interface.obj" "./sensorprinter.obj" "./tm4c123gh6pm_startup_ccs.obj" "./uart.obj" "../libcybotScan.lib" "../tm4c123gh6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ccs/Debug/driverlib.lib" 
+<Linking>
+Finished building target: "lab_7_3.out"
+ 
+
+**** Build Finished ****
