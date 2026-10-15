@@ -41,7 +41,7 @@ float sensor_data_array2_cleaned[91];
 float sensor_data_array2[91];
 
 float ir_data_array[91];
-float ir_data_array_clean[91];
+float ir_data_array_clean[91]; //using this for this part
 
 int main(void) {
 
@@ -115,13 +115,14 @@ int main(void) {
 
             // print_detected_objects();
             // //and then compare the different linear widths (used to do angle) differences and print out the smallest width difference to putty
-        
+            
+            
             clean_data();
             int i = 0;
             for (i = 0; i < 91; i++) {
                 object_detect(ir_data_array_clean[i], i*2);
             }
-}
+    }
 }
 
 
@@ -316,62 +317,69 @@ void print_detected_objects(void) {
 }
 
 int clean_data(void) {
-    const int sensor_data_count = sizeof(sensor_data_array2) / sizeof(sensor_data_array2[0]);
+    const int sensor_data_count = sizeof(ir_data_array) / sizeof(ir_data_array[0]);
     int segment_start = -1;
     int i = 0;
-    float val = 0;
 
+    float val = 0;
     int p = 0;
     for (p = 0; p < sensor_data_count; p++) {
         val = pow((ir_data_array[p]/10066.0), -1.736);
         ir_data_array_clean[p] = val;
     }
 
-    for (i = 0; i < sensor_data_count - 1; i++) {
-        if (segment_start < 0) {
-           //[i] = sensor_data_array2[i];
+    for (i = 0; i < sensor_data_count - 1; i++) { //loops through ir_data_array_clean
+        
+        if (segment_start < 0) { //if not on object, check to see if one is coming up
 
             if (fabs(ir_data_array_clean[i + 1] - ir_data_array_clean[i]) > DELTA_ERROR) {
                 segment_start = i + 1;
             }
-        } else if (fabs(ir_data_array_clean[i + 1] - ir_data_array_clean[i]) > DELTA_ERROR) {
-            int segment_length = i - segment_start + 1;
+
+        } else if (fabs(ir_data_array_clean[i + 1] - ir_data_array_clean[i]) > DELTA_ERROR) { //if on object and ends in next index
+            int segment_length = i - segment_start + 1; //gets the length of "object"
             int j = 0;
 
-            if (segment_length * 2 <= ANGLE_ERROR) {
+            if (segment_length * 2 <= ANGLE_ERROR) { //if "object" is just scan error, clean up error
                 float average_value = (ir_data_array_clean[segment_start - 1] + ir_data_array_clean[i + 1]) / 2.0f;
 
-                for (j = segment_start; j <= i; j++) {
+                for (j = segment_start; j <= i; j++) { //average value is put into array to clean it up
                     ir_data_array_clean[j] = average_value;
                 }
-            } else {
+                
+            } else { //ignore this (is for ping data, N/A here)
                 for (j = segment_start; j <= i; j++) {
                     //sensor_data_array2_cleaned[j] = sensor_data_array2[j];
                 }
             }
 
-            segment_start = -1;
+            segment_start = -1; //resets to not being on object
         }
     }
 
-    if (segment_start >= 0) {
-        for (i = segment_start; i < sensor_data_count; i++) {
-            sensor_data_array2_cleaned[i] = sensor_data_array2[i];
-        }
-    } else {
-        sensor_data_array2_cleaned[sensor_data_count - 1] = sensor_data_array2[sensor_data_count - 1];
-    }
+    // This block is for ping data, N/A to ir data
+
+    // if (segment_start >= 0) {
+    //     for (i = segment_start; i < sensor_data_count; i++) {
+    //         //sensor_data_array2_cleaned[i] = sensor_data_array2[i];
+    //     }
+    // } else {
+    //     //sensor_data_array2_cleaned[sensor_data_count - 1] = sensor_data_array2[sensor_data_count - 1];
+    // }
 
     for (i = 0; i < sensor_data_count; i++) {
-        float value = sensor_data_array2_cleaned[i]/100.1;
-        sensor_data_array2_cleaned[i] = value;
+        //float value = sensor_data_array2_cleaned[i]/100.1;
+        //sensor_data_array2_cleaned[i] = value;
 
         // int val = (int) pow((ir_data_array[i]/10066.0), -1.736);
         // ir_data_array_clean[i] = val;
 
+        val = ir_data_array_clean[i];
+
         char distance_to_char[20];
-        sprintf(distance_to_char, "%-7d   %-8.2f  %d\n\r", i*2, value, val);
-        cyBot_send_string(distance_to_char);
+        sprintf(distance_to_char, "%-7d    %d\n\r", i*2, val);
+        printf("%s\n", distance_to_char);
+        //cyBot_send_string(distance_to_char);
 
     }
 

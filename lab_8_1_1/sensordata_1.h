@@ -1,7 +1,7 @@
 #ifndef SENSOR_DATA_8_H 
 #define SENSOR_DATA_8_H 
 
-float sensor_data_array[92] = { //close thogether setup
+float ir_data_array[92] = { //close thogether setup
 934,
 541,
 711,
