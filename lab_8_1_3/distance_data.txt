@@ -1,0 +1,5 @@
+object 1 in sensordata_1 distance is about 41.5 at 78 degrees
+obect 2 in sensordata_1 distance is about 42.7 at 100 degrees
+
+object 1 in sensordata_2 distance is about 55.7 at 60 degrees
+object 2 in sensordata_2 distance is about 33.5 at 142 degrees
