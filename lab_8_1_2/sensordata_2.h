@@ -45,7 +45,7 @@ float ir_data_array[92] = { //far apart setup
 611,
 603,
 609,
-903,
+1303, //exagerated value test angle 92?
 606,
 595,
 587,

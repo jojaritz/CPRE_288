@@ -36,6 +36,7 @@ int object_count = 0;
 void object_detect(float distance, int current_angle);
 void cyBot_send_string(const char *str);
 void print_detected_objects(void);
+void clean_data(void);
 
 float sensor_data_array2_cleaned[91];
 float sensor_data_array2[91];
@@ -122,7 +123,7 @@ int main(void) {
             for (i = 0; i < 91; i++) {
                 object_detect(ir_data_array_clean[i], i*2);
             }
-            return;
+            return 0;
     }
 }
 
@@ -317,7 +318,7 @@ void object_detect(float distance, int current_angle){
 //    }
 //}
 
-int clean_data(void) {
+void clean_data(void) {
     const int sensor_data_count = sizeof(ir_data_array) / sizeof(ir_data_array[0]);
     int segment_start = -1;
     int i = 0;
@@ -384,6 +385,6 @@ int clean_data(void) {
 
     }
 
-    return 0;
+    //return 0;
 }
 
