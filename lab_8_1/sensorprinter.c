@@ -18,10 +18,10 @@
 
 
 //#warning "Possible unimplemented functions"
-#define DELTA_THRESHOLD 40.0f
+#define DELTA_THRESHOLD 50.0f
 #define M_PI 3.14159265358979323846
-#define DELTA_ERROR 50.0f
-#define ANGLE_ERROR 3
+#define DELTA_ERROR 400.0f
+#define ANGLE_ERROR 2
 
 typedef struct {
     int id;
@@ -43,8 +43,8 @@ void print_detected_objects(void);
 float sensor_data_array2_cleaned[91];
 float sensor_data_array2[91];
 
-int ir_data_array[91];
-int ir_data_array_clean[91];
+float ir_data_array[91];
+float ir_data_array_clean[91];
 
 int main(void) {
 
@@ -328,40 +328,33 @@ int clean_data(void) {
     int segment_start = -1;
     int i = 0;
 
-
-    int p = 0;
-    int val = 0;
-
-    for (p = 0; p < sensor_data_count; p++) { //Ensures we use IR data in cm
-        val = (int) pow((ir_data_array[p]/10066.0), -1.736);
-        ir_data_array_clean[p] = val;
-    }
-
-
     for (i = 0; i < sensor_data_count - 1; i++) { //this for loop will go through entire size of the data arrays
 
-        if (segment_start < 0) { // if not on an object, continue to add value to cleaned array... N/A to ir data
+        if (segment_start < 0) { // if not on an object, continue to add value to cleaned array...
             sensor_data_array2_cleaned[i] = sensor_data_array2[i];
+            ir_data_array_clean[i] = ir_data_array[i];
 
-            if (fabs(ir_data_array_clean[i + 1] - ir_data_array_clean[i]) > DELTA_ERROR) { //checks to see if the NEXT item is big enough difference to consider as object edge
+            if (fabs(ir_data_array[i + 1] - ir_data_array[i]) > DELTA_ERROR) { //checks to see if the NEXT item is big enough difference to consider as object edge
                 segment_start = i + 1; // object edge starts in next part of array
             }
 
-        } else if (fabs(ir_data_array_clean[i + 1] - ir_data_array_clean[i]) > DELTA_ERROR) { // if already in object, check to see if NEXT item is a big enough difference for edge
+        } else if (fabs(ir_data_array[i + 1] - ir_data_array[i]) > DELTA_ERROR) { // if already in object, check to see if NEXT item is a big enough difference for edge
             int segment_length = i - segment_start + 1; //figures out how long proposed object is
             int j = 0;
 
             if (segment_length * 2 <= ANGLE_ERROR) { //checks if proposed object is actually just an error
                 float average_value = (sensor_data_array2[segment_start - 1] + sensor_data_array2[i + 1]) / 2.0f;
-                float ir_average_value = (ir_data_array_clean[segment_start - 1] + ir_data_array_clean[i + 1]) / 2.0f;
+                float ir_average_value = (ir_data_array[segment_start - 1] + ir_data_array[i + 1]) / 2.0f;
 
                 for (j = segment_start; j <= i; j++) { //changes error object to averaged values
                     sensor_data_array2_cleaned[j] = average_value;
                     ir_data_array_clean[j] = ir_average_value;
                 }
-            } else { //if object is not an error, add the values into the array... N/A to ir data as those values already in cleaned array
+
+            } else { //if object is not an error, add the values into the array...
                 for (j = segment_start; j <= i; j++) {
                     sensor_data_array2_cleaned[j] = sensor_data_array2[j];
+                    ir_data_array_clean[j] = ir_data_array[j];
                 }
             }
 
@@ -369,25 +362,27 @@ int clean_data(void) {
         }
     }
 
-    if (segment_start >= 0) { // once done going through arrays, if still detecting object, just add values into cleaned array.. N/A to ir data
+    if (segment_start >= 0) { // once done going through arrays, if still detecting object, just add values into cleaned array...
 
         for (i = segment_start; i < sensor_data_count; i++) {
             sensor_data_array2_cleaned[i] = sensor_data_array2[i];
+            ir_data_array_clean[i] = ir_data_array[i];
         }
 
     } else { // otherwise, add final value into cleaned (fixed a previous error I believe?)
         sensor_data_array2_cleaned[sensor_data_count - 1] = sensor_data_array2[sensor_data_count - 1];
+        ir_data_array_clean[sensor_data_count - 1] = ir_data_array[sensor_data_count - 1];
     }
 
-    for (i = 0; i < sensor_data_count; i++) { //converts ping data to cm and then prints out ping and ir data out to putty
+    for (i = 0; i < sensor_data_count; i++) { //converts ping and ir data to cm and then prints out ping and ir data out to putty
         float value = sensor_data_array2_cleaned[i]/100.1;
         sensor_data_array2_cleaned[i] = value;
 
-        val = ir_data_array_clean[i];
-        //ir_data_array_clean[i] = val;
+        float val = pow((ir_data_array[i]/10066.0), -1.736);
+        ir_data_array_clean[i] = val;
 
         char distance_to_char[30];
-        sprintf(distance_to_char, "%-7d   %-8.2f  %d\n\r", i*2, value, val);
+        sprintf(distance_to_char, "%-7d   %-8.2f  %.2f\n\r", i*2, value, val);
         cyBot_send_string(distance_to_char);
 
     }

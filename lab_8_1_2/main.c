@@ -15,7 +15,7 @@
 
 
 //#warning "Possible unimplemented functions"
-#define DELTA_THRESHOLD 40.0f
+#define DELTA_THRESHOLD 500.0f
 #define M_PI 3.14159265358979323846
 #define DELTA_ERROR 50.0f
 #define ANGLE_ERROR 2
@@ -323,27 +323,21 @@ void clean_data(void) {
     int segment_start = -1;
     int i = 0;
 
-    float val = 0;
-    int p = 0;
-    for (p = 0; p < sensor_data_count; p++) {
-        val = pow((ir_data_array[p]/10066.0), -1.736);
-        ir_data_array_clean[p] = val;
-    }
-
-    for (i = 0; i < sensor_data_count - 1; i++) { //loops through ir_data_array_clean
+    for (i = 0; i < sensor_data_count - 1; i++) { //loops through ir_data_array
         
         if (segment_start < 0) { //if not on object, check to see if one is coming up
+            ir_data_array_clean[i] = ir_data_array[i];
 
-            if (fabs(ir_data_array_clean[i + 1] - ir_data_array_clean[i]) > DELTA_ERROR) {
+            if (fabs(ir_data_array[i + 1] - ir_data_array[i]) > DELTA_ERROR) {
                 segment_start = i + 1;
             }
 
-        } else if (fabs(ir_data_array_clean[i + 1] - ir_data_array_clean[i]) > DELTA_ERROR) { //if on object and ends in next index
+        } else if (fabs(ir_data_array[i + 1] - ir_data_array[i]) > DELTA_ERROR) { //if on object and ends in next index
             int segment_length = i - segment_start + 1; //gets the length of "object"
             int j = 0;
 
             if (segment_length * 2 <= ANGLE_ERROR) { //if "object" is just scan error, clean up error
-                float average_value = (ir_data_array_clean[segment_start - 1] + ir_data_array_clean[i + 1]) / 2.0f;
+                float average_value = (ir_data_array[segment_start - 1] + ir_data_array[i + 1]) / 2.0f;
 
                 for (j = segment_start; j <= i; j++) { //average value is put into array to clean it up
                     ir_data_array_clean[j] = average_value;
@@ -352,6 +346,7 @@ void clean_data(void) {
             } else { //ignore this (is for ping data, N/A here)
                 for (j = segment_start; j <= i; j++) {
                     //sensor_data_array2_cleaned[j] = sensor_data_array2[j];
+                    ir_data_array_clean[j] = ir_data_array[j];
                 }
             }
 
@@ -361,30 +356,32 @@ void clean_data(void) {
 
     // This block is for ping data, N/A to ir data
 
-    // if (segment_start >= 0) {
-    //     for (i = segment_start; i < sensor_data_count; i++) {
-    //         //sensor_data_array2_cleaned[i] = sensor_data_array2[i];
-    //     }
-    // } else {
-    //     //sensor_data_array2_cleaned[sensor_data_count - 1] = sensor_data_array2[sensor_data_count - 1];
-    // }
+    if (segment_start >= 0) {
+        for (i = segment_start; i < sensor_data_count; i++) {
+            //sensor_data_array2_cleaned[i] = sensor_data_array2[i];
+            ir_data_array_clean[i] = ir_data_array[i];
+        }
+    } else {
+        //sensor_data_array2_cleaned[sensor_data_count - 1] = sensor_data_array2[sensor_data_count - 1];
+        ir_data_array_clean[sensor_data_count - 1] = ir_data_array[sensor_data_count - 1];
+    }
 
-    for (i = 0; i < sensor_data_count - 1; i++) {
+    for (i = 0; i < sensor_data_count; i++) {
         //float value = sensor_data_array2_cleaned[i]/100.1;
         //sensor_data_array2_cleaned[i] = value;
 
-        // int val = (int) pow((ir_data_array[i]/10066.0), -1.736);
-        // ir_data_array_clean[i] = val;
+        float val = pow((ir_data_array[i]/10066.0), -1.736);
+        ir_data_array_clean[i] = val;
 
         val = ir_data_array_clean[i];
 
         char distance_to_char[20];
         sprintf(distance_to_char, "%-7d    %.2f\n\r", i*2, val);
-        printf("%s\n", distance_to_char); //prints to console
+        printf("%s\n", distance_to_char);
         //cyBot_send_string(distance_to_char);
 
     }
 
-    //return 0;
+    return 0;
 }
 
