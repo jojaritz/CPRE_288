@@ -6,22 +6,19 @@
  * @author Zhao Zhang, Chad Nelson, Zachary Glanz
  * @date 08/14/2016
  */
-#include "Timer.h"
-#include "lcd.h"
-#include "uart.h"  // Functions for communiticate between CyBot and Putty (via UART)
-#include "cyBot_Scan.h"
-#include "movement.h"
+//#include "Timer.h"
 #include <string.h>
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
+#include "sensordata_2.h"
 
 
 //#warning "Possible unimplemented functions"
-#define DELTA_THRESHOLD .4f
+#define DELTA_THRESHOLD 40.0f
 #define M_PI 3.14159265358979323846
 #define DELTA_ERROR 50.0f
-#define ANGLE_ERROR 6
+#define ANGLE_ERROR 2
 
 typedef struct {
     int id;
@@ -39,16 +36,17 @@ int object_count = 0;
 void object_detect(float distance, int current_angle);
 void cyBot_send_string(const char *str);
 void print_detected_objects(void);
+void clean_data(void);
 
 float sensor_data_array2_cleaned[91];
 float sensor_data_array2[91];
 
-int ir_data_array[91];
-int ir_data_array_clean[91];
+float ir_data_array[91];
+float ir_data_array_clean[91]; //using this for this part
 
 int main(void) {
 
-
+    //configure all of the devices
     uart_init();
 
     cyBOT_init_Scan(0b0111);
@@ -66,11 +64,10 @@ int main(void) {
     currentScan.sound_dist = 0;
     currentScan.IR_raw_val = 0;
 
-   cyBOT_Scan_t *currentScanPtr = &currentScan;
+    cyBOT_Scan_t *currentScanPtr = &currentScan;
 
     while(1) {
         char got_Byte = uart_receive();
-        lcd_printf("%c", got_Byte);
 
         if(got_Byte == 'w') {
                 move_forward(sensor_data, 5);
@@ -80,23 +77,24 @@ int main(void) {
                 turn_counter_clockwise(sensor_data, 20);
         } else if(got_Byte == 'd') {
                 turn_clockwise(sensor_data, 20);
-        } else if(got_Byte == 'm') {
+        }else if(got_Byte == 'm') {
             object_count = 0; // Reset the object count before starting a new scan
             char infoHeader[50] = " ";
             strcpy(infoHeader, "Degrees   Ping(cm)   IR Dist**RAW DATA**\n\r");
-            int x = 0;
-            for (x; x < 50; x++) {
-                uart_sendChar(infoHeader[x]);
-            }
+            cyBot_send_string(infoHeader);
 
 
             // does the 180 degree scan and prints it out to putty(m has already been pressed by the time it gets here)
+            //scan and then run clean data on IR values only
 
             int i = 0;
             for(i; i<=180; i += 2) {
-                cyBOT_Scan(i, currentScanPtr);
-                sensor_data_array2[i/2] = currentScanPtr->sound_dist;
-                ir_data_array[i/2] = currentScanPtr->IR_raw_val;
+                for(int j = 0; j < 10; j++) {
+                    cyBOT_Scan(i, currentScanPtr);
+                    sensor_data_array2[i/2] += (currentScanPtr->sound_dist)/10.0;
+                    ir_data_array[i/2] += (currentScanPtr->IR_raw_val)/10.0;
+                }
+
 
                 char distance_to_char[50];
                 sprintf(distance_to_char, "%-7d   %-8.2f   %d\n\r", i, currentScanPtr->sound_dist, currentScanPtr->IR_raw_val);
@@ -104,24 +102,23 @@ int main(void) {
 
             }
 
-            infoHeader[50] = " ";
-            strcpy(infoHeader, "Degrees   Ping(m)   IR Dist(cm)**CLEAN DATA**\n\r");
-            int k = 0;
-            for(k; k < 50; k++) {
-                uart_sendChar(infoHeader[k]);
-            }
+            strcpy(infoHeader, "Degrees  IR Dist(cm)**CLEAN DATA**\n\r");
+            cyBot_send_string(infoHeader);
 
+            
+            
             clean_data();
-            int j = 0;
-            for(j; j<91; j++) {
-                object_detect(sensor_data_array2_cleaned[j], j*2);
+
+
+            i = 0;
+            for (i = 0; i < 91; i++) {
+                object_detect(ir_data_array_clean[i], i*2);
             }
-
             print_detected_objects();
-            //and then compare the different linear widths (used to do angle) differences and print out the smallest width difference to putty
-        }
 
-}
+
+        }
+    }
 }
 
 
@@ -159,6 +156,7 @@ void object_detect(float distance, int current_angle){
     static float dist_sum = 0.0f;
     static int sample_count = 0;
     float current_dist = distance;
+    cyBOT_Scan_t dist_scan;
 
     if (current_angle == 0) {
         on_object = 0;
@@ -167,12 +165,12 @@ void object_detect(float distance, int current_angle){
         prev_dist = distance;
         dist_sum = 0.0f;
         sample_count = 0;
-        return;
+        //return;
     }
 
     // Initialize prev_dist on the very first sample
-    if (prev_dist < 0.0f) {
-        if(distance < 2.0){//checks if the distance is less than 2.0 m, consider it an object
+    if (current_angle == 0) {
+        if(distance < 200.0){//checks if the distance is less than 2.0 m, consider it an object
             on_object = 1;
              start_angle = current_angle;
              dist_sum = current_dist;
@@ -180,7 +178,7 @@ void object_detect(float distance, int current_angle){
         }
         prev_dist = current_dist;
         prev_angle = current_angle;
-        return;
+        //return;
     }
     
     if (!on_object) {//check if we are currently on an object or not
@@ -202,24 +200,23 @@ void object_detect(float distance, int current_angle){
 
             // check if the angle detected is too small to be an object
             if (radial_w >= 4 && object_count < 4) {
-                // going to use the IR measurement to provide a more accurate distance
                 int center_angle = (start_angle + end_angle) / 2;
-                //Find IR values around center angle and divide by 2 to get average distance
-                int low_measurement = ir_data_array_clean[(center_angle - 1)/2]; // Gets angle - 1 since we increment by 2
-                int high_meausrement = ir_data_array_clean[(center_angle + 1)/2]; // Gets angle + 1 since we increment by 2
 
-                int average_dist = (low_measurement + high_meausrement)/2;
+                //use the sonar for more accureate distance, but use the IR to get the angle and width of the object
+                cyBOT_Scan(center_angle, &dist_scan);
+                float dist = dist_scan->sound_dist;
+                
 
                 detected_objects[object_count].id = object_count + 1; //update all object values in the struct
                 detected_objects[object_count].start_angle = start_angle;
                 detected_objects[object_count].end_angle = end_angle;
                 detected_objects[object_count].center_angle = center_angle;
                 detected_objects[object_count].radial_width = radial_w;
-                detected_objects[object_count].distance = average_dist;
+                detected_objects[object_count].distance = dist;
 
-                float avg_dist = dist_sum / sample_count;   // Calculate the linear width of the detected object
+                // Calculate the linear width of the detected object
                 float theta_rad = (radial_w * M_PI) / 180.0;
-                detected_objects[object_count].linear_width = 2.0 * avg_dist * sin(theta_rad / 2.0);
+                detected_objects[object_count].linear_width = 2.0 * dist * sin(theta_rad / 2.0);
 
                 object_count++;
             }
@@ -242,13 +239,9 @@ void object_detect(float distance, int current_angle){
             // check if the angle detected is too small to be an object
             if (radial_w >= 4 && object_count < 4) {
 
-                // going to use the IR measurement to provide a more accurate distance
                 int center_angle = (start_angle + end_angle) / 2;
-                //Find IR values around center angle and divide by 2 to get average distance
-                int low_measurement = ir_data_array_clean[(center_angle - 1)/2]; // Gets angle - 1 since we increment by 2
-                int high_meausrement = ir_data_array_clean[(center_angle + 1)/2]; // Gets angle + 1 since we increment by 2
-
-                int average_dist = (low_measurement + high_meausrement)/2;
+                cyBOT_Scan(center_angle, &dist_scan);
+                float dist = dist_scan->sound_dist;
 
 
                 detected_objects[object_count].id = object_count + 1; //update all object values in the struct
@@ -256,11 +249,11 @@ void object_detect(float distance, int current_angle){
                 detected_objects[object_count].end_angle = end_angle;
                 detected_objects[object_count].center_angle = center_angle;
                 detected_objects[object_count].radial_width = radial_w;
-                detected_objects[object_count].distance = average_dist;
+                detected_objects[object_count].distance = dist;
 
-                float avg_dist = dist_sum / sample_count;   // Calculate the linear width of the detected object
+                // Calculate the linear width of the detected object
                 float theta_rad = (radial_w * M_PI) / 180.0;
-                detected_objects[object_count].linear_width = 2.0 * avg_dist * sin(theta_rad / 2.0);
+                detected_objects[object_count].linear_width = 2.0 * dist * sin(theta_rad / 2.0);
 
                 object_count++;
             }
@@ -271,103 +264,117 @@ void object_detect(float distance, int current_angle){
 
 
 void print_detected_objects(void) {
-    char out[80];
-    cyBot_send_string("Object#   Angle   Distance   Angular Width   Linear Width\n\r");
+   char out[80];
+   cyBot_send_string("Object#   Angle   Distance   Angular Width   Linear Width\n\r");
 
-    int smallest_idx = -1;
-    int min_radial = 181; // Initialize to maximum possible width
-    float min_linear = 9999.0f;
+   int smallest_idx = -1;
+   int min_radial = 181; // Initialize to maximum possible width
+   float min_linear = 9999.0f;
 
-    int i;
-    for (i = 0; i < object_count; i++) {
-        sprintf(out, "%-7d   %-5d   %-12.1f   %-16d   %-16.1f\n\r",
-                detected_objects[i].id, //goes back and prints all of the detected objects to putty
-                detected_objects[i].center_angle,
-                detected_objects[i].distance,
-                detected_objects[i].radial_width,
-                detected_objects[i].linear_width);
-        cyBot_send_string(out);
+   int i;
+   for (i = 0; i < object_count; i++) {
+       sprintf(out, "%-7d   %-5d   %-12.1f   %-16d   %-16.1f\n\r",
+               detected_objects[i].id, //goes back and prints all of the detected objects to putty
+               detected_objects[i].center_angle,
+               detected_objects[i].distance,
+               detected_objects[i].radial_width,
+               detected_objects[i].linear_width);
+       cyBot_send_string(out);
 
-        // if (detected_objects[i].radial_width < min_radial) { //this was the original code, but we want to find the smallest linear width, not the smallest radial width
-        //     min_radial = detected_objects[i].radial_width;
-        //     smallest_idx = i;
-        // }
-        if (detected_objects[i].linear_width < min_linear) { //calculates the smallest linear width and then prints out the object number, angle, and width to putty
-            min_linear = detected_objects[i].linear_width;
-            smallest_idx = i;
-        }
-    }
+       // if (detected_objects[i].radial_width < min_radial) { //this was the original code, but we want to find the smallest linear width, not the smallest radial width
+       //     min_radial = detected_objects[i].radial_width;
+       //     smallest_idx = i;
+       // }
+       if (detected_objects[i].linear_width < min_linear) { //calculates the smallest linear width and then prints out the object number, angle, and width to putty
+           min_linear = detected_objects[i].linear_width;
+           smallest_idx = i;
+       }
+   }
 
-    if (smallest_idx != -1) {
-        // Print the smallest object's information
-        float center_rad = detected_objects[smallest_idx].center_angle * M_PI / 180.0;
-        int accurate_angle = (int)(atan2(.14 + detected_objects[smallest_idx].distance * sin(center_rad),detected_objects[smallest_idx].distance * cos(center_rad)) * (180.0 / M_PI));
-        sprintf(out, "\n\rSmallest length Object: #%d at %d deg (Width: %.2f cm), Accurate Angle: %d deg\n\r",
-                detected_objects[smallest_idx].id,
-                detected_objects[smallest_idx].center_angle,
-                detected_objects[smallest_idx].linear_width,
-                accurate_angle);
-        cyBot_send_string(out);
-        cyBOT_Scan_t target_scan;
-        cyBOT_Scan(detected_objects[smallest_idx].center_angle, &target_scan);
-    } else {
-        cyBot_send_string("\n\rNo objects detected.\n\r");
-    }
+   if (smallest_idx != -1) {
+       // Print the smallest object's information
+       float center_rad = detected_objects[smallest_idx].center_angle * M_PI / 180.0;
+       int accurate_angle = (int)(atan2(14 + detected_objects[smallest_idx].distance * sin(center_rad),detected_objects[smallest_idx].distance * cos(center_rad)) * (180.0 / M_PI));
+       sprintf(out, "\n\rSmallest length Object: #%d at %d deg (Width: %.2f cm), Accurate Angle: %d deg\n\r",
+               detected_objects[smallest_idx].id,
+               detected_objects[smallest_idx].center_angle,
+               detected_objects[smallest_idx].linear_width,
+               accurate_angle);
+       cyBot_send_string(out);
+       cyBOT_Scan_t target_scan;
+       cyBOT_Scan(detected_objects[smallest_idx].center_angle, &target_scan);
+   } else {
+       cyBot_send_string("\n\rNo objects detected.\n\r");
+   }
 }
 
-int clean_data(void) {
-    const int sensor_data_count = sizeof(sensor_data_array2) / sizeof(sensor_data_array2[0]);
+void clean_data(void) {
+    const int sensor_data_count = sizeof(ir_data_array) / sizeof(ir_data_array[0]);
     int segment_start = -1;
     int i = 0;
 
-    for (i = 0; i < sensor_data_count - 1; i++) {
-        if (segment_start < 0) {
-            sensor_data_array2_cleaned[i] = sensor_data_array2[i];
+    float val = 0;
+    int p = 0;
+    for (p = 0; p < sensor_data_count; p++) {
+        val = pow((ir_data_array[p]/10066.0), -1.736);
+        ir_data_array_clean[p] = val;
+    }
 
-            if (fabs(sensor_data_array2[i + 1] - sensor_data_array2[i]) > DELTA_ERROR) {
+    for (i = 0; i < sensor_data_count - 1; i++) { //loops through ir_data_array_clean
+        
+        if (segment_start < 0) { //if not on object, check to see if one is coming up
+
+            if (fabs(ir_data_array_clean[i + 1] - ir_data_array_clean[i]) > DELTA_ERROR) {
                 segment_start = i + 1;
             }
-        } else if (fabs(sensor_data_array2[i + 1] - sensor_data_array2[i]) > DELTA_ERROR) {
-            int segment_length = i - segment_start + 1;
+
+        } else if (fabs(ir_data_array_clean[i + 1] - ir_data_array_clean[i]) > DELTA_ERROR) { //if on object and ends in next index
+            int segment_length = i - segment_start + 1; //gets the length of "object"
             int j = 0;
 
-            if (segment_length * 2 <= ANGLE_ERROR) {
-                float average_value = (sensor_data_array2[segment_start - 1] + sensor_data_array2[i + 1]) / 2.0f;
+            if (segment_length * 2 <= ANGLE_ERROR) { //if "object" is just scan error, clean up error
+                float average_value = (ir_data_array_clean[segment_start - 1] + ir_data_array_clean[i + 1]) / 2.0f;
 
-                for (j = segment_start; j <= i; j++) {
-                    sensor_data_array2_cleaned[j] = average_value;
+                for (j = segment_start; j <= i; j++) { //average value is put into array to clean it up
+                    ir_data_array_clean[j] = average_value;
                 }
-            } else {
+                
+            } else { //ignore this (is for ping data, N/A here)
                 for (j = segment_start; j <= i; j++) {
-                    sensor_data_array2_cleaned[j] = sensor_data_array2[j];
+                    //sensor_data_array2_cleaned[j] = sensor_data_array2[j];
                 }
             }
 
-            segment_start = -1;
+            segment_start = -1; //resets to not being on object
         }
     }
 
-    if (segment_start >= 0) {
-        for (i = segment_start; i < sensor_data_count; i++) {
-            sensor_data_array2_cleaned[i] = sensor_data_array2[i];
-        }
-    } else {
-        sensor_data_array2_cleaned[sensor_data_count - 1] = sensor_data_array2[sensor_data_count - 1];
-    }
+    // This block is for ping data, N/A to ir data
 
-    for (i = 0; i < sensor_data_count; i++) {
-        float value = sensor_data_array2_cleaned[i]/100.1;
-        sensor_data_array2_cleaned[i] = value;
+    // if (segment_start >= 0) {
+    //     for (i = segment_start; i < sensor_data_count; i++) {
+    //         //sensor_data_array2_cleaned[i] = sensor_data_array2[i];
+    //     }
+    // } else {
+    //     //sensor_data_array2_cleaned[sensor_data_count - 1] = sensor_data_array2[sensor_data_count - 1];
+    // }
 
-        int val = (int) pow((ir_data_array[i]/10066.0), -1.736);
-        ir_data_array_clean[i] = val;
+    for (i = 0; i < sensor_data_count - 1; i++) {
+        //float value = sensor_data_array2_cleaned[i]/100.1;
+        //sensor_data_array2_cleaned[i] = value;
+
+        // int val = (int) pow((ir_data_array[i]/10066.0), -1.736);
+        // ir_data_array_clean[i] = val;
+
+        val = ir_data_array_clean[i];
 
         char distance_to_char[20];
-        sprintf(distance_to_char, "%-7d   %-8.2f  %d\n\r", i*2, value, val);
+        sprintf(distance_to_char, "%-7d    %.2f\n\r", i*2, val);
+        printf("%s\n", distance_to_char); //prints to console
         cyBot_send_string(distance_to_char);
 
     }
 
-    return 0;
+    //return 0;
 }
 
