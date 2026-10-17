@@ -15,12 +15,12 @@
 #include "uart.h"
 #include "cyBot_Scan.h"
 #include "movement.h"
-
+#include <Timer.h>
 
 //#warning "Possible unimplemented functions"
-#define DELTA_THRESHOLD 30.0f
+#define DELTA_THRESHOLD 20.0f
 #define M_PI 3.14159265358979323846
-#define DELTA_ERROR 25.0f
+#define DELTA_ERROR 15.0f
 #define ANGLE_ERROR 2
 #define MAX_DIST_CM 150.0f
 
@@ -54,6 +54,7 @@ int main(void) {
 
     //configure all of the devices
     uart_init();
+    timer_init();
 
     cyBOT_init_Scan(0b0111);
     timer_init();
@@ -221,6 +222,7 @@ void object_detect(float distance, int current_angle){
                 for (p = 0; p < 3; p++) {
                     cyBOT_Scan(center_angle, &dist_scan);
                     dist += dist_scan.sound_dist / 3.0;
+                    timer_waitMillis(500);
                 }
                 
 
@@ -258,11 +260,13 @@ void object_detect(float distance, int current_angle){
 
                 int center_angle = (start_angle + end_angle) / 2;
 
+
                 int p = 0;
                 float dist = 0.0;
                 for (p = 0; p < 3; p++) {
                     cyBOT_Scan(center_angle, &dist_scan);
                     dist += dist_scan.sound_dist / 3.0;
+                    timer_waitMillis(500);
                 }
 
 

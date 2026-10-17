@@ -11,13 +11,16 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
-#include "sensordata_2.h" //remove?
+//#include "sensordata_2.h" //remove?
+#include "uart.h"
+#include "cyBot_Scan.h"
+#include <Timer.h>
 
 
 //#warning "Possible unimplemented functions"
-#define DELTA_THRESHOLD 40.0f
+#define DELTA_THRESHOLD 20.0f
 #define M_PI 3.14159265358979323846
-#define DELTA_ERROR 50.0f
+#define DELTA_ERROR 15.0f
 #define ANGLE_ERROR 2
 #define MAX_DIST_CM 150.0f
 
@@ -49,12 +52,13 @@ int main(void) {
 
     //configure all of the devices
     uart_init();
+    timer_init();
 
     cyBOT_init_Scan(0b0111);
     timer_init();
     lcd_init();
-    oi_t *sensor_data = oi_alloc();
-    oi_init(sensor_data);
+//    oi_t *sensor_data = oi_alloc();
+//    oi_init(sensor_data);
 
 
     // make sure to find calibration value first, different for each cyBOT
@@ -69,16 +73,7 @@ int main(void) {
 
     while(1) {
         char got_Byte = uart_receive();
-
-        if(got_Byte == 'w') {
-                move_forward(sensor_data, 5);
-        } else if(got_Byte == 's') {
-                move_backward(sensor_data, 5);
-        } else if(got_Byte == 'a') {
-                turn_counter_clockwise(sensor_data, 20);
-        } else if(got_Byte == 'd') {
-                turn_clockwise(sensor_data, 20);
-        }else if(got_Byte == 'm') {
+        if(got_Byte == 'm') {
             object_count = 0; // Reset the object count before starting a new scan
             char infoHeader[50] = " ";
             strcpy(infoHeader, "Degrees   Ping(cm)   IR Dist**RAW DATA**\n\r");
@@ -207,8 +202,13 @@ void object_detect(float distance, int current_angle){
                 int center_angle = (start_angle + end_angle) / 2;
 
                 //use the sonar for more accureate distance, but use the IR to get the angle and width of the object
-                cyBOT_Scan(center_angle, &dist_scan);
-                float dist = dist_scan.sound_dist;
+                int p = 0;
+                float dist = 0.0;
+                for (p = 0; p < 3; p++) {
+                    cyBOT_Scan(center_angle, &dist_scan);
+                    dist += dist_scan.sound_dist / 3.0;
+                    timer_waitMillis(500);
+                }
                 
 
                 detected_objects[object_count].id = object_count + 1; //update all object values in the struct
@@ -244,8 +244,13 @@ void object_detect(float distance, int current_angle){
             if (radial_w >= 4 && object_count < 4) {
 
                 int center_angle = (start_angle + end_angle) / 2;
-                cyBOT_Scan(center_angle, &dist_scan);
-                float dist = dist_scan.sound_dist;
+                int p = 0;
+                float dist = 0.0;
+                for (p = 0; p < 3; p++) {
+                    cyBOT_Scan(center_angle, &dist_scan);
+                    dist += dist_scan.sound_dist / 3.0;
+                    timer_waitMillis(500);
+                }
 
 
                 detected_objects[object_count].id = object_count + 1; //update all object values in the struct

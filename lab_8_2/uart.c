@@ -98,4 +98,15 @@ void uart_interrupt_handler(){
 
     }
 
+
+}
+
+
+int uart_receive_nonblock(char *data){
+    if(UART1_FR_R & 0x10){
+        return 0;
+    }
+
+    *data = (char)(UART1_DR_R & 0xFF);
+    return 1;
 }
