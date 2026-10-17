@@ -19,6 +19,7 @@
 #define M_PI 3.14159265358979323846
 #define DELTA_ERROR 50.0f
 #define ANGLE_ERROR 2
+#define MAX_DIST_CM 150.0f
 
 typedef struct {
     int id;
@@ -123,6 +124,7 @@ int main(void) {
             for (i = 0; i < 91; i++) {
                 object_detect(ir_data_array_clean[i], i*2);
             }
+            print_detected_objects();
             return 0;
 
             //configure all of the devices
@@ -283,50 +285,51 @@ void object_detect(float distance, int current_angle){
 
 
 
-//void print_detected_objects(void) {
-//    char out[80];
-//    cyBot_send_string("Object#   Angle   Distance   Angular Width   Linear Width\n\r");
-//
-//    int smallest_idx = -1;
-//    int min_radial = 181; // Initialize to maximum possible width
-//    float min_linear = 9999.0f;
-//
-//    int i;
-//    for (i = 0; i < object_count; i++) {
-//        sprintf(out, "%-7d   %-5d   %-12.1f   %-16d   %-16.1f\n\r",
-//                detected_objects[i].id, //goes back and prints all of the detected objects to putty
-//                detected_objects[i].center_angle,
-//                detected_objects[i].distance,
-//                detected_objects[i].radial_width,
-//                detected_objects[i].linear_width);
-//        cyBot_send_string(out);
-//
-//        // if (detected_objects[i].radial_width < min_radial) { //this was the original code, but we want to find the smallest linear width, not the smallest radial width
-//        //     min_radial = detected_objects[i].radial_width;
-//        //     smallest_idx = i;
-//        // }
-//        if (detected_objects[i].linear_width < min_linear) { //calculates the smallest linear width and then prints out the object number, angle, and width to putty
-//            min_linear = detected_objects[i].linear_width;
-//            smallest_idx = i;
-//        }
-//    }
-//
-//    if (smallest_idx != -1) {
-//        // Print the smallest object's information
-//        float center_rad = detected_objects[smallest_idx].center_angle * M_PI / 180.0;
-//        int accurate_angle = (int)(atan2(.14 + detected_objects[smallest_idx].distance * sin(center_rad),detected_objects[smallest_idx].distance * cos(center_rad)) * (180.0 / M_PI));
-//        sprintf(out, "\n\rSmallest length Object: #%d at %d deg (Width: %.2f cm), Accurate Angle: %d deg\n\r",
-//                detected_objects[smallest_idx].id,
-//                detected_objects[smallest_idx].center_angle,
-//                detected_objects[smallest_idx].linear_width,
-//                accurate_angle);
-//        cyBot_send_string(out);
-//        cyBOT_Scan_t target_scan;
-//        cyBOT_Scan(detected_objects[smallest_idx].center_angle, &target_scan);
-//    } else {
-//        cyBot_send_string("\n\rNo objects detected.\n\r");
-//    }
-//}
+void print_detected_objects(void) {
+   char out[80];
+   printf("Object#   Angle   Distance   Angular Width   Linear Width\n\r");
+
+   int smallest_idx = -1;
+   int min_radial = 181; // Initialize to maximum possible width
+   float min_linear = 9999.0f;
+
+   int i;
+   for (i = 0; i < object_count; i++) {
+       sprintf(out, "%-7d   %-5d   %-12.1f   %-16d   %-16.1f\n\r",
+               detected_objects[i].id, //goes back and prints all of the detected objects to putty
+               detected_objects[i].center_angle,
+               detected_objects[i].distance,
+               detected_objects[i].radial_width,
+               detected_objects[i].linear_width);
+       printf("%s", out);
+
+       // if (detected_objects[i].radial_width < min_radial) { //this was the original code, but we want to find the smallest linear width, not the smallest radial width
+       //     min_radial = detected_objects[i].radial_width;
+       //     smallest_idx = i;
+       // }
+       if (detected_objects[i].linear_width < min_linear) { //calculates the smallest linear width and then prints out the object number, angle, and width to putty
+           min_linear = detected_objects[i].linear_width;
+           smallest_idx = i;
+       }
+   }
+
+   if (smallest_idx != -1) {
+       // Print the smallest object's information
+       float center_rad = detected_objects[smallest_idx].center_angle * M_PI / 180.0;
+       int accurate_angle = (int)(atan2(.14 + detected_objects[smallest_idx].distance * sin(center_rad),detected_objects[smallest_idx].distance * cos(center_rad)) * (180.0 / M_PI));
+        sprintf(out, "\n\rSmallest object: #%d at %d deg, %.1f cm away (width: %.2f cm)\n\r",
+                    detected_objects[smallest_idx].id,
+                    detected_objects[smallest_idx].center_angle,
+                    detected_objects[smallest_idx].distance,
+                    detected_objects[smallest_idx].linear_width);
+    //    cyBot_send_string(out);
+    //    cyBOT_Scan_t target_scan;
+    //    cyBOT_Scan(detected_objects[smallest_idx].center_angle, &target_scan);
+            printf("%s", out);
+   } else {
+       printf("\n\rNo objects detected.\n\r");
+   }
+}
 
 void clean_data(void) {
     const int sensor_data_count = sizeof(ir_data_array) / sizeof(ir_data_array[0]);
@@ -336,7 +339,14 @@ void clean_data(void) {
     float val = 0;
     int p = 0;
     for (p = 0; p < sensor_data_count; p++) {
-        val = pow((ir_data_array[p]/10066.0), -1.736);
+        if (ir_data_array[p] <= 0) {
+            val = MAX_DIST_CM;                 
+        } else {
+            val = pow((ir_data_array[p] / 10066.0), -1.736);
+            if (val > MAX_DIST_CM || val != val) {   // too far, or NaN
+                val = MAX_DIST_CM;
+            }
+        }
         ir_data_array_clean[p] = val;
     }
 

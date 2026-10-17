@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
-#include "sensordata_2.h"
+#include "sensordata_2.h" //remove?
 
 
 //#warning "Possible unimplemented functions"
@@ -19,6 +19,7 @@
 #define M_PI 3.14159265358979323846
 #define DELTA_ERROR 50.0f
 #define ANGLE_ERROR 2
+#define MAX_DIST_CM 150.0f
 
 typedef struct {
     int id;
@@ -88,11 +89,14 @@ int main(void) {
             //scan and then run clean data on IR values only
 
             int i = 0;
+            int j = 0;
             for(i; i<=180; i += 2) {
-                for(int j = 0; j < 10; j++) {
+                sensor_data_array2[i/2] = 0;
+                ir_data_array[i/2] = 0;
+                for(j = 0; j < 3; j++) {
                     cyBOT_Scan(i, currentScanPtr);
-                    sensor_data_array2[i/2] += (currentScanPtr->sound_dist)/10.0;
-                    ir_data_array[i/2] += (currentScanPtr->IR_raw_val)/10.0;
+                    sensor_data_array2[i/2] += (currentScanPtr->sound_dist)/3.0;
+                    ir_data_array[i/2] += (currentScanPtr->IR_raw_val)/3.0;
                 }
 
 
@@ -169,17 +173,17 @@ void object_detect(float distance, int current_angle){
     }
 
     // Initialize prev_dist on the very first sample
-    if (current_angle == 0) {
-        if(distance < 200.0){//checks if the distance is less than 2.0 m, consider it an object
-            on_object = 1;
-             start_angle = current_angle;
-             dist_sum = current_dist;
-             sample_count = 1;
-        }
-        prev_dist = current_dist;
-        prev_angle = current_angle;
-        //return;
-    }
+    // if (current_angle == 0) {
+    //     if(distance < 200.0){//checks if the distance is less than 2.0 m, consider it an object
+    //         on_object = 1;
+    //          start_angle = current_angle;
+    //          dist_sum = current_dist;
+    //          sample_count = 1;
+    //     }
+    //     prev_dist = current_dist;
+    //     prev_angle = current_angle;
+    //     //return;
+    // }
     
     if (!on_object) {//check if we are currently on an object or not
         // Look for a large enough distance drop to indicate the leading edge of an object
@@ -204,7 +208,7 @@ void object_detect(float distance, int current_angle){
 
                 //use the sonar for more accureate distance, but use the IR to get the angle and width of the object
                 cyBOT_Scan(center_angle, &dist_scan);
-                float dist = dist_scan->sound_dist;
+                float dist = dist_scan.sound_dist;
                 
 
                 detected_objects[object_count].id = object_count + 1; //update all object values in the struct
@@ -241,7 +245,7 @@ void object_detect(float distance, int current_angle){
 
                 int center_angle = (start_angle + end_angle) / 2;
                 cyBOT_Scan(center_angle, &dist_scan);
-                float dist = dist_scan->sound_dist;
+                float dist = dist_scan.sound_dist;
 
 
                 detected_objects[object_count].id = object_count + 1; //update all object values in the struct
@@ -316,7 +320,14 @@ void clean_data(void) {
     float val = 0;
     int p = 0;
     for (p = 0; p < sensor_data_count; p++) {
-        val = pow((ir_data_array[p]/10066.0), -1.736);
+        if (ir_data_array[p] <= 0) {
+            val = MAX_DIST_CM;                 
+        } else {
+            val = pow((ir_data_array[p] / 10066.0), -1.736);
+            if (val > MAX_DIST_CM || val != val) {   // too far, or NaN
+                val = MAX_DIST_CM;
+            }
+        }
         ir_data_array_clean[p] = val;
     }
 

@@ -22,6 +22,7 @@
 #define M_PI 3.14159265358979323846
 #define DELTA_ERROR 25.0f
 #define ANGLE_ERROR 2
+#define MAX_DIST_CM 150.0f
 
 typedef struct {
     int id;
@@ -41,6 +42,7 @@ void object_detect(float distance, int current_angle);
 void cyBot_send_string(const char *str);
 void print_detected_objects(void);
 void clean_data(void);
+void autonomous(oi_t *sensor);
 
 float sensor_data_array2_cleaned[91];
 float sensor_data_array2[91];
@@ -69,60 +71,65 @@ int main(void) {
     currentScan.IR_raw_val = 0;
 
     cyBOT_Scan_t *currentScanPtr = &currentScan;
+    char got_Byte = 0;
 
     while(1) {
-        char got_Byte = uart_receive();
+        //char got_Byte = uart_receive();
+        if (uart_receive_nonblock(&got_Byte)) {
+            
 
-        if(got_Byte == 'w') {
-                move_forward(sensor_data, 5);
-        } else if(got_Byte == 's') {
-                move_backward(sensor_data, 5);
-        } else if(got_Byte == 'a') {
-                turn_counter_clockwise(sensor_data, 20);
-        } else if(got_Byte == 'd') {
-                turn_clockwise(sensor_data, 20);
-        }else if(got_Byte == 'm') {
-            object_count = 0; // Reset the object count before starting a new scan
-            char infoHeader[50] = " ";
-            strcpy(infoHeader, "Degrees   Ping(cm)   IR Dist**RAW DATA**\n\r");
-            cyBot_send_string(infoHeader);
+            if(got_Byte == 'w') {
+                    move_forward(sensor_data, 5);
+            } else if(got_Byte == 's') {
+                    move_backward(sensor_data, 5);
+            } else if(got_Byte == 'a') {
+                    turn_counter_clockwise(sensor_data, 20);
+            } else if(got_Byte == 'd') {
+                    turn_clockwise(sensor_data, 20);
+            }else if(got_Byte == 'm') {
+                object_count = 0; // Reset the object count before starting a new scan
+                char infoHeader[50] = " ";
+                strcpy(infoHeader, "Degrees   Ping(cm)   IR Dist**RAW DATA**\n\r");
+                cyBot_send_string(infoHeader);
 
 
-            // does the 180 degree scan and prints it out to putty(m has already been pressed by the time it gets here)
-            //scan and then run clean data on IR values only
+                // does the 180 degree scan and prints it out to putty(m has already been pressed by the time it gets here)
+                //scan and then run clean data on IR values only
 
-            int i = 0;
-            int j = 0;
-            for(i; i<=180; i += 2) {
-                for(j = 0; j < 3; j++) {
-                    cyBOT_Scan(i, currentScanPtr);
-                    sensor_data_array2[i/2] += (currentScanPtr->sound_dist)/3.0;
-                    ir_data_array[i/2] += (currentScanPtr->IR_raw_val)/3.0;
+                int i = 0;
+                int j = 0;
+                for(i; i<=180; i += 2) {
+                    sensor_data_array2[i/2] = 0;
+                    ir_data_array[i/2] = 0;     
+                    for(j = 0; j < 3; j++) {
+                        cyBOT_Scan(i, currentScanPtr);
+                        sensor_data_array2[i/2] += (currentScanPtr->sound_dist)/3.0;
+                        ir_data_array[i/2] += (currentScanPtr->IR_raw_val)/3.0;
+                    }
+
+
+                    char distance_to_char[50];
+                    sprintf(distance_to_char, "%-7d   %-8.2f   %d\n\r", i, currentScanPtr->sound_dist, currentScanPtr->IR_raw_val);
+                    cyBot_send_string(distance_to_char);
+
                 }
 
+                strcpy(infoHeader, "Degrees  IR Dist(cm)**CLEAN DATA**\n\r");
+                cyBot_send_string(infoHeader);
 
-                char distance_to_char[50];
-                sprintf(distance_to_char, "%-7d   %-8.2f   %d\n\r", i, currentScanPtr->sound_dist, currentScanPtr->IR_raw_val);
-                cyBot_send_string(distance_to_char);
+                
+                
+                clean_data();
+
+
+                i = 0;
+                for (i = 0; i < 91; i++) {
+                    object_detect(ir_data_array_clean[i], i*2);
+                }
+                print_detected_objects();
+                autonomous(sensor_data);
 
             }
-
-            strcpy(infoHeader, "Degrees  IR Dist(cm)**CLEAN DATA**\n\r");
-            cyBot_send_string(infoHeader);
-
-            
-            
-            clean_data();
-
-
-            i = 0;
-            for (i = 0; i < 91; i++) {
-                object_detect(ir_data_array_clean[i], i*2);
-            }
-            print_detected_objects();
-            autonomous(sensor_data);
-
-
         }
     }
 }
@@ -211,7 +218,7 @@ void object_detect(float distance, int current_angle){
                 //use the sonar for more accureate distance, but use the IR to get the angle and width of the object
                 int p = 0;
                 float dist = 0.0;
-                for (p = 0; p < 4; p++) {
+                for (p = 0; p < 3; p++) {
                     cyBOT_Scan(center_angle, &dist_scan);
                     dist += dist_scan.sound_dist / 3.0;
                 }
@@ -253,7 +260,7 @@ void object_detect(float distance, int current_angle){
 
                 int p = 0;
                 float dist = 0.0;
-                for (p = 0; p < 4; p++) {
+                for (p = 0; p < 3; p++) {
                     cyBOT_Scan(center_angle, &dist_scan);
                     dist += dist_scan.sound_dist / 3.0;
                 }
@@ -334,9 +341,17 @@ void clean_data(void) {
     float val = 0;
     int p = 0;
     for (p = 0; p < sensor_data_count; p++) {
-        val = pow((ir_data_array[p]/10066.0), -1.736);
-        ir_data_array_clean[p] = val;
-    }
+            if (ir_data_array[p] <= 0) {
+                val = MAX_DIST_CM;                 
+            } else {
+                val = pow((ir_data_array[p] / 10066.0), -1.736);
+                if (val > MAX_DIST_CM || val != val) {   // too far, or NaN
+                    val = MAX_DIST_CM;
+                }
+            }
+            ir_data_array_clean[p] = val;
+        }
+
 
     for (i = 0; i < sensor_data_count - 1; i++) { //loops through ir_data_array_clean
         
