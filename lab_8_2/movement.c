@@ -12,7 +12,7 @@ double move_forward(oi_t *sensor, double centimeters){
     double sum = 0;
     oi_setWheels(wheel_speed, wheel_speed);
 
-    double adj_centimeters = (centimeters*10);  //- 40.0; //This is the adjustment for the distance traveled, it is based on testing and the amount of centimeters that are wanted to be traveled
+    double adj_centimeters = (centimeters*10) - (2*centimeters);  //- 40.0; //This is the adjustment for the distance traveled, it is based on testing and the amount of centimeters that are wanted to be traveled
     while (sum <= adj_centimeters){ //This is the loop that goes until the sum of the distance traveled reaches the amount of wanted centimeters
         oi_update(sensor);
         sum += sensor->distance;

@@ -18,9 +18,9 @@
 
 
 //#warning "Possible unimplemented functions"
-#define DELTA_THRESHOLD 40.0f
+#define DELTA_THRESHOLD 30.0f
 #define M_PI 3.14159265358979323846
-#define DELTA_ERROR 50.0f
+#define DELTA_ERROR 25.0f
 #define ANGLE_ERROR 2
 
 typedef struct {
@@ -94,10 +94,10 @@ int main(void) {
             int i = 0;
             int j = 0;
             for(i; i<=180; i += 2) {
-                for(j = 0; j < 10; j++) {
+                for(j = 0; j < 3; j++) {
                     cyBOT_Scan(i, currentScanPtr);
-                    sensor_data_array2[i/2] += (currentScanPtr->sound_dist)/10.0;
-                    ir_data_array[i/2] += (currentScanPtr->IR_raw_val)/10.0;
+                    sensor_data_array2[i/2] += (currentScanPtr->sound_dist)/3.0;
+                    ir_data_array[i/2] += (currentScanPtr->IR_raw_val)/3.0;
                 }
 
 
@@ -174,18 +174,18 @@ void object_detect(float distance, int current_angle){
         //return;
     }
 
-    // Initialize prev_dist on the very first sample
-    if (current_angle == 0) {
-        if(distance < 200.0){//checks if the distance is less than 2.0 m, consider it an object
-            on_object = 1;
-             start_angle = current_angle;
-             dist_sum = current_dist;
-             sample_count = 1;
-        }
-        prev_dist = current_dist;
-        prev_angle = current_angle;
-        //return;
-    }
+//    // Initialize prev_dist on the very first sample
+//    if (current_angle == 0) {
+//        if(distance < 200.0){//checks if the distance is less than 2.0 m, consider it an object
+//            on_object = 1;
+//             start_angle = current_angle;
+//             dist_sum = current_dist;
+//             sample_count = 1;
+//        }
+//        prev_dist = current_dist;
+//        prev_angle = current_angle;
+//        //return;
+//    }
     
     if (!on_object) {//check if we are currently on an object or not
         // Look for a large enough distance drop to indicate the leading edge of an object
@@ -209,8 +209,12 @@ void object_detect(float distance, int current_angle){
                 int center_angle = (start_angle + end_angle) / 2;
 
                 //use the sonar for more accureate distance, but use the IR to get the angle and width of the object
-                cyBOT_Scan(center_angle, &dist_scan);
-                float dist = dist_scan.sound_dist;
+                int p = 0;
+                float dist = 0.0;
+                for (p = 0; p < 4; p++) {
+                    cyBOT_Scan(center_angle, &dist_scan);
+                    dist += dist_scan.sound_dist / 3.0;
+                }
                 
 
                 detected_objects[object_count].id = object_count + 1; //update all object values in the struct
@@ -246,8 +250,13 @@ void object_detect(float distance, int current_angle){
             if (radial_w >= 4 && object_count < 4) {
 
                 int center_angle = (start_angle + end_angle) / 2;
-                cyBOT_Scan(center_angle, &dist_scan);
-                float dist = dist_scan.sound_dist;
+
+                int p = 0;
+                float dist = 0.0;
+                for (p = 0; p < 4; p++) {
+                    cyBOT_Scan(center_angle, &dist_scan);
+                    dist += dist_scan.sound_dist / 3.0;
+                }
 
 
                 detected_objects[object_count].id = object_count + 1; //update all object values in the struct
@@ -307,6 +316,7 @@ void print_detected_objects(void) {
                detected_objects[smallest_idx].linear_width,
                accurate_angle);
        smallest_object[0] = detected_objects[smallest_idx];
+       smallest_object[0].center_angle = accurate_angle;
        cyBot_send_string(out);
        cyBOT_Scan_t target_scan;
        cyBOT_Scan(detected_objects[smallest_idx].center_angle, &target_scan);
@@ -378,7 +388,6 @@ void clean_data(void) {
 
         char distance_to_char[20];
         sprintf(distance_to_char, "%-7d    %.2f\n\r", i*2, val);
-        printf("%s\n", distance_to_char); //prints to console
         cyBot_send_string(distance_to_char);
 
     }
@@ -392,24 +401,21 @@ void autonomous(oi_t *sensor) {
     int angle = smallest_object[0].center_angle;
     float distance = smallest_object[0].distance;
     // Turn to face object
-    // Fix the 2 ifs, forgot to account that 90 is stright
-    if(angle > 90) {
-        turn_counter_clockwise(sensor, angle); // Turn left
-    } else if(angle < 90) {
-        turn_clockwise(sensor, angle); // Turn Right
-    } // else {
-//      Angle is 90, already faced the correct way
-//    }
+    if (angle > 90) {
+        turn_counter_clockwise(sensor, angle - 90); // Turn left
+    } else if (angle < 90) {
+        turn_clockwise(sensor, 90 - angle); // Turn Right
+    }
+    // Angle is 90, already faced the correct way
     // Go forward X amount
     int i = 0;
-    for(i = 0; i < distance; i += 5) {
-        if(i + 5 > distance) {
+    for(i = 0; i < (distance-3); i += 5) {
+        if(i + 5 > (distance-3)) {
             break;
         }
         move_forward(sensor, 5);
     }
     // Scan again
-
 
 }
 
