@@ -48,7 +48,7 @@ float sensor_data_array2[91];
 float ir_data_array[91];
 float ir_data_array_clean[91];
 
-volatile char uart_data; // this will help figure out when t is pressed
+volatile char uart_data;
 volatile char flag;
 
 int isAuto = 0; //will be using to decide when in auto or not, starts off in manual
@@ -57,7 +57,6 @@ int main(void) {
 
     //configure all of the devices
     uart_init();
-    uart_interrupt_init();
 
     cyBOT_init_Scan(0b0111);
     timer_init();
@@ -76,73 +75,41 @@ int main(void) {
 
     cyBOT_Scan_t *currentScanPtr = &currentScan;
 
+    char currentMode[50] = " ";
+    strcpy(currentMode, "Starting in Manual Mode!\n\r"); //shows user where we start
+    cyBot_send_string(currentMode);
+
     while(1) {
 
         while(isAuto == 0) {
-            char got_Byte = uart_receive();
+            int got_Byte = 0;
 
-            if (got_Byte == 't') { //if 't is pressed, the cybot will switch to autonomous mode, might change this to use the uart_data... is more of a rough draft
-                isAuto = 1;
-            }
+            if (uart_receive_nonblock(&got_Byte)) {
 
-            if(got_Byte == 'w') {
-                    move_forward(sensor_data, 5);
-            } else if(got_Byte == 's') {
-                    move_backward(sensor_data, 5);
-            } else if(got_Byte == 'a') {
-                    turn_counter_clockwise(sensor_data, 20);
-            } else if(got_Byte == 'd') {
-                    turn_clockwise(sensor_data, 20);
-            }else if(got_Byte == 'm') {
-                object_count = 0; // Reset the object count before starting a new scan
-                char infoHeader[50] = " ";
-                strcpy(infoHeader, "Degrees   Ping(cm)   IR Dist**RAW DATA**\n\r");
-                cyBot_send_string(infoHeader);
-
-
-                // does the 180 degree scan and prints it out to putty(m has already been pressed by the time it gets here)
-                //scan and then run clean data on IR values only
-
-                int i = 0;
-                int j = 0;
-                for(i; i<=180; i += 2) {
-                    for(j = 0; j < 3; j++) {
-                        cyBOT_Scan(i, currentScanPtr);
-                        sensor_data_array2[i/2] += (currentScanPtr->sound_dist)/3.0;
-                        ir_data_array[i/2] += (currentScanPtr->IR_raw_val)/3.0;
-                    }
-
-                    char distance_to_char[50];
-                    sprintf(distance_to_char, "%-7d   %-8.2f   %d\n\r", i, currentScanPtr->sound_dist, currentScanPtr->IR_raw_val);
-                    cyBot_send_string(distance_to_char);
-
+                if (got_Byte == 't') { //if 't is pressed, the cybot will switch to autonomous mode, might change this to use the uart_data... is more of a rough draft
+                    isAuto = 1;
+                    char currentMode[50] = " ";
+                    strcpy(currentMode, "Switching to Auto Mode!\n\r");
+                    cyBot_send_string(currentMode);
                 }
 
-                strcpy(infoHeader, "Degrees  IR Dist(cm)**CLEAN DATA**\n\r");
-                cyBot_send_string(infoHeader);
-
-                clean_data();
-
-                i = 0;
-                for (i = 0; i < 91; i++) {
-                    object_detect(ir_data_array_clean[i], i*2);
-                }
-                print_detected_objects();
-            }
-        }
-
-        while (isAuto == 1) {
-            char got_Byte = uart_receive();
-
-            if (got_Byte == 'h') {
-
-                while (uart_data != 't') { //may implement this up in the manual mode too
+                if(got_Byte == 'w') {
+                        move_forward(sensor_data, 5);
+                } else if(got_Byte == 's') {
+                        move_backward(sensor_data, 5);
+                } else if(got_Byte == 'a') {
+                        turn_counter_clockwise(sensor_data, 20);
+                } else if(got_Byte == 'd') {
+                        turn_clockwise(sensor_data, 20);
+                }else if(got_Byte == 'm') {
                     object_count = 0; // Reset the object count before starting a new scan
                     char infoHeader[50] = " ";
                     strcpy(infoHeader, "Degrees   Ping(cm)   IR Dist**RAW DATA**\n\r");
                     cyBot_send_string(infoHeader);
 
-                    // does the 180 degree scan and prints it out to putty
+
+                    // does the 180 degree scan and prints it out to putty(m has already been pressed by the time it gets here)
+                    //scan and then run clean data on IR values only
 
                     int i = 0;
                     int j = 0;
@@ -153,7 +120,6 @@ int main(void) {
                             ir_data_array[i/2] += (currentScanPtr->IR_raw_val)/3.0;
                         }
 
-
                         char distance_to_char[50];
                         sprintf(distance_to_char, "%-7d   %-8.2f   %d\n\r", i, currentScanPtr->sound_dist, currentScanPtr->IR_raw_val);
                         cyBot_send_string(distance_to_char);
@@ -163,26 +129,85 @@ int main(void) {
                     strcpy(infoHeader, "Degrees  IR Dist(cm)**CLEAN DATA**\n\r");
                     cyBot_send_string(infoHeader);
 
-
-
                     clean_data();
-
 
                     i = 0;
                     for (i = 0; i < 91; i++) {
                         object_detect(ir_data_array_clean[i], i*2);
                     }
                     print_detected_objects();
-
-                    // Need to add what the cyBot plans to do for movement before being asked for another input
-
-                    char got_Byte = uart_receive();
-                    if (got_Byte == 'h') { //executes planned movement, then it goes back up to scan again and plan another movement
-                        autonomous(sensor_data);
-                    }
                 }
 
-                isAuto = 0; //if 't' is hit, the program goes back to manual mode
+            }
+        }
+
+        while (isAuto == 1) {
+            int got_Byte = 0;
+
+            if (uart_receive_nonblock(&got_Byte)) {
+
+                if (got_Byte == 't') { //if 't is pressed, the cybot will switch to manual mode, might change this to use the uart_data... is more of a rough draft
+                    isAuto = 0;
+                    char currentMode[50] = " ";
+                    strcpy(currentMode, "Switching to Manual Mode!\n\r");
+                    cyBot_send_string(currentMode);
+                }
+
+                if (got_Byte == 'h') {
+                    char get_Byte = 'h';
+
+                    while (get_Byte != 't') {
+                        object_count = 0; // Reset the object count before starting a new scan
+                        char infoHeader[50] = " ";
+                        strcpy(infoHeader, "Degrees   Ping(cm)   IR Dist**RAW DATA**\n\r");
+                        cyBot_send_string(infoHeader);
+
+                        // does the 180 degree scan and prints it out to putty
+
+                        int i = 0;
+                        int j = 0;
+                        for(i; i<=180; i += 2) {
+                            for(j = 0; j < 3; j++) {
+                                cyBOT_Scan(i, currentScanPtr);
+                                sensor_data_array2[i/2] += (currentScanPtr->sound_dist)/3.0;
+                                ir_data_array[i/2] += (currentScanPtr->IR_raw_val)/3.0;
+                            }
+
+
+                            char distance_to_char[50];
+                            sprintf(distance_to_char, "%-7d   %-8.2f   %d\n\r", i, currentScanPtr->sound_dist, currentScanPtr->IR_raw_val);
+                            cyBot_send_string(distance_to_char);
+
+                        }
+
+                        strcpy(infoHeader, "Degrees  IR Dist(cm)**CLEAN DATA**\n\r");
+                        cyBot_send_string(infoHeader);
+
+
+
+                        clean_data();
+
+
+                        i = 0;
+                        for (i = 0; i < 91; i++) {
+                            object_detect(ir_data_array_clean[i], i*2);
+                        }
+                        print_detected_objects();
+
+                        // Need to add what the cyBot plans to do for movement before being asked for another input
+
+                        get_Byte = uart_receive();
+                        if (get_Byte == 'h') { //executes planned movement, then it goes back up to scan again and plan another movement
+                            autonomous(sensor_data);
+                        }
+                    }
+
+                    isAuto = 0; //if 't' is hit, the program goes back to manual mode
+                    char currentMode[50] = " ";
+                    strcpy(currentMode, "Switching to Manual Mode!\n\r");
+                    cyBot_send_string(currentMode);
+
+                }
 
             }
         }
