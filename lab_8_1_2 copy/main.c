@@ -332,79 +332,122 @@ void print_detected_objects(void) {
 }
 
 void clean_data(void) {
-    const int sensor_data_count = sizeof(ir_data_array) / sizeof(ir_data_array[0]);
-    int segment_start = -1;
+    int curr_seg = 0;
     int i = 0;
+    float running_sum = 0.0f;
+    int object_state = 0; // 0: not on object, 1: on object
+    int last_seg = 0;
 
-    float val = 0;
-    int p = 0;
-    for (p = 0; p < sensor_data_count; p++) {
-        if (ir_data_array[p] <= 0) {
-            val = MAX_DIST_CM;                 
+    for(i = 0; i < 91; i++) {
+        if(ir_data_array[i] <= 0) {
+            ir_data_array_clean[i] = MAX_DIST_CM;
         } else {
-            val = pow((ir_data_array[p] / 10066.0), -1.736);
+            float val = pow((ir_data_array[i] / 10066.0), -1.736);
             if (val > MAX_DIST_CM || val != val) {   // too far, or NaN
                 val = MAX_DIST_CM;
             }
+            ir_data_array_clean[i] = val;
         }
-        ir_data_array_clean[p] = val;
     }
 
-    for (i = 0; i < sensor_data_count - 1; i++) { //loops through ir_data_array_clean
-        
-        if (segment_start < 0) { //if not on object, check to see if one is coming up
-
-            if (fabs(ir_data_array_clean[i + 1] - ir_data_array_clean[i]) > DELTA_ERROR) {
-                segment_start = i + 1;
+    for(i = 0; i < 90; i++) {
+        if(object_state == 0) {
+            running_sum += ir_data_array_clean[i];
+            if((fabs(ir_data_array_clean[i+1] - running_sum / (i - last_seg + 1)) > DELTA_ERROR) && fabs(ir_data_array_clean[i+2] - running_sum / (i - last_seg + 1)) > DELTA_ERROR) {
+                object_state = 1;
+                curr_seg = i + 1;
+            }else {
+                last_seg = i;
             }
-
-        } else if (fabs(ir_data_array_clean[i + 1] - ir_data_array_clean[i]) > DELTA_ERROR) { //if on object and ends in next index
-            int segment_length = i - segment_start + 1; //gets the length of "object"
+        } else if(fabs(ir_data_array_clean[i + 1] - ir_data_array_clean[i]) > DELTA_ERROR) {
+            int seg_len = i - curr_seg + 1;
             int j = 0;
 
-            if (segment_length * 2 <= ANGLE_ERROR) { //if "object" is just scan error, clean up error
-                float average_value = (ir_data_array_clean[segment_start - 1] + ir_data_array_clean[i + 1]) / 2.0f;
+            if(seg_len * 2 <= ANGLE_ERROR) {
+                float avg_val = (ir_data_array_clean[curr_seg - 1] + ir_data_array_clean[i + 1]) / 2.0f;
 
-                for (j = segment_start; j <= i; j++) { //average value is put into array to clean it up
-                    ir_data_array_clean[j] = average_value;
-                }
-                
-            } else { //ignore this (is for ping data, N/A here)
-                for (j = segment_start; j <= i; j++) {
-                    //sensor_data_array2_cleaned[j] = sensor_data_array2[j];
+                for(j = curr_seg; j <= i; j++) {
+                    ir_data_array_clean[j] = avg_val;
                 }
             }
 
-            segment_start = -1; //resets to not being on object
+            curr_seg = -1;
         }
     }
 
-    // This block is for ping data, N/A to ir data
+    // const int sensor_data_count = sizeof(ir_data_array) / sizeof(ir_data_array[0]);
+    // int segment_start = -1;
+    // int i = 0;
 
-    // if (segment_start >= 0) {
-    //     for (i = segment_start; i < sensor_data_count; i++) {
-    //         //sensor_data_array2_cleaned[i] = sensor_data_array2[i];
+    // float val = 0;
+    // int p = 0;
+    // for (p = 0; p < sensor_data_count; p++) {
+    //     if (ir_data_array[p] <= 0) {
+    //         val = MAX_DIST_CM;                 
+    //     } else {
+    //         val = pow((ir_data_array[p] / 10066.0), -1.736);
+    //         if (val > MAX_DIST_CM || val != val) {   // too far, or NaN
+    //             val = MAX_DIST_CM;
+    //         }
     //     }
-    // } else {
-    //     //sensor_data_array2_cleaned[sensor_data_count - 1] = sensor_data_array2[sensor_data_count - 1];
+    //     ir_data_array_clean[p] = val;
     // }
 
-    for (i = 0; i < sensor_data_count - 1; i++) {
-        //float value = sensor_data_array2_cleaned[i]/100.1;
-        //sensor_data_array2_cleaned[i] = value;
+    // for (i = 0; i < sensor_data_count - 1; i++) { //loops through ir_data_array_clean
+        
+    //     if (segment_start < 0) { //if not on object, check to see if one is coming up
 
-        // int val = (int) pow((ir_data_array[i]/10066.0), -1.736);
-        // ir_data_array_clean[i] = val;
+    //         if (fabs(ir_data_array_clean[i + 1] - ir_data_array_clean[i]) > DELTA_ERROR) {
+    //             segment_start = i + 1;
+    //         }
 
-        val = ir_data_array_clean[i];
+    //     } else if (fabs(ir_data_array_clean[i + 1] - ir_data_array_clean[i]) > DELTA_ERROR) { //if on object and ends in next index
+    //         int segment_length = i - segment_start + 1; //gets the length of "object"
+    //         int j = 0;
 
-        char distance_to_char[20];
-        sprintf(distance_to_char, "%-7d    %.2f\n\r", i*2, val);
-        printf("%s\n", distance_to_char); //prints to console
-        //cyBot_send_string(distance_to_char);
+    //         if (segment_length * 2 <= ANGLE_ERROR) { //if "object" is just scan error, clean up error
+    //             float average_value = (ir_data_array_clean[segment_start - 1] + ir_data_array_clean[i + 1]) / 2.0f;
 
-    }
+    //             for (j = segment_start; j <= i; j++) { //average value is put into array to clean it up
+    //                 ir_data_array_clean[j] = average_value;
+    //             }
+                
+    //         } else { //ignore this (is for ping data, N/A here)
+    //             for (j = segment_start; j <= i; j++) {
+    //                 //sensor_data_array2_cleaned[j] = sensor_data_array2[j];
+    //             }
+    //         }
 
-    //return 0;
+    //         segment_start = -1; //resets to not being on object
+    //     }
+    // }
+
+    // // This block is for ping data, N/A to ir data
+
+    // // if (segment_start >= 0) {
+    // //     for (i = segment_start; i < sensor_data_count; i++) {
+    // //         //sensor_data_array2_cleaned[i] = sensor_data_array2[i];
+    // //     }
+    // // } else {
+    // //     //sensor_data_array2_cleaned[sensor_data_count - 1] = sensor_data_array2[sensor_data_count - 1];
+    // // }
+
+    // for (i = 0; i < sensor_data_count - 1; i++) {
+    //     //float value = sensor_data_array2_cleaned[i]/100.1;
+    //     //sensor_data_array2_cleaned[i] = value;
+
+    //     // int val = (int) pow((ir_data_array[i]/10066.0), -1.736);
+    //     // ir_data_array_clean[i] = val;
+
+    //     val = ir_data_array_clean[i];
+
+    //     char distance_to_char[20];
+    //     sprintf(distance_to_char, "%-7d    %.2f\n\r", i*2, val);
+    //     printf("%s\n", distance_to_char); //prints to console
+    //     //cyBot_send_string(distance_to_char);
+
+    // }
+
+    // //return 0;
 }
 
