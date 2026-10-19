@@ -94,13 +94,28 @@ int main(void) {
                 }
 
                 if(got_Byte == 'w') {
-                        move_forward(sensor_data, 5);
+                    double distance_left = 5; //change this to however for you wanted to move forward
+                    while (distance_left > 0) {
+                        double distance_traveled = move_forward(sensor_data, distance_left);
+                        distance_left -= distance_traveled;
+
+                        if(sensor_data->bumpLeft && sensor_data->bumpRight){ //if the robot bumps into something, it will go around it
+                            go_around(sensor_data, 0); //go around the object in front of it
+                            distance_left += 15;
+                        }else if(sensor_data->bumpLeft){ //if the robot bumps into something on the left, it will go around it
+                            go_around(sensor_data, 0); //go around the object on the right
+                            distance_left +=15;
+                        }else if(sensor_data->bumpRight){ //if the robot bumps into something on the right, it will go around it
+                            go_around(sensor_data, 1); //go around the object on the left
+                            distance_left +=15;
+                        }
+                    }
                 } else if(got_Byte == 's') {
-                        move_backward(sensor_data, 5);
+                    move_backward(sensor_data, 5);
                 } else if(got_Byte == 'a') {
-                        turn_counter_clockwise(sensor_data, 20);
+                    turn_counter_clockwise(sensor_data, 20);
                 } else if(got_Byte == 'd') {
-                        turn_clockwise(sensor_data, 20);
+                    turn_clockwise(sensor_data, 20);
                 }else if(got_Byte == 'm') {
                     object_count = 0; // Reset the object count before starting a new scan
                     char infoHeader[50] = " ";
@@ -146,7 +161,7 @@ int main(void) {
 
             if (uart_receive_nonblock(&got_Byte)) {
 
-                if (got_Byte == 't') { //if 't is pressed, the cybot will switch to manual mode, might change this to use the uart_data... is more of a rough draft
+                if (got_Byte == 't') { //if 't is pressed, the cybot will switch to manual mode
                     isAuto = 0;
                     char currentMode[50] = " ";
                     strcpy(currentMode, "Switching to Manual Mode!\n\r");
@@ -167,34 +182,40 @@ int main(void) {
                         int i = 0;
                         int j = 0;
                         for(i; i<=180; i += 2) {
+
                             for(j = 0; j < 3; j++) {
                                 cyBOT_Scan(i, currentScanPtr);
                                 sensor_data_array2[i/2] += (currentScanPtr->sound_dist)/3.0;
                                 ir_data_array[i/2] += (currentScanPtr->IR_raw_val)/3.0;
                             }
 
-
                             char distance_to_char[50];
                             sprintf(distance_to_char, "%-7d   %-8.2f   %d\n\r", i, currentScanPtr->sound_dist, currentScanPtr->IR_raw_val);
                             cyBot_send_string(distance_to_char);
-
                         }
 
                         strcpy(infoHeader, "Degrees  IR Dist(cm)**CLEAN DATA**\n\r");
                         cyBot_send_string(infoHeader);
 
-
-
                         clean_data();
-
 
                         i = 0;
                         for (i = 0; i < 91; i++) {
                             object_detect(ir_data_array_clean[i], i*2);
                         }
+
                         print_detected_objects();
 
-                        // Need to add what the cyBot plans to do for movement before being asked for another input
+                        //what the cyBot plans to do for movement before being asked for another input
+                        if (smallest_object[0].distance > 0) { //this works because of a change i made when print detected objects does not detect anything
+                            char plannedMove[65] = " ";
+                            sprintf(plannedMove, "\n\rI plan to turn to %d degrees and move %.2f cm forward.\n\r", smallest_object[0].center_angle, smallest_object[0].distance);
+                            cyBot_send_string(plannedMove);
+                        } else {
+                            char plannedMove[30] = " ";
+                            strcpy(plannedMove, "\n\rI do not plan to move.\n\r");
+                            cyBot_send_string(plannedMove);
+                        }
 
                         get_Byte = uart_receive();
                         if (get_Byte == 'h') { //executes planned movement, then it goes back up to scan again and plan another movement
@@ -206,7 +227,6 @@ int main(void) {
                     char currentMode[50] = " ";
                     strcpy(currentMode, "Switching to Manual Mode!\n\r");
                     cyBot_send_string(currentMode);
-
                 }
 
             }
@@ -412,6 +432,8 @@ void print_detected_objects(void) {
 
    } else {
        cyBot_send_string("\n\rNo objects detected.\n\r");
+       smallest_object[0].center_angle = 90; //these make sure that the cybot will not move in auto mode if no objects are detected
+       smallest_object[0].distance = 0.0;
    }
 }
 
@@ -488,7 +510,7 @@ void autonomous(oi_t *sensor) {
     // Idea
     // Get angle of smallest object
     int angle = smallest_object[0].center_angle;
-    float distance = smallest_object[0].distance;
+    float distance_left = smallest_object[0].distance - 3; // -3 accounts for some error, might change it depending on testing accuracy
     // Turn to face object
     if (angle > 90) {
         turn_counter_clockwise(sensor, angle - 90); // Turn left
@@ -496,14 +518,23 @@ void autonomous(oi_t *sensor) {
         turn_clockwise(sensor, 90 - angle); // Turn Right
     }
     // Angle is 90, already faced the correct way
-    // Go forward X amount
-    int i = 0;
-    for(i = 0; i < (distance-3); i += 5) {
-        if(i + 5 > (distance-3)) {
-            break;
+    // Go forward X amount, avoiding obstacles that hit bumpers. if invalid distance (no obj detected), does not move.
+    while (distance_left > 0) {
+        float distance_traveled = move_forward(sensor, distance_left);
+        distance_left -= distance_traveled;
+
+        if(sensor->bumpLeft && sensor->bumpRight){ //if the robot bumps into something, it will go around it
+            go_around(sensor, 0); //go around the object in front of it
+            distance_left += 15;
+        }else if(sensor->bumpLeft){ //if the robot bumps into something on the left, it will go around it
+            go_around(sensor, 0); //go around the object on the right
+            distance_left +=15;
+        }else if(sensor->bumpRight){ //if the robot bumps into something on the right, it will go around it
+            go_around(sensor, 1); //go around the object on the left
+            distance_left +=15;
         }
-        move_forward(sensor, 5);
     }
+
     // Scan again
 
 }

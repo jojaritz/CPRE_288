@@ -80,13 +80,13 @@ void go_around(oi_t *sensor_data, int direction){//direction 0 is move right(lef
     if(direction == 0){
         turn_clockwise(sensor_data, 90);
         timer_waitMillis(500);
-        move_forward(sensor_data, 25);
+        move_forward(sensor_data, 20);
         timer_waitMillis(500);
         turn_counter_clockwise(sensor_data, 90);
     }else{
         turn_counter_clockwise(sensor_data, 90);
         timer_waitMillis(500);
-        move_forward(sensor_data, 25);
+        move_forward(sensor_data, 20);
         timer_waitMillis(500);
         turn_clockwise(sensor_data, 90);
     }
