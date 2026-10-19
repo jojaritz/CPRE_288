@@ -18,10 +18,11 @@
 
 
 //#warning "Possible unimplemented functions"
-#define DELTA_THRESHOLD 30.0f
+#define DELTA_THRESHOLD 20.0f
 #define M_PI 3.14159265358979323846
-#define DELTA_ERROR 25.0f
+#define DELTA_ERROR 15.0f
 #define ANGLE_ERROR 2
+#define MAX_DIST_CM 150.0f
 
 typedef struct {
     int id;
@@ -41,6 +42,7 @@ void object_detect(float distance, int current_angle);
 void cyBot_send_string(const char *str);
 void print_detected_objects(void);
 void clean_data(void);
+void autonomous(oi_t *sensor);
 
 float sensor_data_array2_cleaned[91];
 float sensor_data_array2[91];
@@ -445,7 +447,14 @@ void clean_data(void) {
     float val = 0;
     int p = 0;
     for (p = 0; p < sensor_data_count; p++) {
-        val = pow((ir_data_array[p]/10066.0), -1.736);
+        if (ir_data_array[p] <= 0) {
+            val = MAX_DIST_CM;
+        } else {
+            val = pow((ir_data_array[p] / 10066.0), -1.736);
+            if (val > MAX_DIST_CM || val != val) {   // too far, or NaN
+                val = MAX_DIST_CM;
+            }
+        }
         ir_data_array_clean[p] = val;
     }
 
