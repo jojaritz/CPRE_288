@@ -119,40 +119,41 @@ int main(void) {
                 } else if(got_Byte == 'd') {
                     turn_clockwise(sensor_data, 20);
                 }else if(got_Byte == 'm') {
-                    object_count = 0; // Reset the object count before starting a new scan
-                    char infoHeader[50] = " ";
-                    strcpy(infoHeader, "Degrees   Ping(cm)   IR Dist**RAW DATA**\n\r");
-                    cyBot_send_string(infoHeader);
-
-
-                    // does the 180 degree scan and prints it out to putty(m has already been pressed by the time it gets here)
-                    //scan and then run clean data on IR values only
-
-                    int i = 0;
-                    int j = 0;
-                    for(i; i<=180; i += 2) {
-                        for(j = 0; j < 3; j++) {
-                            cyBOT_Scan(i, currentScanPtr);
-                            sensor_data_array2[i/2] += (currentScanPtr->sound_dist)/3.0;
-                            ir_data_array[i/2] += (currentScanPtr->IR_raw_val)/3.0;
-                        }
-
-                        char distance_to_char[50];
-                        sprintf(distance_to_char, "%-7d   %-8.2f   %d\n\r", i, currentScanPtr->sound_dist, currentScanPtr->IR_raw_val);
-                        cyBot_send_string(distance_to_char);
-
-                    }
-
-                    strcpy(infoHeader, "Degrees  IR Dist(cm)**CLEAN DATA**\n\r");
-                    cyBot_send_string(infoHeader);
-
-                    clean_data();
-
-                    i = 0;
-                    for (i = 0; i < 91; i++) {
-                        object_detect(ir_data_array_clean[i], i*2);
-                    }
-                    print_detected_objects();
+                    scan_field(currentScanPtr);
+//                    object_count = 0; // Reset the object count before starting a new scan
+//                    char infoHeader[50] = " ";
+//                    strcpy(infoHeader, "Degrees   Ping(cm)   IR Dist**RAW DATA**\n\r");
+//                    cyBot_send_string(infoHeader);
+//
+//
+//                    // does the 180 degree scan and prints it out to putty(m has already been pressed by the time it gets here)
+//                    //scan and then run clean data on IR values only
+//
+//                    int i = 0;
+//                    int j = 0;
+//                    for(i; i<=180; i += 2) {
+//                        for(j = 0; j < 3; j++) {
+//                            cyBOT_Scan(i, currentScanPtr);
+//                            sensor_data_array2[i/2] += (currentScanPtr->sound_dist)/3.0;
+//                            ir_data_array[i/2] += (currentScanPtr->IR_raw_val)/3.0;
+//                        }
+//
+//                        char distance_to_char[50];
+//                        sprintf(distance_to_char, "%-7d   %-8.2f   %d\n\r", i, currentScanPtr->sound_dist, currentScanPtr->IR_raw_val);
+//                        cyBot_send_string(distance_to_char);
+//
+//                    }
+//
+//                    strcpy(infoHeader, "Degrees  IR Dist(cm)**CLEAN DATA**\n\r");
+//                    cyBot_send_string(infoHeader);
+//
+//                    clean_data();
+//
+//                    i = 0;
+//                    for (i = 0; i < 91; i++) {
+//                        object_detect(ir_data_array_clean[i], i*2);
+//                    }
+//                    print_detected_objects();
                 }
 
             }
@@ -174,39 +175,40 @@ int main(void) {
                     char get_Byte = 'h';
 
                     while (get_Byte != 't') {
-                        object_count = 0; // Reset the object count before starting a new scan
-                        char infoHeader[50] = " ";
-                        strcpy(infoHeader, "Degrees   Ping(cm)   IR Dist**RAW DATA**\n\r");
-                        cyBot_send_string(infoHeader);
-
-                        // does the 180 degree scan and prints it out to putty
-
-                        int i = 0;
-                        int j = 0;
-                        for(i; i<=180; i += 2) {
-
-                            for(j = 0; j < 3; j++) {
-                                cyBOT_Scan(i, currentScanPtr);
-                                sensor_data_array2[i/2] += (currentScanPtr->sound_dist)/3.0;
-                                ir_data_array[i/2] += (currentScanPtr->IR_raw_val)/3.0;
-                            }
-
-                            char distance_to_char[50];
-                            sprintf(distance_to_char, "%-7d   %-8.2f   %d\n\r", i, currentScanPtr->sound_dist, currentScanPtr->IR_raw_val);
-                            cyBot_send_string(distance_to_char);
-                        }
-
-                        strcpy(infoHeader, "Degrees  IR Dist(cm)**CLEAN DATA**\n\r");
-                        cyBot_send_string(infoHeader);
-
-                        clean_data();
-
-                        i = 0;
-                        for (i = 0; i < 91; i++) {
-                            object_detect(ir_data_array_clean[i], i*2);
-                        }
-
-                        print_detected_objects();
+                        scan_field(currentScanPtr);
+//                        object_count = 0; // Reset the object count before starting a new scan
+//                        char infoHeader[50] = " ";
+//                        strcpy(infoHeader, "Degrees   Ping(cm)   IR Dist**RAW DATA**\n\r");
+//                        cyBot_send_string(infoHeader);
+//
+//                        // does the 180 degree scan and prints it out to putty
+//
+//                        int i = 0;
+//                        int j = 0;
+//                        for(i; i<=180; i += 2) {
+//
+//                            for(j = 0; j < 3; j++) {
+//                                cyBOT_Scan(i, currentScanPtr);
+//                                sensor_data_array2[i/2] += (currentScanPtr->sound_dist)/3.0;
+//                                ir_data_array[i/2] += (currentScanPtr->IR_raw_val)/3.0;
+//                            }
+//
+//                            char distance_to_char[50];
+//                            sprintf(distance_to_char, "%-7d   %-8.2f   %d\n\r", i, currentScanPtr->sound_dist, currentScanPtr->IR_raw_val);
+//                            cyBot_send_string(distance_to_char);
+//                        }
+//
+//                        strcpy(infoHeader, "Degrees  IR Dist(cm)**CLEAN DATA**\n\r");
+//                        cyBot_send_string(infoHeader);
+//
+//                        clean_data();
+//
+//                        i = 0;
+//                        for (i = 0; i < 91; i++) {
+//                            object_detect(ir_data_array_clean[i], i*2);
+//                        }
+//
+//                        print_detected_objects();
 
                         //what the cyBot plans to do for movement before being asked for another input
                         if (smallest_object[0].distance > 0) { //this works because of a change i made when print detected objects does not detect anything
@@ -254,7 +256,43 @@ int main(void) {
 
 
 
+// This function minimizes the code to save space
+// Both manual and autonomous scan and can't move while scanning
+void scan_field(cyBOT_Scan_t *currentScanPtr) {
+    object_count = 0; // Reset the object count before starting a new scan
+    char infoHeader[50] = " ";
+    strcpy(infoHeader, "Degrees   Ping(cm)   IR Dist**RAW DATA**\n\r");
+    cyBot_send_string(infoHeader);
 
+    // does the 180 degree scan and prints it out to putty
+
+    int i = 0;
+    int j = 0;
+    for(i; i<=180; i += 2) {
+
+        for(j = 0; j < 3; j++) {
+            cyBOT_Scan(i, currentScanPtr);
+            sensor_data_array2[i/2] += (currentScanPtr->sound_dist)/3.0;
+            ir_data_array[i/2] += (currentScanPtr->IR_raw_val)/3.0;
+        }
+
+        char distance_to_char[50];
+        sprintf(distance_to_char, "%-7d   %-8.2f   %d\n\r", i, currentScanPtr->sound_dist, currentScanPtr->IR_raw_val);
+        cyBot_send_string(distance_to_char);
+    }
+
+    strcpy(infoHeader, "Degrees  IR Dist(cm)**CLEAN DATA**\n\r");
+    cyBot_send_string(infoHeader);
+
+    clean_data();
+
+    i = 0;
+    for (i = 0; i < 91; i++) {
+        object_detect(ir_data_array_clean[i], i*2);
+    }
+
+    print_detected_objects();
+}
 
 
 void cyBot_send_string(const char *str) { //same as lab 2, loops through the string to send it
