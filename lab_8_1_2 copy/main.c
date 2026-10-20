@@ -11,15 +11,15 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
-#include "sensordata_2.h"
+#include "sensordata_1.h"
 
 
 //#warning "Possible unimplemented functions"
-#define DELTA_THRESHOLD 40.0f
+#define DELTA_THRESHOLD 25.0f
 #define M_PI 3.14159265358979323846
-#define DELTA_ERROR 50.0f
+#define DELTA_ERROR 25.0f
 #define ANGLE_ERROR 2
-#define MAX_DIST_CM 150.0f
+#define MAX_DIST_CM 180.0f
 
 typedef struct {
     int id;
@@ -332,47 +332,49 @@ void print_detected_objects(void) {
 }
 
 void clean_data(void) {
-    int curr_seg = 0;
     int i = 0;
-    float running_sum = 0.0f;
     int object_state = 0; // 0: not on object, 1: on object
     int last_seg = 0;
 
-    for(i = 0; i < 91; i++) {
-        if(ir_data_array[i] <= 0) {
-            ir_data_array_clean[i] = MAX_DIST_CM;
-        } else {
-            float val = pow((ir_data_array[i] / 10066.0), -1.736);
-            if (val > MAX_DIST_CM || val != val) {   // too far, or NaN
-                val = MAX_DIST_CM;
+    for (i = 0; i < 91; i++) {
+        float val = MAX_DIST_CM;
+        if (ir_data_array[i] > 0) {
+            val = pow(ir_data_array[i] / 10066.0, -1.736);
+            if (val > MAX_DIST_CM || val != val) val = MAX_DIST_CM;
+        }
+        ir_data_array_clean[i] = val;
+    }
+    
+
+    float running_sum = ir_data_array_clean[0];
+    int segment_start = 0;
+    int count = 1;
+
+    for(i = 1; i < 91; i++) {
+        float avg = running_sum / count;
+        if(fabs(ir_data_array_clean[i+1] - avg) > DELTA_ERROR) {
+            if(fabs(ir_data_array_clean[i+2] - avg) > DELTA_ERROR && i < 90){
+                int a;
+                for(a = segment_start; a <= i; a++) {
+                    ir_data_array_clean[a] = avg;
+                }
+                segment_start = i + 1;
+                running_sum = ir_data_array_clean[segment_start];
+                count = 1;
             }
-            ir_data_array_clean[i] = val;
+        }else {
+            running_sum += ir_data_array_clean[i];
+            count++;
         }
     }
 
-    for(i = 0; i < 90; i++) {
-        if(object_state == 0) {
-            running_sum += ir_data_array_clean[i];
-            if((fabs(ir_data_array_clean[i+1] - running_sum / (i - last_seg + 1)) > DELTA_ERROR) && fabs(ir_data_array_clean[i+2] - running_sum / (i - last_seg + 1)) > DELTA_ERROR) {
-                object_state = 1;
-                curr_seg = i + 1;
-            }else {
-                last_seg = i;
-            }
-        } else if(fabs(ir_data_array_clean[i + 1] - ir_data_array_clean[i]) > DELTA_ERROR) {
-            int seg_len = i - curr_seg + 1;
-            int j = 0;
+        int a;
+        float avg = running_sum / count;
+        for (a = segment_start; a < 91; a++) ir_data_array_clean[a] = avg;
 
-            if(seg_len * 2 <= ANGLE_ERROR) {
-                float avg_val = (ir_data_array_clean[curr_seg - 1] + ir_data_array_clean[i + 1]) / 2.0f;
 
-                for(j = curr_seg; j <= i; j++) {
-                    ir_data_array_clean[j] = avg_val;
-                }
-            }
-
-            curr_seg = -1;
-        }
+    for(i = 0; i < 91; i++) {
+        printf("%-7d    %.2f\n\r", i*2, ir_data_array_clean[i]); //prints to console
     }
 
     // const int sensor_data_count = sizeof(ir_data_array) / sizeof(ir_data_array[0]);
