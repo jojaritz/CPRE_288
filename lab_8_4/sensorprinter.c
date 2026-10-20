@@ -43,6 +43,7 @@ void cyBot_send_string(const char *str);
 void print_detected_objects(void);
 void clean_data(void);
 void autonomous(oi_t *sensor);
+void scan_field(cyBOT_Scan_t *currentScanPtr);
 
 float sensor_data_array2_cleaned[91];
 float sensor_data_array2[91];
@@ -84,7 +85,7 @@ int main(void) {
     while(1) {
 
         while(isAuto == 0) {
-            int got_Byte = 0;
+            char got_Byte = 0;
 
             if (uart_receive_nonblock(&got_Byte)) {
 
@@ -100,7 +101,7 @@ int main(void) {
                     while (distance_left > 0) {
                         double distance_traveled = move_forward(sensor_data, distance_left);
                         distance_left -= distance_traveled;
-
+                        //can we use the go around function in manual?
                         if(sensor_data->bumpLeft && sensor_data->bumpRight){ //if the robot bumps into something, it will go around it
                             go_around(sensor_data, 0); //go around the object in front of it
                             distance_left += 15;
@@ -268,14 +269,17 @@ void scan_field(cyBOT_Scan_t *currentScanPtr) {
 
     int i = 0;
     int j = 0;
-    for(i; i<=180; i += 2) {
 
+
+    for(i; i<=180; i += 2) {
+        sensor_data_array2[i/2] = 0;
+        ir_data_array[i/2] = 0;
         for(j = 0; j < 3; j++) {
             cyBOT_Scan(i, currentScanPtr);
             sensor_data_array2[i/2] += (currentScanPtr->sound_dist)/3.0;
             ir_data_array[i/2] += (currentScanPtr->IR_raw_val)/3.0;
         }
-
+        //do we need the raw vals anymore?
         char distance_to_char[50];
         sprintf(distance_to_char, "%-7d   %-8.2f   %d\n\r", i, currentScanPtr->sound_dist, currentScanPtr->IR_raw_val);
         cyBot_send_string(distance_to_char);
@@ -360,7 +364,7 @@ void object_detect(float distance, int current_angle){
                 //use the sonar for more accureate distance, but use the IR to get the angle and width of the object
                 int p = 0;
                 float dist = 0.0;
-                for (p = 0; p < 4; p++) {
+                for (p = 0; p < 4; p++) { //CHANGE TO 3 BUT CHECK IF IT WORKS
                     cyBOT_Scan(center_angle, &dist_scan);
                     dist += dist_scan.sound_dist / 3.0;
                 }
@@ -478,80 +482,65 @@ void print_detected_objects(void) {
 }
 
 void clean_data(void) {
-    const int sensor_data_count = sizeof(ir_data_array) / sizeof(ir_data_array[0]);
-    int segment_start = -1;
     int i = 0;
+    int object_state = 0; // 0: not on object, 1: on object
+    int last_seg = 0;
 
-    float val = 0;
-    int p = 0;
-    for (p = 0; p < sensor_data_count; p++) {
-        if (ir_data_array[p] <= 0) {
-            val = MAX_DIST_CM;
-        } else {
-            val = pow((ir_data_array[p] / 10066.0), -1.736);
-            if (val > MAX_DIST_CM || val != val) {   // too far, or NaN
-                val = MAX_DIST_CM;
-            }
+    for (i = 0; i < 91; i++) {
+        val = MAX_DIST_CM;
+        if (ir_data_array[i] > 0) {
+            val = pow(ir_data_array[i] / 10066.0, -1.736);
+            if (val > MAX_DIST_CM || val != val) val = MAX_DIST_CM;
         }
-        ir_data_array_clean[p] = val;
+        ir_data_array_clean[i] = val;
     }
+    
 
-    for (i = 0; i < sensor_data_count - 1; i++) { //loops through ir_data_array_clean
-        
-        if (segment_start < 0) { //if not on object, check to see if one is coming up
+    float running_sum = ir_data_array_clean[0];
+    int segment_start = 0;
+    int count = 1;
 
-            if (fabs(ir_data_array_clean[i + 1] - ir_data_array_clean[i]) > DELTA_ERROR) {
+    for(i = 1; i < 91; i++) {
+        float avg = running_sum / count;
+        if(fabs(ir_data_array_clean[i+1] - avg) > DELTA_ERROR) {
+            if(fabs(ir_data_array_clean[i+2] - avg) > DELTA_ERROR && i < 90){
+                int a;
+                for(a = segment_start; a <= i; a++) {
+                    ir_data_array_clean[a] = avg;
+                }
                 segment_start = i + 1;
+                running_sum = ir_data_array_clean[segment_start];
+                count = 1;
             }
-
-        } else if (fabs(ir_data_array_clean[i + 1] - ir_data_array_clean[i]) > DELTA_ERROR) { //if on object and ends in next index
-            int segment_length = i - segment_start + 1; //gets the length of "object"
-            int j = 0;
-
-            if (segment_length * 2 <= ANGLE_ERROR) { //if "object" is just scan error, clean up error
-                float average_value = (ir_data_array_clean[segment_start - 1] + ir_data_array_clean[i + 1]) / 2.0f;
-
-                for (j = segment_start; j <= i; j++) { //average value is put into array to clean it up
-                    ir_data_array_clean[j] = average_value;
-                }
-                
-            } else { //ignore this (is for ping data, N/A here)
-                for (j = segment_start; j <= i; j++) {
-                    //sensor_data_array2_cleaned[j] = sensor_data_array2[j];
-                }
-            }
-
-            segment_start = -1; //resets to not being on object
+        }else {
+            running_sum += ir_data_array_clean[i];
+            count++;
         }
     }
 
-    // This block is for ping data, N/A to ir data
+        int a;
+        float avg = running_sum / count;
+        for (a = segment_start; a < 91; a++) ir_data_array_clean[a] = avg;
 
-    // if (segment_start >= 0) {
-    //     for (i = segment_start; i < sensor_data_count; i++) {
-    //         //sensor_data_array2_cleaned[i] = sensor_data_array2[i];
-    //     }
-    // } else {
-    //     //sensor_data_array2_cleaned[sensor_data_count - 1] = sensor_data_array2[sensor_data_count - 1];
-    // }
 
-    for (i = 0; i < sensor_data_count - 1; i++) {
+    for (i = 0; i < 91; i++) {
         //float value = sensor_data_array2_cleaned[i]/100.1;
         //sensor_data_array2_cleaned[i] = value;
 
         // int val = (int) pow((ir_data_array[i]/10066.0), -1.736);
         // ir_data_array_clean[i] = val;
 
-        val = ir_data_array_clean[i];
 
         char distance_to_char[20];
-        sprintf(distance_to_char, "%-7d    %.2f\n\r", i*2, val);
+        sprintf(distance_to_char, "%-7d    %.2f\n\r", i*2, ir_data_array_clean[i];);
+        printf("%s\n", distance_to_char); //prints to console
         cyBot_send_string(distance_to_char);
 
     }
 
-    //return 0;
 }
+
+
 
 void autonomous(oi_t *sensor) {
     // Idea
