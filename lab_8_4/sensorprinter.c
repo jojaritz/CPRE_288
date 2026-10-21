@@ -18,9 +18,9 @@
 
 
 //#warning "Possible unimplemented functions"
-#define DELTA_THRESHOLD 20.0f
+#define DELTA_THRESHOLD 40.0f
 #define M_PI 3.14159265358979323846
-#define DELTA_ERROR 15.0f
+#define DELTA_ERROR 40.0f
 #define ANGLE_ERROR 2
 #define MAX_DIST_CM 150.0f
 
@@ -44,6 +44,7 @@ void print_detected_objects(void);
 void clean_data(void);
 void autonomous(oi_t *sensor);
 void scan_field(cyBOT_Scan_t *currentScanPtr);
+void find_direction_to_move(int other_angles[4], int bump_state, io_t *sensor);
 
 float sensor_data_array2_cleaned[91];
 float sensor_data_array2[91];
@@ -548,6 +549,14 @@ void autonomous(oi_t *sensor) {
     int angle = smallest_object[0].center_angle;
     float distance_left = smallest_object[0].distance - 3; // -3 accounts for some error, might change it depending on testing accuracy
     // Turn to face object
+    int l;
+    int other_angles[4] = {0, 0, 0, 0};
+    int bump_state = 0; // 0: no bump, 1: left bump, 2: right bump, 3: both bumps
+    for(l=0; l<4; l++){
+        if(detected_objects[l].center_angle != angle && detected_objects[l].center_angle != 0){
+            other_angles[l] = detected_objects[l].center_angle;
+        }
+    }
     if (angle > 90) {
         turn_counter_clockwise(sensor, angle - 90); // Turn left
     } else if (angle < 90) {
@@ -559,14 +568,18 @@ void autonomous(oi_t *sensor) {
         float distance_traveled = move_forward(sensor, distance_left);
         distance_left -= distance_traveled;
 
-        if(sensor->bumpLeft && sensor->bumpRight){ //if the robot bumps into something, it will go around it
-            go_around(sensor, 0); //go around the object in front of it
+
+        if(sensor->bumpLeft && sensor->bumpRight){ 
+            bump_state = 3; // Both bumpers hit
+            find_direction_to_move(other_angles, bump_state, sensor); //go around the object in front of it
             distance_left += 15;
         }else if(sensor->bumpLeft){ //if the robot bumps into something on the left, it will go around it
-            go_around(sensor, 0); //go around the object on the right
+            bump_state = 1; // Left bumper hit
+            find_direction_to_move(other_angles, bump_state, sensor); //go around the object on the right
             distance_left +=15;
         }else if(sensor->bumpRight){ //if the robot bumps into something on the right, it will go around it
-            go_around(sensor, 1); //go around the object on the left
+            bump_state = 2; // Right bumper hit
+            find_direction_to_move(other_angles, bump_state, sensor); //go around the object on the left
             distance_left +=15;
         }
     }
@@ -575,3 +588,48 @@ void autonomous(oi_t *sensor) {
 
 }
 
+void find_direction_to_move(int other_angles[4], int bump_state, io_t *sensor) {
+    // This function will determine the best direction to move based on the angles of other detected objects.
+    // It will set the value of *direction to -1 for left, 1 for right, or 0 for straight ahead.
+
+    int i;
+    int left_count = 0;
+    int right_count = 0;
+
+    for (i = 0; i < 4; i++) {
+        if (other_angles[i] != 0) {
+            if (other_angles[i] < 90) {
+                left_count++;
+            } else if (other_angles[i] > 90) {
+                right_count++;
+            }
+        }
+    }
+
+    if (left_count > 0 && right_count > 0) {
+        if(bump_state == 1) { // If left bumper is hit, move right
+            go_around(sensor, 0);
+        } else if(bump_state == 2) { // If right bumper is hit, move left
+            go_around(sensor, 1);
+        } else if(bump_state == 3) { //both bumpers hit, find the furthest object and move in that direction
+            int furthest_angle = 0;
+            int saved_direction = 0;
+            for(i=0; i<4; i++){
+                if(fabs(other_angles[i]-90) > furthest_angle && other_angles[i] != 0){
+                    furthest_angle = fabs(other_angles[i]-90);
+                    saved_direction = (other_angles[i] < 90) ? -1 : 1; // -1 for left, 1 for right
+                }
+            }
+            if(saved_direction == -1){
+                go_around(sensor, 1); // Move left
+            } else if(saved_direction == 1){
+                go_around(sensor, 0); // Move right
+            }
+        }
+    } else if (left_count == 0 && right_count > 0) {
+        go_around(sensor, 1); // Move left
+    } else if (left_count > 0 && right_count == 0) {
+        go_around(sensor, 0); // Move right
+    }
+    
+}
