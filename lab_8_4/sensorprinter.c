@@ -44,7 +44,7 @@ void print_detected_objects(void);
 void clean_data(void);
 void autonomous(oi_t *sensor);
 void scan_field(cyBOT_Scan_t *currentScanPtr);
-void find_direction_to_move(int other_angles[4], int bump_state, io_t *sensor);
+void find_direction_to_move(int other_angles[4], int bump_state, oi_t *sensor);
 
 float sensor_data_array2_cleaned[91];
 float sensor_data_array2[91];
@@ -226,6 +226,7 @@ int main(void) {
                         get_Byte = uart_receive();
                         if (get_Byte == 'h') { //executes planned movement, then it goes back up to scan again and plan another movement
                             autonomous(sensor_data);
+                            scan_field(currentScanPtr);
                         }
                     }
 
@@ -551,36 +552,38 @@ void autonomous(oi_t *sensor) {
     // Turn to face object
     int l;
     int other_angles[4] = {0, 0, 0, 0};
-    int bump_state = 0; // 0: no bump, 1: left bump, 2: right bump, 3: both bumps
-    for(l=0; l<4; l++){
-        if(detected_objects[l].center_angle != angle && detected_objects[l].center_angle != 0){
+    int bump_count = 0; // Count the number of bumps to avoid infinite loops
+
+    for (l = 0; l < object_count; l++) {
+        if (detected_objects[l].id != smallest_object[0].id) {
             other_angles[l] = detected_objects[l].center_angle;
         }
     }
+
     if (angle > 90) {
         turn_counter_clockwise(sensor, angle - 90); // Turn left
     } else if (angle < 90) {
         turn_clockwise(sensor, 90 - angle); // Turn Right
     }
+
     // Angle is 90, already faced the correct way
     // Go forward X amount, avoiding obstacles that hit bumpers. if invalid distance (no obj detected), does not move.
-    while (distance_left > 0) {
+    while (distance_left > 0 && bump_count < 3) {
         float distance_traveled = move_forward(sensor, distance_left);
         distance_left -= distance_traveled;
-
+        int bump_state = 0; // 0: no bump, 1: left bump, 2: right bump, 3: both bumps
 
         if(sensor->bumpLeft && sensor->bumpRight){ 
             bump_state = 3; // Both bumpers hit
-            find_direction_to_move(other_angles, bump_state, sensor); //go around the object in front of it
-            distance_left += 15;
         }else if(sensor->bumpLeft){ //if the robot bumps into something on the left, it will go around it
             bump_state = 1; // Left bumper hit
-            find_direction_to_move(other_angles, bump_state, sensor); //go around the object on the right
-            distance_left +=15;
         }else if(sensor->bumpRight){ //if the robot bumps into something on the right, it will go around it
             bump_state = 2; // Right bumper hit
-            find_direction_to_move(other_angles, bump_state, sensor); //go around the object on the left
-            distance_left +=15;
+        }
+        if (bump_state != 0) {
+            bump_count++;
+            find_direction_to_move(other_angles, bump_state, sensor);
+            distance_left += 15;
         }
     }
 
@@ -588,7 +591,7 @@ void autonomous(oi_t *sensor) {
 
 }
 
-void find_direction_to_move(int other_angles[4], int bump_state, io_t *sensor) {
+void find_direction_to_move(int other_angles[4], int bump_state, oi_t *sensor) {
     // This function will determine the best direction to move based on the angles of other detected objects.
     // It will set the value of *direction to -1 for left, 1 for right, or 0 for straight ahead.
 
@@ -630,6 +633,9 @@ void find_direction_to_move(int other_angles[4], int bump_state, io_t *sensor) {
         go_around(sensor, 1); // Move left
     } else if (left_count > 0 && right_count == 0) {
         go_around(sensor, 0); // Move right
+    } else {
+        // no other objects known: pick a default side based on which bumper hit
+        go_around(sensor, (bump_state == 2) ? 1 : 0);
     }
     
 }
