@@ -18,9 +18,9 @@
 #include <Timer.h>
 
 //#warning "Possible unimplemented functions"
-#define DELTA_THRESHOLD 20.0f
+#define DELTA_THRESHOLD 40.0f
 #define M_PI 3.14159265358979323846
-#define DELTA_ERROR 15.0f
+#define DELTA_ERROR 45.0f
 #define ANGLE_ERROR 2
 #define MAX_DIST_CM 150.0f
 
@@ -217,13 +217,8 @@ void object_detect(float distance, int current_angle){
                 int center_angle = (start_angle + end_angle) / 2;
 
                 //use the sonar for more accureate distance, but use the IR to get the angle and width of the object
-                int p = 0;
                 float dist = 0.0;
-                for (p = 0; p < 3; p++) {
-                    cyBOT_Scan(center_angle, &dist_scan);
-                    dist += dist_scan.sound_dist / 3.0;
-                    timer_waitMillis(500);
-                }
+                dist = (sensor_data_array2[center_angle / 2 + 1] + sensor_data_array2[center_angle / 2 -1 ]) / 2.0; //average the two closest readings to get a more accurate distance
                 
 
                 detected_objects[object_count].id = object_count + 1; //update all object values in the struct
@@ -261,13 +256,8 @@ void object_detect(float distance, int current_angle){
                 int center_angle = (start_angle + end_angle) / 2;
 
 
-                int p = 0;
                 float dist = 0.0;
-                for (p = 0; p < 3; p++) {
-                    cyBOT_Scan(center_angle, &dist_scan);
-                    dist += dist_scan.sound_dist / 3.0;
-                    timer_waitMillis(500);
-                }
+                dist = (sensor_data_array2[center_angle / 2 + 1] + sensor_data_array2[center_angle / 2 -1 ]) / 2.0; //average the two closest readings to get a more accurate distance
 
 
                 detected_objects[object_count].id = object_count + 1; //update all object values in the struct
