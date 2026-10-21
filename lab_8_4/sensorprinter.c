@@ -45,6 +45,7 @@ void clean_data(void);
 void autonomous(oi_t *sensor);
 void scan_field(cyBOT_Scan_t *currentScanPtr);
 void find_direction_to_move(int other_angles[4], int bump_state, oi_t *sensor);
+void print_plan(void);
 
 float sensor_data_array2_cleaned[91];
 float sensor_data_array2[91];
@@ -83,8 +84,7 @@ int main(void) {
     strcpy(currentMode, "Starting in Manual Mode!\n\r"); //shows user where we start
     cyBot_send_string(currentMode);
     
-    volatile char got_Byte = 0;
-    char currentMode[50] = " ";
+    char got_Byte = 0;
     int plan_ready = 0; //used to make sure the cybot scans before moving in auto mode
 
     while(1) {
@@ -139,11 +139,11 @@ int main(void) {
                         autonomous(sensor_data);      // second 'h': execute
                         scan_field(currentScanPtr);   // rescan, show next plan
                         print_plan();
+                    }
                 }
             }
-
-           
         }
+    }
 }
 
 void print_plan(void) {
@@ -156,16 +156,6 @@ void print_plan(void) {
         cyBot_send_string(plannedMove);
     }
 }
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -274,12 +264,8 @@ void object_detect(float distance, int current_angle){
                 int center_angle = (start_angle + end_angle) / 2;
 
                 //use the sonar for more accureate distance, but use the IR to get the angle and width of the object
-                int p = 0;
                 float dist = 0.0;
-                for (p = 0; p < 4; p++) { //CHANGE TO 3 BUT CHECK IF IT WORKS
-                    cyBOT_Scan(center_angle, &dist_scan);
-                    dist += dist_scan.sound_dist / 3.0;
-                }
+                dist = (sensor_data_array2[center_angle / 2 + 1] + sensor_data_array2[center_angle / 2 -1 ]) / 2.0; //average the two closest readings to get a more accurate distance
                 
 
                 detected_objects[object_count].id = object_count + 1; //update all object values in the struct
@@ -316,12 +302,9 @@ void object_detect(float distance, int current_angle){
 
                 int center_angle = (start_angle + end_angle) / 2;
 
-                int p = 0;
                 float dist = 0.0;
-                for (p = 0; p < 4; p++) {
-                    cyBOT_Scan(center_angle, &dist_scan);
-                    dist += dist_scan.sound_dist / 3.0;
-                }
+                dist = (sensor_data_array2[center_angle / 2 + 1] + sensor_data_array2[center_angle / 2 -1 ]) / 2.0; //average the two closest readings to get a more accurate distance
+
 
 
                 detected_objects[object_count].id = object_count + 1; //update all object values in the struct
@@ -397,6 +380,7 @@ void clean_data(void) {
     int i = 0;
     int object_state = 0; // 0: not on object, 1: on object
     int last_seg = 0;
+    float val = 0.0f;
 
     for (i = 0; i < 91; i++) {
         val = MAX_DIST_CM;
@@ -444,7 +428,7 @@ void clean_data(void) {
 
 
         char distance_to_char[20];
-        sprintf(distance_to_char, "%-7d    %.2f\n\r", i*2, ir_data_array_clean[i];);
+        sprintf(distance_to_char, "%-7d    %.2f\n\r", i*2, ir_data_array_clean[i]);
         printf("%s\n", distance_to_char); //prints to console
         cyBot_send_string(distance_to_char);
 
