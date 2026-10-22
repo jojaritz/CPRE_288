@@ -36,8 +36,17 @@ void adc_init() {
     ADC0_ACTSS_R = 0x1; //sample sequencer re-enabled
 }
 
-void adc_read() {
+int adc_read() {
 
-    //takes samples
+    //takes a sample
+    ADC0_PSSI_R = 0x88000001; //triggers start of conversion
 
+    while ((~ADC0_RIS_R & 0x01)) {
+        //wait for adc to complete conversions
+    }
+    ADC0_ISC_R = 0x01;
+
+    int value = ADC0_SSFIFO0_R;
+
+    return value; //should return converted value
 }
