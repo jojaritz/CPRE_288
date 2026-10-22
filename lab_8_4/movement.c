@@ -50,7 +50,7 @@ void turn_clockwise(oi_t *sensor, int degrees){
 
     double sum = 0;
 
-    while(fabs(sum) < (degrees-1)){ // -12 accounts for the overshoot of the robot when turning, this was found through testing
+    while(fabs(sum) < (degrees - 2)){ // -12 accounts for the overshoot of the robot when turning, this was found through testing
         oi_update(sensor);
         sum += sensor->angle;
     }
@@ -64,7 +64,7 @@ void turn_counter_clockwise(oi_t *sensor, int degrees){
 
     double sum = 0;
 
-    while(fabs(sum) < (degrees)){ // -12 accounts for the overshoot of the robot when turning, this was found through testing
+    while(fabs(sum) < (degrees-2)){ // -12 accounts for the overshoot of the robot when turning, this was found through testing
         oi_update(sensor);
         sum += sensor->angle;
     }
