@@ -22,7 +22,7 @@ volatile char flag;
 int result;
 int cleanResult;
 
-int main(void) {
+int main(void) { //currently set up for one scan at a time
     int i = 0;
 
     timer_init();
@@ -41,7 +41,7 @@ int main(void) {
     }
 }
 
-int convertToCM(void) { //converts raw ir values to cm using the found equation... val = (int) (ir_val - 3821.043636) / -65.128971
+int convertToCM(void) { //converts raw ir values to cm using the found equation... val = (int) (ir_val - 3821.043636) / -65.128971 <- I found this using an excel graph
     int val = 0;
     val = (int) (result - 3821.043636) / -65.128971;
     return val;

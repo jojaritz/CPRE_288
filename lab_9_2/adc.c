@@ -35,6 +35,7 @@ void adc_init() {
     ADC0_IM_R = 0x1; //something to do with interrupt masks
     ADC0_ACTSS_R = 0x1; //sample sequencer re-enabled
 
+    // averaging mechanism for part 2
     ADC0_SAC_R = 0x4; //sample averaging is set to 16x hardware oversampling (this reduces variability)
 }
 
