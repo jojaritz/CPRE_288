@@ -105,7 +105,7 @@ int main(void) {
             }else if (isAuto == 0) { //only allow manual movement if in manual mode
                 if (got_Byte == 'w') { 
                     double distance_left = 5; //change this to however for you wanted to move forward
-                    while (distance_left > 0) {
+                    while (distance_left > 1) {
                         double distance_traveled = move_forward(sensor_data, distance_left);
                         distance_left -= distance_traveled;
                         //can we use the go around function in manual?
@@ -442,7 +442,7 @@ void autonomous(oi_t *sensor) {
     // Idea
     // Get angle of smallest object
     int angle = smallest_object[0].center_angle;
-    float distance_left = smallest_object[0].distance - 3; // -3 accounts for some error, might change it depending on testing accuracy
+    float distance_left = smallest_object[0].distance - 4.0; // -3 accounts for some error, might change it depending on testing accuracy
     // Turn to face object
     int l;
     int other_angles[4] = {0, 0, 0, 0};
@@ -462,7 +462,7 @@ void autonomous(oi_t *sensor) {
 
     // Angle is 90, already faced the correct way
     // Go forward X amount, avoiding obstacles that hit bumpers. if invalid distance (no obj detected), does not move.
-    while (distance_left > 0 && bump_count < 3) {
+    while (distance_left > 8 && bump_count < 3) {
         float distance_traveled = move_forward(sensor, distance_left);
         distance_left -= distance_traveled;
         int bump_state = 0; // 0: no bump, 1: left bump, 2: right bump, 3: both bumps
