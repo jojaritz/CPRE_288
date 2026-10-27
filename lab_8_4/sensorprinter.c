@@ -514,7 +514,8 @@ void autonomous(oi_t *sensor) {
         if (bump_state != 0) {
             bump_count++;
             find_direction_to_move( target_raw, other_angles, bump_state, sensor);
-            distance_left += 15;
+            //distance_left += 15;
+            return; // Exit the function after handling the bump to avoid infinite loops
         }
     }
 
