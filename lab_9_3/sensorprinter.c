@@ -11,10 +11,10 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
+//#include "sensordata_2.h"
 #include "uart.h"
 #include "cyBot_Scan.h"
 #include "movement.h"
-#include "adc.h"
 
 
 //#warning "Possible unimplemented functions"
@@ -22,7 +22,7 @@
 #define M_PI 3.14159265358979323846
 #define DELTA_ERROR 40.0f
 #define ANGLE_ERROR 2
-#define MAX_DIST_CM 50.0f
+#define MAX_DIST_CM 150.0f
 
 typedef struct {
     int id;
@@ -44,7 +44,7 @@ void print_detected_objects(void);
 void clean_data(void);
 void autonomous(oi_t *sensor);
 void scan_field(cyBOT_Scan_t *currentScanPtr);
-void find_direction_to_move(int other_angles[4], int bump_state, oi_t *sensor);
+void find_direction_to_move(int target_angle, int other_angles[4], int bump_state, oi_t *sensor);
 void print_plan(void);
 
 float sensor_data_array2_cleaned[91];
@@ -59,12 +59,11 @@ volatile char flag;
 int isAuto = 0; //will be using to decide when in auto or not, starts off in manual
 
 int main(void) {
-
-    //configure all of the devices
     adc_init();
+    //configure all of the devices
     uart_init();
 
-    cyBOT_init_Scan(0b0111);
+    cyBOT_init_Scan(0b0011);
     timer_init();
     lcd_init();
     oi_t *sensor_data = oi_alloc();
@@ -77,7 +76,7 @@ int main(void) {
 
     cyBOT_Scan_t currentScan;
     currentScan.sound_dist = 0;
-    currentScan.IR_raw_val = 0; //this should no longer get used...
+    //currentScan.IR_raw_val = 0;
 
     cyBOT_Scan_t *currentScanPtr = &currentScan;
 
@@ -106,7 +105,7 @@ int main(void) {
             }else if (isAuto == 0) { //only allow manual movement if in manual mode
                 if (got_Byte == 'w') { 
                     double distance_left = 5; //change this to however for you wanted to move forward
-                    while (distance_left > 0) {
+                    while (distance_left > 2) {
                         double distance_traveled = move_forward(sensor_data, distance_left);
                         distance_left -= distance_traveled;
                         //can we use the go around function in manual?
@@ -260,6 +259,7 @@ void object_detect(float distance, int current_angle){
             int radial_w = end_angle - start_angle;
 
 
+
             // check if the angle detected is too small to be an object
             if (radial_w >= 4 && object_count < 4) {
                 int center_angle = (start_angle + end_angle) / 2;
@@ -268,6 +268,22 @@ void object_detect(float distance, int current_angle){
                 float dist = 0.0;
                 dist = (sensor_data_array2[center_angle / 2 + 1] + sensor_data_array2[center_angle / 2 -1 ]) / 2.0; //average the two closest readings to get a more accurate distance
                 
+
+//                int o = start_angle;
+//                float lowest_dist = 400;
+//
+//                for(o = start_angle; o <= end_angle; o += 2){
+//                    if(sensor_data_array2[o/2] < lowest_dist){
+//                        lowest_dist = sensor_data_array2[o/2];
+//                    }
+//                }
+//                dist = lowest_dist;
+
+                if(fabs(ir_data_array_clean[center_angle/2] - dist) > 10.0 ){
+                    dist = ir_data_array_clean[center_angle/2];
+                }
+
+
 
                 detected_objects[object_count].id = object_count + 1; //update all object values in the struct
                 detected_objects[object_count].start_angle = start_angle;
@@ -304,9 +320,21 @@ void object_detect(float distance, int current_angle){
                 int center_angle = (start_angle + end_angle) / 2;
 
                 float dist = 0.0;
+
                 dist = (sensor_data_array2[center_angle / 2 + 1] + sensor_data_array2[center_angle / 2 -1 ]) / 2.0; //average the two closest readings to get a more accurate distance
+//                int o = 0;
+//                float lowest_dist = 400;
+//
+//                for(o = start_angle; o <= end_angle; o+=2){
+//                    if(sensor_data_array2[o/2] < lowest_dist){
+//                        lowest_dist = sensor_data_array2[o/2];
+//                    }
+//                }
+//                dist = lowest_dist;
 
-
+                if(fabs(ir_data_array_clean[center_angle/2] - dist) > 10.0 ){
+                    dist = ir_data_array_clean[center_angle/2];
+                }
 
                 detected_objects[object_count].id = object_count + 1; //update all object values in the struct
                 detected_objects[object_count].start_angle = start_angle;
@@ -359,6 +387,11 @@ void print_detected_objects(void) {
        // Print the smallest object's information
        float center_rad = detected_objects[smallest_idx].center_angle * M_PI / 180.0;
        int accurate_angle = (int)(atan2(14 + detected_objects[smallest_idx].distance * sin(center_rad),detected_objects[smallest_idx].distance * cos(center_rad)) * (180.0 / M_PI));
+
+       float obj_x = detected_objects[smallest_idx].distance * cos(center_rad);
+       float obj_y = 14 + detected_objects[smallest_idx].distance * sin(center_rad);
+       smallest_object[0].distance = sqrt(obj_x*obj_x + obj_y*obj_y);
+
        sprintf(out, "\n\rSmallest length Object: #%d at %d deg (Width: %.2f cm), Accurate Angle: %d deg\n\r",
                detected_objects[smallest_idx].id,
                detected_objects[smallest_idx].center_angle,
@@ -386,8 +419,8 @@ void clean_data(void) {
     for (i = 0; i < 91; i++) {
         val = MAX_DIST_CM;
         if (ir_data_array[i] > 0) {
-            val = (ir_data_array[i] - 3821.043636) / -65.128971;
-            if (val > MAX_DIST_CM || val != val) val = MAX_DIST_CM + 100; // +100 to make sure its not accidentally an object
+            val = pow((ir_data_array[i] / 18538), -1.225);
+            if (val > MAX_DIST_CM || val != val) val = MAX_DIST_CM;
         }
         ir_data_array_clean[i] = val;
     }
@@ -415,9 +448,9 @@ void clean_data(void) {
         }
     }
 
-        //int a;
-        //float avg = running_sum / count;
-        //for (a = segment_start; a < 91; a++) ir_data_array_clean[a] = avg;
+        int a;
+        float avg = running_sum / count;
+        for (a = segment_start; a < 91; a++) ir_data_array_clean[a] = avg;
 
 
     for (i = 0; i < 91; i++) {
@@ -443,14 +476,17 @@ void autonomous(oi_t *sensor) {
     // Idea
     // Get angle of smallest object
     int angle = smallest_object[0].center_angle;
-    float distance_left = smallest_object[0].distance - 3; // -3 accounts for some error, might change it depending on testing accuracy
+    float distance_left = smallest_object[0].distance - 14.0; // -3 accounts for some error, might change it depending on testing accuracy
     // Turn to face object
     int l;
     int other_angles[4] = {0, 0, 0, 0};
     int bump_count = 0; // Count the number of bumps to avoid infinite loops
 
+    int target_raw = 90;
     for (l = 0; l < object_count; l++) {
-        if (detected_objects[l].id != smallest_object[0].id) {
+        if (detected_objects[l].id == smallest_object[0].id) {
+            target_raw = detected_objects[l].center_angle;
+        } else {
             other_angles[l] = detected_objects[l].center_angle;
         }
     }
@@ -477,8 +513,9 @@ void autonomous(oi_t *sensor) {
         }
         if (bump_state != 0) {
             bump_count++;
-            find_direction_to_move(other_angles, bump_state, sensor);
-            distance_left += 15;
+            find_direction_to_move( target_raw, other_angles, bump_state, sensor);
+            //distance_left += 15;
+            return; // Exit the function after handling the bump to avoid infinite loops
         }
     }
 
@@ -486,51 +523,23 @@ void autonomous(oi_t *sensor) {
 
 }
 
-void find_direction_to_move(int other_angles[4], int bump_state, oi_t *sensor) {
-    // This function will determine the best direction to move based on the angles of other detected objects.
-    // It will set the value of *direction to -1 for left, 1 for right, or 0 for straight ahead.
-
+void find_direction_to_move(int target_angle, int other_angles[4], int bump_state, oi_t *sensor) {
     int i;
-    int left_count = 0;
-    int right_count = 0;
+    int left_count = 0;    // objects on the  left  of target
+    int right_count = 0;   // objects on the right of target
 
     for (i = 0; i < 4; i++) {
         if (other_angles[i] != 0) {
-            if (other_angles[i] < 90) {
-                left_count++;
-            } else if (other_angles[i] > 90) {
-                right_count++;
-            }
+            if (other_angles[i] > target_angle)      left_count++;
+            else if (other_angles[i] < target_angle) right_count++;
         }
     }
 
-    if (left_count > 0 && right_count > 0) {
-        if(bump_state == 1) { // If left bumper is hit, move right
-            go_around(sensor, 0);
-        } else if(bump_state == 2) { // If right bumper is hit, move left
-            go_around(sensor, 1);
-        } else if(bump_state == 3) { //both bumpers hit, find the furthest object and move in that direction
-            int furthest_angle = 0;
-            int saved_direction = 0;
-            for(i=0; i<4; i++){
-                if(fabs(other_angles[i]-90) > furthest_angle && other_angles[i] != 0){
-                    furthest_angle = fabs(other_angles[i]-90);
-                    saved_direction = (other_angles[i] < 90) ? -1 : 1; // -1 for left, 1 for right
-                }
-            }
-            if(saved_direction == -1){
-                go_around(sensor, 1); // Move left
-            } else if(saved_direction == 1){
-                go_around(sensor, 0); // Move right
-            }
-        }
-    } else if (left_count == 0 && right_count > 0) {
-        go_around(sensor, 1); // Move left
-    } else if (left_count > 0 && right_count == 0) {
-        go_around(sensor, 0); // Move right
+    if (left_count < right_count) {
+        go_around(sensor, 1);                 // less objects on the left, so go left
+    } else if (right_count < left_count) {
+        go_around(sensor, 0);                 // less objects on the right, so go right
     } else {
-        // no other objects known: pick a default side based on which bumper hit
-        go_around(sensor, (bump_state == 2) ? 1 : 0);
+        go_around(sensor, (bump_state == 2) ? 1 : 0);   // tie: go away from the bumped side
     }
-    
 }

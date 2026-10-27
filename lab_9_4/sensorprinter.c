@@ -22,7 +22,7 @@
 #define M_PI 3.14159265358979323846
 #define DELTA_ERROR 40.0f
 #define ANGLE_ERROR 2
-#define MAX_DIST_CM 50.0f
+#define MAX_DIST_CM 150.0f
 
 typedef struct {
     int id;
@@ -64,7 +64,7 @@ int main(void) {
     adc_init();
     uart_init();
 
-    cyBOT_init_Scan(0b0111);
+    cyBOT_init_Scan(0b0011);
     timer_init();
     lcd_init();
     oi_t *sensor_data = oi_alloc();
@@ -101,7 +101,8 @@ int main(void) {
                     strcpy(currentMode, "Switching to Manual Mode!\n\r");
                     cyBot_send_string(currentMode);
                 }
-                plan_ready = 0;   
+                plan_ready = 0;
+                socketFix();
             }else if (isAuto == 0) { //only allow manual movement if in manual mode
                 if (got_Byte == 'w') { 
                     double distance_left = 5; //change this to however for you wanted to move forward
@@ -119,13 +120,17 @@ int main(void) {
                             go_around(sensor_data, 1); //go around the object on the left
                             distance_left +=15;
                         }
+                        socketFix();
                     }
                 }else if(got_Byte == 's') {
                 move_backward(sensor_data, 5);
+                socketFix();
                 } else if(got_Byte == 'a') {
                 turn_counter_clockwise(sensor_data, 20);
+                socketFix();
                 } else if(got_Byte == 'd') {
                 turn_clockwise(sensor_data, 20);
+                socketFix();
                 }else if(got_Byte == 'm') {
                 scan_field(currentScanPtr);
                 socketFix();
@@ -141,6 +146,7 @@ int main(void) {
                         scan_field(currentScanPtr);   // rescan, show next plan
                         print_plan();
                     }
+                    socketFix();
                 }
             }
         }
@@ -386,8 +392,8 @@ void clean_data(void) {
     for (i = 0; i < 91; i++) {
         val = MAX_DIST_CM;
         if (ir_data_array[i] > 0) {
-            val = (ir_data_array[i] - 3821.043636) / -65.128971;
-            if (val > MAX_DIST_CM || val != val) val = MAX_DIST_CM + 100; // +100 to make sure its not accidentally an object
+            val = pow((ir_data_array[i] / 18538), -1.225);
+            if (val > MAX_DIST_CM || val != val) val = MAX_DIST_CM;
         }
         ir_data_array_clean[i] = val;
     }

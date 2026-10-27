@@ -23,6 +23,8 @@ volatile char flag;
 double result;
 double cleanResult;
 
+double convertToCM(double ir_val);
+
 int main(void) { //currently set up for one scan at a time
     int i = 0;
 
@@ -37,13 +39,13 @@ int main(void) { //currently set up for one scan at a time
         if (gotByte == 'm') {
             result = adc_read();
             cleanResult = convertToCM(result);
-            lcd_printf("Raw: %.3lf\nCM: %.3lf", result, cleanResult);
+            lcd_printf("Raw: %.3lf\nCM: %d", result, (int)cleanResult);
         }
     }
 }
 
 double convertToCM(double ir_val) { //converts raw ir values to cm using the found equation... val = (int) (ir_val - 3821.043636) / -65.128971 <- I found this using an excel graph
     double val = 0.0;
-    val = pow(ir_val / 10066.0, -1.736);
+    val = pow((ir_val / 18538), -1.225);
     return val;
 }
