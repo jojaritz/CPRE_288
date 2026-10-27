@@ -358,6 +358,11 @@ void print_detected_objects(void) {
        // Print the smallest object's information
        float center_rad = detected_objects[smallest_idx].center_angle * M_PI / 180.0;
        int accurate_angle = (int)(atan2(14 + detected_objects[smallest_idx].distance * sin(center_rad),detected_objects[smallest_idx].distance * cos(center_rad)) * (180.0 / M_PI));
+       
+       float obj_x = detected_objects[smallest_idx].distance * cos(center_rad);
+       float obj_y = 14 + detected_objects[smallest_idx].distance * sin(center_rad);
+       smallest_object[0].distance = sqrt(obj_x*obj_x + obj_y*obj_y);
+
        sprintf(out, "\n\rSmallest length Object: #%d at %d deg (Width: %.2f cm), Accurate Angle: %d deg\n\r",
                detected_objects[smallest_idx].id,
                detected_objects[smallest_idx].center_angle,
@@ -448,8 +453,11 @@ void autonomous(oi_t *sensor) {
     int other_angles[4] = {0, 0, 0, 0};
     int bump_count = 0; // Count the number of bumps to avoid infinite loops
 
+    int target_raw = 90;
     for (l = 0; l < object_count; l++) {
-        if (detected_objects[l].id != smallest_object[0].id) {
+        if (detected_objects[l].id == smallest_object[0].id) {
+            target_raw = detected_objects[l].center_angle;
+        } else {
             other_angles[l] = detected_objects[l].center_angle;
         }
     }
@@ -462,7 +470,7 @@ void autonomous(oi_t *sensor) {
 
     // Angle is 90, already faced the correct way
     // Go forward X amount, avoiding obstacles that hit bumpers. if invalid distance (no obj detected), does not move.
-    while (distance_left > 8 && bump_count < 3) {
+    while (distance_left > 0 && bump_count < 3) {
         float distance_traveled = move_forward(sensor, distance_left);
         distance_left -= distance_traveled;
         int bump_state = 0; // 0: no bump, 1: left bump, 2: right bump, 3: both bumps
@@ -485,51 +493,23 @@ void autonomous(oi_t *sensor) {
 
 }
 
-void find_direction_to_move(int other_angles[4], int bump_state, oi_t *sensor) {
-    // This function will determine the best direction to move based on the angles of other detected objects.
-    // It will set the value of *direction to -1 for left, 1 for right, or 0 for straight ahead.
-
+void find_direction_to_move(int target_angle, int other_angles[4], int bump_state, oi_t *sensor) {
     int i;
-    int left_count = 0;
-    int right_count = 0;
+    int left_count = 0;    // objects on the target's left  (bigger angle)
+    int right_count = 0;   // objects on the target's right (smaller angle)
 
     for (i = 0; i < 4; i++) {
         if (other_angles[i] != 0) {
-            if (other_angles[i] < 90) {
-                left_count++;
-            } else if (other_angles[i] > 90) {
-                right_count++;
-            }
+            if (other_angles[i] > target_angle)      left_count++;
+            else if (other_angles[i] < target_angle) right_count++;
         }
     }
 
-    if (left_count > 0 && right_count > 0) {
-        if(bump_state == 1) { // If left bumper is hit, move right
-            go_around(sensor, 0);
-        } else if(bump_state == 2) { // If right bumper is hit, move left
-            go_around(sensor, 1);
-        } else if(bump_state == 3) { //both bumpers hit, find the furthest object and move in that direction
-            int furthest_angle = 0;
-            int saved_direction = 0;
-            for(i=0; i<4; i++){
-                if(fabs(other_angles[i]-90) > furthest_angle && other_angles[i] != 0){
-                    furthest_angle = fabs(other_angles[i]-90);
-                    saved_direction = (other_angles[i] < 90) ? -1 : 1; // -1 for left, 1 for right
-                }
-            }
-            if(saved_direction == -1){
-                go_around(sensor, 1); // Move left
-            } else if(saved_direction == 1){
-                go_around(sensor, 0); // Move right
-            }
-        }
-    } else if (left_count == 0 && right_count > 0) {
-        go_around(sensor, 1); // Move left
-    } else if (left_count > 0 && right_count == 0) {
-        go_around(sensor, 0); // Move right
+    if (left_count < right_count) {
+        go_around(sensor, 1);                 // fewer objects on the left, so go left
+    } else if (right_count < left_count) {
+        go_around(sensor, 0);                 // fewer objects on the right, so go right
     } else {
-        // no other objects known: pick a default side based on which bumper hit
-        go_around(sensor, (bump_state == 2) ? 1 : 0);
+        go_around(sensor, (bump_state == 2) ? 1 : 0);   // tie: go away from the bumped side
     }
-    
 }
