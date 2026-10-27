@@ -44,7 +44,7 @@ void print_detected_objects(void);
 void clean_data(void);
 void autonomous(oi_t *sensor);
 void scan_field(cyBOT_Scan_t *currentScanPtr);
-void find_direction_to_move(int other_angles[4], int bump_state, oi_t *sensor);
+void find_direction_to_move(int target_angle, int other_angles[4], int bump_state, oi_t *sensor);
 void print_plan(void);
 
 float sensor_data_array2_cleaned[91];
@@ -105,7 +105,7 @@ int main(void) {
             }else if (isAuto == 0) { //only allow manual movement if in manual mode
                 if (got_Byte == 'w') { 
                     double distance_left = 5; //change this to however for you wanted to move forward
-                    while (distance_left > 1) {
+                    while (distance_left > 2) {
                         double distance_traveled = move_forward(sensor_data, distance_left);
                         distance_left -= distance_traveled;
                         //can we use the go around function in manual?
@@ -259,6 +259,7 @@ void object_detect(float distance, int current_angle){
             int radial_w = end_angle - start_angle;
 
 
+
             // check if the angle detected is too small to be an object
             if (radial_w >= 4 && object_count < 4) {
                 int center_angle = (start_angle + end_angle) / 2;
@@ -267,6 +268,22 @@ void object_detect(float distance, int current_angle){
                 float dist = 0.0;
                 dist = (sensor_data_array2[center_angle / 2 + 1] + sensor_data_array2[center_angle / 2 -1 ]) / 2.0; //average the two closest readings to get a more accurate distance
                 
+
+//                int o = start_angle;
+//                float lowest_dist = 400;
+//
+//                for(o = start_angle; o <= end_angle; o += 2){
+//                    if(sensor_data_array2[o/2] < lowest_dist){
+//                        lowest_dist = sensor_data_array2[o/2];
+//                    }
+//                }
+//                dist = lowest_dist;
+
+                if(fabs(ir_data_array_clean[center_angle/2] - dist) > 10.0 ){
+                    dist = ir_data_array_clean[center_angle/2];
+                }
+
+
 
                 detected_objects[object_count].id = object_count + 1; //update all object values in the struct
                 detected_objects[object_count].start_angle = start_angle;
@@ -303,9 +320,21 @@ void object_detect(float distance, int current_angle){
                 int center_angle = (start_angle + end_angle) / 2;
 
                 float dist = 0.0;
+
                 dist = (sensor_data_array2[center_angle / 2 + 1] + sensor_data_array2[center_angle / 2 -1 ]) / 2.0; //average the two closest readings to get a more accurate distance
+//                int o = 0;
+//                float lowest_dist = 400;
+//
+//                for(o = start_angle; o <= end_angle; o+=2){
+//                    if(sensor_data_array2[o/2] < lowest_dist){
+//                        lowest_dist = sensor_data_array2[o/2];
+//                    }
+//                }
+//                dist = lowest_dist;
 
-
+                if(fabs(ir_data_array_clean[center_angle/2] - dist) > 10.0 ){
+                    dist = ir_data_array_clean[center_angle/2];
+                }
 
                 detected_objects[object_count].id = object_count + 1; //update all object values in the struct
                 detected_objects[object_count].start_angle = start_angle;
@@ -447,7 +476,7 @@ void autonomous(oi_t *sensor) {
     // Idea
     // Get angle of smallest object
     int angle = smallest_object[0].center_angle;
-    float distance_left = smallest_object[0].distance - 4.0; // -3 accounts for some error, might change it depending on testing accuracy
+    float distance_left = smallest_object[0].distance - 14.0; // -3 accounts for some error, might change it depending on testing accuracy
     // Turn to face object
     int l;
     int other_angles[4] = {0, 0, 0, 0};
@@ -484,7 +513,7 @@ void autonomous(oi_t *sensor) {
         }
         if (bump_state != 0) {
             bump_count++;
-            find_direction_to_move(other_angles, bump_state, sensor);
+            find_direction_to_move( target_raw, other_angles, bump_state, sensor);
             distance_left += 15;
         }
     }
@@ -495,8 +524,8 @@ void autonomous(oi_t *sensor) {
 
 void find_direction_to_move(int target_angle, int other_angles[4], int bump_state, oi_t *sensor) {
     int i;
-    int left_count = 0;    // objects on the target's left  (bigger angle)
-    int right_count = 0;   // objects on the target's right (smaller angle)
+    int left_count = 0;    // objects on the  left  of target
+    int right_count = 0;   // objects on the right of target
 
     for (i = 0; i < 4; i++) {
         if (other_angles[i] != 0) {
@@ -506,9 +535,9 @@ void find_direction_to_move(int target_angle, int other_angles[4], int bump_stat
     }
 
     if (left_count < right_count) {
-        go_around(sensor, 1);                 // fewer objects on the left, so go left
+        go_around(sensor, 1);                 // less objects on the left, so go left
     } else if (right_count < left_count) {
-        go_around(sensor, 0);                 // fewer objects on the right, so go right
+        go_around(sensor, 0);                 // less objects on the right, so go right
     } else {
         go_around(sensor, (bump_state == 2) ? 1 : 0);   // tie: go away from the bumped side
     }

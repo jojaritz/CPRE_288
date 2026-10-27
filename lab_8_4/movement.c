@@ -12,8 +12,8 @@ double move_forward(oi_t *sensor, double centimeters){
     double sum = 0;
     oi_setWheels(wheel_speed, wheel_speed);
 
-    double adj_centimeters = centimeters - (.4*centimeters);  //- 40.0; //This is the adjustment for the distance traveled, it is based on testing and the amount of centimeters that are wanted to be traveled
-    while (sum <= adj_centimeters){ //This is the loop that goes until the sum of the distance traveled reaches the amount of wanted centimeters
+    double adj_centimeters = (centimeters*10.0 - centimeters ); // - (.4*centimeters);  //- 40.0; //This is the adjustment for the distance traveled, it is based on testing and the amount of centimeters that are wanted to be traveled
+    while (sum < adj_centimeters){ //This is the loop that goes until the sum of the distance traveled reaches the amount of wanted centimeters
         oi_update(sensor);
         sum += sensor->distance;
 
@@ -23,7 +23,7 @@ double move_forward(oi_t *sensor, double centimeters){
         }
     }
     oi_setWheels(0,0);
-    return (sum/10.0); //This returns the amount of centimeters traveled, it is divided by 10 to convert from millimeters to centimeters
+    return centimeters; //This returns the amount of centimeters traveled, it is divided by 10 to convert from millimeters to centimeters
 }
 
 void move_backward(oi_t *sensor, double centimeters){
@@ -80,13 +80,13 @@ void go_around(oi_t *sensor_data, int direction){//direction 0 is move right(lef
     if(direction == 0){
         turn_clockwise(sensor_data, 90);
         timer_waitMillis(500);
-        move_forward(sensor_data, 50);
+        move_forward(sensor_data, 20);
         timer_waitMillis(500);
         turn_counter_clockwise(sensor_data, 90);
     }else{
         turn_counter_clockwise(sensor_data, 90);
         timer_waitMillis(500);
-        move_forward(sensor_data, 50);
+        move_forward(sensor_data, 20);
         timer_waitMillis(500);
         turn_clockwise(sensor_data, 90);
     }

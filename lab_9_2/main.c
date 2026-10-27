@@ -13,14 +13,15 @@
 #include "uart.h"
 #include "Timer.h"
 #include "lcd.h"
+#include <math.h>
 
 //need to be declared for uart to work
 volatile char uart_data;
 volatile char flag;
 
 
-int result;
-int cleanResult;
+double result;
+double cleanResult;
 
 int main(void) { //currently set up for one scan at a time
     int i = 0;
@@ -35,14 +36,14 @@ int main(void) { //currently set up for one scan at a time
 
         if (gotByte == 'm') {
             result = adc_read();
-            cleanResult = convertToCM();
-            lcd_printf("Raw: %d\nCM: %d", result, cleanResult);
+            cleanResult = convertToCM(result);
+            lcd_printf("Raw: %.3lf\nCM: %.3lf", result, cleanResult);
         }
     }
 }
 
-int convertToCM(void) { //converts raw ir values to cm using the found equation... val = (int) (ir_val - 3821.043636) / -65.128971 <- I found this using an excel graph
-    int val = 0;
-    val = (int)((result - 3821.043636) / -65.128971);
+double convertToCM(double ir_val) { //converts raw ir values to cm using the found equation... val = (int) (ir_val - 3821.043636) / -65.128971 <- I found this using an excel graph
+    double val = 0.0;
+    val = pow(ir_val / 10066.0, -1.736);
     return val;
 }
