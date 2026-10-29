@@ -19,21 +19,24 @@ void ping_init() {
     SYSCTL_RCGCGPIO_R |= 0x2; //enable port b clock
     timer_waitMillis(3);
 
-    GPIO_PORTB_PCTL_R |= 0x00001000;
-    GPIO_PORTB_DEN_R |= 0x8; //not sure what im doing with these yet, just following textbook ^ \/
-    GPIO_PORTB_DIR_R |= 0x8;
+    GPIO_PORTB_PCTL_R |= 0x7000; //pin 3 config (unsure about this one)
+    GPIO_PORTB_DEN_R |= 0x8; //pin 3 set to digital
+    GPIO_PORTB_DIR_R |= 0x8; //pin 3 set as an output
 
-    TIMER3_CTL_R &= ~TIMER_CTL_TBEN; //disable timer3b for setup
-    TIMER3_CFG_R = 0x4; //timers are split into 2 16-bit timers
-    TIMER3_TBMR_R |= 0x17; //timer 3b mode is set
-    TIMER3_CTL_R |= 0xC00; //both edges trigger timer 3b interrupt (im pretty sure this is correct???)
-    TIMER3_TBILR_R = 0xFFFE; //timer loaded with upper bound **0xFFFF breaks something**
-    TIMER3_IMR_R |= 0x400; //interrupt mask set for timer 3b
-    TIMER3_CTL_R |= 0x100; //enable the timer 3b
 
-    //this function should be done but it does not feel like it
+    //Timers are for part 2 (should be set up correctly) just need the interrupt handler coded
+
+//    TIMER3_CTL_R &= ~TIMER_CTL_TBEN; //disable timer3b for setup
+//    TIMER3_CFG_R = 0x4; //timers are split into 2 16-bit timers
+//    TIMER3_TBMR_R = 0x07; //timer 3b mode is set (count down, edge-time, capture)
+//    TIMER3_CTL_R |= 0xC00; //both edges trigger timer 3b interrupt (im pretty sure this is correct???)
+//    TIMER3_TBILR_R = 0xFFFF; //timer loaded with initial count down num
+//    TIMER3_IMR_R |= 0x400; //interrupt mask set for timer 3b
+//    TIMER3_CTL_R |= 0x100; //enable the timer 3b
+
+
 }
 
 int ping_read() {
-    //read the ping values like adc
+    //read the ping values like adc (for part 2)
 }
