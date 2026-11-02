@@ -18,4 +18,9 @@
 int main(void) {
     timer_init();
     ping_init();
+
+    while(1) {
+        ping_read();
+        timer_waitMillis(2000);  // trigger every 2 seconds
+    }
 }
