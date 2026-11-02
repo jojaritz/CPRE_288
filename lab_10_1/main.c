@@ -13,13 +13,16 @@
 #include "adc.h"
 #include "uart.h"
 #include "Timer.h"
+#include "lcd.h"
 #include <inc/tm4c123gh6pm.h>
 
 int main(void) {
     timer_init();
     ping_init();
+    lcd_init();
 
     while(1) {
+        lcd_printf("Pinging...");
         ping_read();
         timer_waitMillis(2000);  // trigger every 2 seconds
     }
