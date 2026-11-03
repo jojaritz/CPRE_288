@@ -24,6 +24,6 @@ int main(void) {
     while(1) {
         int ticks = ping_read();        // get pulse width in clock cycles
         lcd_printf("Ticks: %d", ticks); // display on LCD
-        timer_waitMillis(500);          // measure every 200-500 ms (lab spec)
+        timer_waitMillis(500);          // measure every 500ms
     }
 }

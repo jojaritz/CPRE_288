@@ -17,6 +17,7 @@ volatile int rising_time;
 volatile int end_time;
 volatile int capture_state;
 
+
 void TIMER3B_handler() {
     // Handles ping interrupts
     if (TIMER3_MIS_R & 0x0400) {//checking if the interrupt was triggered by the timer 3b capture
@@ -30,7 +31,7 @@ void TIMER3B_handler() {
             // Second edge: Falling edge timestamp
             end_time = TIMER3_TBR_R & 0x00FFFFFF;
             capture_state = 3;
-            TIMER3_IMR_R &= ~0x0400; // Mask interrupt until next reading
+            TIMER3_IMR_R &= 0x0400; // Mask interrupt until next reading
         }
     }
 }
@@ -44,7 +45,7 @@ void ping_init() {
     GPIO_PORTB_DIR_R |= 0x08; //pin 3 set as an output
     GPIO_PORTB_AFSEL_R &= 0xF7; //Disable alternate function
     GPIO_PORTB_PCTL_R &= ~0xF000; //Clear pin 3 configuration
-    GPIO_PORTB_PCTL_R |= 0x3000; //pin 3 config (unsure about this one)
+    GPIO_PORTB_PCTL_R |= 0x7000; //pin 3 config (unsure about this one)
     GPIO_PORTB_DEN_R |= 0x08; //pin 3 set to digital
 
     TIMER3_CTL_R &= ~0x100; //disable timer3b for setup
@@ -54,8 +55,8 @@ void ping_init() {
     TIMER3_TBILR_R = 0xFFFF; //timer loaded with initial count down num
     TIMER3_TBPR_R = 0xFF; //timer 3b pre-scaler set
     TIMER3_IMR_R |= 0x400; //interrupt mask set for timer 3b
-    TIMER3_CTL_R |= 0x100; //enable the timer 3b
-
+    //TIMER3_CTL_R |= 0x100; //enable the timer 3b
+    NVIC_EN1_R |= 0x10;
     IntRegister(INT_TIMER3B, TIMER3B_handler); //Handler not coded yet
 
 
@@ -65,29 +66,34 @@ void ping_init() {
 int ping_read() { 
     //read the ping values like adc (for part 2)
     //Timer already masked -- when does this happen? - TIMER3_IMR_R &= ~0x0400;
-   GPIO_PORTB_AFSEL_R &= 0xF7; // Preserve all other bits while setting pin 3 to GPIO mode
-
+   //GPIO_PORTB_AFSEL_R &= 0xF7; // Preserve all other bits while setting pin 3 to GPIO mode
+   //TIMER3_IMR_R &= 0x0400;
    //Configure pin 3 as output
+
+   TIMER3_CTL_R &= ~0x100;
+   GPIO_PORTB_AFSEL_R &= 0xF7;
    GPIO_PORTB_DIR_R |= 0x08;
-   GPIO_PORTB_DATA_R &= ~0x08;
-   timer_waitMicros(2);
+  // GPIO_PORTB_DATA_R &= ~0x08;
+   //timer_waitMicros(2);
    GPIO_PORTB_DATA_R |= 0x08; //Set pin 3 high
-   timer_waitMicros(10);
+   timer_waitMicros(5);
    GPIO_PORTB_DATA_R &= ~0x08; //Set pin 3 low
 
    //Configure pin 3 to input
+
+   GPIO_PORTB_AFSEL_R |= 0x08; //Preserve all other bits while setting pin 3 to AFSEL mode
    GPIO_PORTB_DIR_R &= ~0x08; //Set pin 3 as input
-   GPIO_PORTB_PCTL_R &= ~0xF000;
-   GPIO_PORTB_PCTL_R |= 0x7000;
-   GPIO_PORTB_AFSEL_R |= 0x08; //Preserve all other bits while setting pin 3 to GPIO mode
+   //GPIO_PORTB_PCTL_R &= ~0xF000;
+   //GPIO_PORTB_PCTL_R |= 0x7000;
+
 
    //Capture mode after sending input trigger
    capture_state = 1;
    //Clear interrupt timer
    TIMER3_ICR_R = 0x0400;  //Got from slides, not sure why its here
-
+   TIMER3_CTL_R |= 0x100;
    //Un-mask interrupt timer
-   TIMER3_IMR_R |= 0x0400;
+  // TIMER3_IMR_R &= ~0x0400;
 
    while(capture_state != 3){}
 
@@ -99,6 +105,7 @@ int ping_read() {
   }
 
   return amount_ticks;
+
    //Catch rising edge, store TIMER3_TBR_R in var
    // int rising = TIMER3_TBR_R //Defiantly not exactly correct
 

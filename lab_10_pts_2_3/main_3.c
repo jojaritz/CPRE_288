@@ -25,7 +25,7 @@ int main(void) {
 
     while(1) {
             int ticks = ping_read();
-            double pulse_ms = (double)ticks / 80000.0;
+            double pulse_ms = (double)ticks / 16000.0;
             double distance_cm = (pulse_ms * 34.0) / 2.0;
 
             lcd_clear();
