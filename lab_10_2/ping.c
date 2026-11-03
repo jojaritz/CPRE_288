@@ -23,14 +23,14 @@ void TIMER3B_handler() {
         TIMER3_ICR_R = 0x0400;
 
         if (capture_state == 1) {
-            // First edge: Rising edge timestamp[cite: 4]
+            // First edge: Rising edge timestamp
             rising_time = TIMER3_TBR_R & 0x00FFFFFF;
             capture_state = 2;
         } else if (capture_state == 2) {
-            // Second edge: Falling edge timestamp[cite: 4]
+            // Second edge: Falling edge timestamp
             end_time = TIMER3_TBR_R & 0x00FFFFFF;
             capture_state = 3;
-            TIMER3_IMR_R &= ~0x0400; // Mask interrupt until next reading[cite: 4]
+            TIMER3_IMR_R &= ~0x0400; // Mask interrupt until next reading
         }
     }
 }
