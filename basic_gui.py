@@ -16,7 +16,7 @@ import socket
 # UART BEGIN
 #cybot = serial.Serial('COM100', 115200)  # UART (Make sure you are using the correct COM port and Baud rate!!)
 # UART END
-
+'''
 # TCP Socket BEGIN (See Echo Client example): https://realpython.com/python-sockets/#echo-client-and-server
 HOST = "192.168.1.1"  # The server's hostname or IP address
 PORT = 288        # The port used by the server
@@ -25,17 +25,17 @@ cybot_socket.connect((HOST, PORT))   # Connect to the socket  (Note: Server must
                       
 cybot = cybot_socket.makefile("rbw", buffering=0)  # makefile creates a file object out of a socket:  https://pythontic.com/modules/socket/makefile
 # TCP Socket END
-
+'''
 
 def send(cmd):
-    cybot.write((cmd + '\n').encode())
+   # cybot.write((cmd + '\n').encode())
     print("Sent command: " + cmd)
 
 def to_quit():
-    cybot.write(("q" + '\n').encode())
+   # cybot.write(("q" + '\n').encode())
     time.sleep(2) # Sleep for 2 seconds
-    cybot.close()         # Close file object associated with the socket or UART
-    cybot_socket.close()  # Close the socket (NOTE: comment out if using UART interface, only use for network socket option)
+   # cybot.close()         # Close file object associated with the socket or UART
+   # cybot_socket.close()  # Close the socket (NOTE: comment out if using UART interface, only use for network socket option)
     window.destroy()
 
 
