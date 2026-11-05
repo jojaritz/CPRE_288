@@ -24,4 +24,7 @@ int main(void) {
     timer_init();
     servo_init();
     lcd_init();
+
+    servo_move(0);
+    timer_waitMillis(2);
 }
