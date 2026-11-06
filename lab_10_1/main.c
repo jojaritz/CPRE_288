@@ -24,6 +24,6 @@ int main(void) {
     while(1) {
         lcd_printf("Pinging...");
         ping_read();
-        timer_waitMillis(2000);  // trigger every 2 seconds
+        timer_waitMillis(500);  // trigger every 2 seconds
     }
 }

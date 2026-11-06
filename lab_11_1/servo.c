@@ -42,21 +42,32 @@ int servo_move(float degrees) {
     //that low value should be what goes into the MATCH registers (plural because we use a prescaler) ????
     //that low value will be named falling_edge_time
 
-    float falling_edge_time = 320000.0 - (16000.0 * ((degrees / 180.0) + 1.0)); //this value should be what goes into match ???
+    float millisecondPerDegree = 0.00555555556; // This will get us to how many ms we need
+    float actualMS = (millisecondPerDegree * degrees) + 1.0;
+
+    float falling_edge_time = 320000.0 - (16000.0 * actualMS); //this value should be what goes into match ???
+
+    printf("%f\n", falling_edge_time);
+    printf("%f\n", actualMS);
 
     //set for 0 degrees test, should stay high for 1 ms... we will find out
     TIMER1_TBPMR_R = 0x3E;
+    //TIMER1_TBMATCHR_R = falling_edge_time;
     TIMER1_TBMATCHR_R = 0x0080;
 
     GPIO_PORTB_DIR_R |= 0x20; //pin set to output
-    GPIO_PORTB_DATA_R = 0x20; //pint set to HIGH
+    GPIO_PORTB_DATA_R |= 0x20; //pint set to HIGH
 
     while (TIMER1_TBR_R != 0) {
-        if (TIMER1_TBR_R == TIMER1_TBMATCHR_R + TIMER1_TBPMR_R)
+
+        if (TIMER1_TBR_R == TIMER1_TBMATCHR_R + TIMER1_TBPMR_R) {
             GPIO_PORTB_DATA_R &= ~0x20; //pint set to LOW
             GPIO_PORTB_DIR_R &= ~0x20; //pin set to input
             return 1;
+        }
     }
+
+    return 1;
 
 
 }
