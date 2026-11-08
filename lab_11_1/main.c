@@ -25,6 +25,7 @@ int main(void) {
     servo_init();
     lcd_init();
 
-    lcd_printf("%d\n", servo_move(0.0));
+
+    servo_move(0.0);
     timer_waitMillis(2);
 }
