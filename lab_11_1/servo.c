@@ -19,9 +19,9 @@ void servo_init() {
     timer_waitMillis(3);
 
     GPIO_PORTB_DIR_R |= 0x20; //pin 5 set as an output
-    GPIO_PORTB_AFSEL_R &= ~0x20; //Disable alternate function
+    GPIO_PORTB_AFSEL_R |= 0x20; //enable alternate function
     GPIO_PORTB_PCTL_R &= ~0xF00000; //Clear pin 5 configuration
-    GPIO_PORTB_PCTL_R |= 0x700000; //pin 5 config (unsure about this one)
+    GPIO_PORTB_PCTL_R |= 0x700000; //pin 5 config
     GPIO_PORTB_DEN_R |= 0x20; //pin 5 set to digital
 
     TIMER1_CTL_R &= ~0x100; //disable timer1b for setup
@@ -29,12 +29,13 @@ void servo_init() {
     TIMER1_TBMR_R = 0xA; //timer 1b mode is set (count down, PWM, Periodic)
     TIMER1_CTL_R &= 0x0000; //output level is set to not inverted
     TIMER1_TBPR_R = 0x04; //timer 1b pre-scaler set
-    TIMER1_TBILR_R = 0xE200; //timer loaded with initial count down num (320000)
-    TIMER1_TBPMR_R = 0x00; //initial match values reset
-    TIMER1_TBMATCHR_R = 0x0000; //initial match values reset
+    TIMER1_TBILR_R = 0xE200; //timer loaded with initial count down num (320000) these 2 together make the period
+    TIMER1_TBPMR_R = 0x04; //initial match values set
+    TIMER1_TBMATCHR_R = 0xE200; //initial match values set
     TIMER1_CTL_R |= 0x100; //enable timer 1b
 }
 
+//This functions only purpose is to set the correct match values according to degree!!
 int servo_move(float degrees) {
     //the equation to find ms length from degree is (y/180) + 1 = x, where y is degrees and x is counter value in ms
     //to convert that to ticks, multiply ms by 16,000 (this should be the length of the high)
@@ -43,40 +44,20 @@ int servo_move(float degrees) {
     //that low value will be named falling_edge_time
 
     float millisecondPerDegree = 0.00555555556; // This will get us to how many ms we need
-    float actualMS = (millisecondPerDegree * degrees) + 1.0;
+    float actualMS = (millisecondPerDegree * degrees) + 1.0; //how long high should be (in ms)
 
-    int falling_edge_time = (int) (320000.0 - (16000.0 * actualMS)); //this value should be what goes into match ???
+    float pulse_width = 16000.0 * actualMS; //length of high
+    float falling_edge_time = 320000.0 - pulse_width; //length of low
+    float duty_cycle = pulse_width / 320000.0; //used in calculations ???
 
-    printf("%d\n", falling_edge_time);
+    int match_register = (int) falling_edge_time;
+
+    printf("%f\n", falling_edge_time);
     printf("%f\n", actualMS);
 
     //this sets the match registers up to the correct value based on falling edge time
-    TIMER1_TBPMR_R = (falling_edge_time >> 16) & 0xFF;
-    TIMER1_TBMATCHR_R = falling_edge_time & 0xFFFF;
-
-    int real_match = (TIMER1_TBPMR_R << 16) | TIMER1_TBMATCHR_R; //this combines the match registers into a value we can use
-
-
-    //everything above this comment should be correct for the rest of the lab, what is below is very experimental
-    int duty_cycle = 16000;
-    GPIO_PORTB_DIR_R |= 0x20; //pin set to output
-    GPIO_PORTB_DATA_R |= 0x20; //pin set to HIGH
-
-    while (real_match >= 0) {
-        GPIO_PORTB_DIR_R |= 0x20; //pin set to output
-        GPIO_PORTB_DATA_R |= 0x20; //pin set to HIGH
-        if (TIMER1_TBR_R <= real_match) {
-            real_match -= duty_cycle;
-            if (real_match <= 0) {
-                break;
-            }
-            int currentTimerVal = TIMER1_TBR_R; //for debug
-            GPIO_PORTB_DATA_R &= ~0x20; //pin set to LOW
-            GPIO_PORTB_DIR_R &= ~0x20; //pin set to input
-            printf("set pin to low at %d, should be set at %d\n", currentTimerVal, real_match);
-            timer_waitMillis(20);
-        }
-    }
+    TIMER1_TBPMR_R = (match_register >> 16) & 0xFF;
+    TIMER1_TBMATCHR_R = match_register & 0xFFFF;
 
     return 1;
 }

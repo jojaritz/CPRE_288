@@ -27,5 +27,5 @@ int main(void) {
 
 
     servo_move(0.0);
-    timer_waitMillis(2);
+    timer_waitMillis(20);
 }
