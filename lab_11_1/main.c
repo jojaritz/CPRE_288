@@ -26,6 +26,6 @@ int main(void) {
     lcd_init();
 
 
-    servo_move(0.0);
+    servo_move(0.0); // 265 degrees for some reason is 180 w/ 1 at end of actual seconds
     timer_waitMillis(20);
 }
