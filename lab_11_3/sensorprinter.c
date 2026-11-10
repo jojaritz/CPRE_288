@@ -12,7 +12,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include "uart.h"
-#include "cyBot_Scan.h"
+//#include "cyBot_Scan.h" //we dont need this anymore as we are using ping and servo files we created
 #include "movement.h"
 #include "adc.h"
 #include "ping.h"
@@ -45,7 +45,7 @@ void cyBot_send_string(const char *str);
 void print_detected_objects(void);
 void clean_data(void);
 void autonomous(oi_t *sensor);
-void scan_field(cyBOT_Scan_t *currentScanPtr);
+void scan_field(void);
 void find_direction_to_move(int other_angles[4], int bump_state, oi_t *sensor);
 void print_plan(void);
 
@@ -68,7 +68,6 @@ int main(void) {
     ping_init();
     servo_init();
 
-    cyBOT_init_Scan(0b0011);
     timer_init();
     lcd_init();
     oi_t *sensor_data = oi_alloc();
@@ -77,12 +76,6 @@ int main(void) {
     // make sure to find calibration value first, different for each cyBOT
     right_calibration_value = 274750;
     left_calibration_value = 1251250;
-
-    cyBOT_Scan_t currentScan;
-    currentScan.sound_dist = 0; //this should no longer get used...
-    currentScan.IR_raw_val = 0; //this should no longer get used...
-
-    cyBOT_Scan_t *currentScanPtr = &currentScan;
 
     char currentMode[50] = " ";
     strcpy(currentMode, "Starting in Manual Mode!\n\r"); //shows user where we start
@@ -172,7 +165,7 @@ void print_plan(void) {
 
 // This function minimizes the code to save space
 // Both manual and autonomous scan and can't move while scanning
-void scan_field(cyBOT_Scan_t *currentScanPtr) {
+void scan_field() {
     object_count = 0; // Reset the object count before starting a new scan
     char infoHeader[50] = " ";
     strcpy(infoHeader, "Degrees   Ping(cm)   IR Dist**RAW DATA**\n\r");
@@ -188,7 +181,7 @@ void scan_field(cyBOT_Scan_t *currentScanPtr) {
         sensor_data_array2[i/2] = 0;
         ir_data_array[i/2] = 0;
         for(j = 0; j < 3; j++) {
-            cyBOT_Scan(i, currentScanPtr);
+            servo_move(i); //moves servo to correct angle, next 2 lines do actual scanning...
             sensor_data_array2[i/2] += ping_read()/3.0;
             ir_data_array[i/2] += adc_read()/3.0;
         }
@@ -228,7 +221,6 @@ void object_detect(float distance, int current_angle){
     static float dist_sum = 0.0f;
     static int sample_count = 0;
     float current_dist = distance;
-    cyBOT_Scan_t dist_scan;
 
     if (current_angle == 0) {
         on_object = 0;
@@ -377,9 +369,7 @@ void print_detected_objects(void) {
        smallest_object[0] = detected_objects[smallest_idx];
        smallest_object[0].center_angle = accurate_angle;
        cyBot_send_string(out);
-       cyBOT_Scan_t target_scan;
-       cyBOT_Scan(detected_objects[smallest_idx].center_angle, &target_scan);
-
+       servo_move(detected_objects[smallest_idx].center_angle); //move the servo to the angle of the smallest object
    } else {
        cyBot_send_string("\n\rNo objects detected.\n\r");
        smallest_object[0].center_angle = 90; //these make sure that the cybot will not move in auto mode if no objects are detected
