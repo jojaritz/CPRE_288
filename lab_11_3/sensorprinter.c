@@ -199,7 +199,7 @@ void scan_field() {
     for (i = 0; i < 91; i++) {
         object_detect(ir_data_array_clean[i], i*2);
     }
-
+    socketFix();
     print_detected_objects();
 }
 
