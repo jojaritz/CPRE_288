@@ -73,10 +73,6 @@ int main(void) {
     oi_t *sensor_data = oi_alloc();
     oi_init(sensor_data);
 
-    // make sure to find calibration value first, different for each cyBOT
-    right_calibration_value = 274750;
-    left_calibration_value = 1251250;
-
     char currentMode[50] = " ";
     strcpy(currentMode, "Starting in Manual Mode!\n\r"); //shows user where we start
     cyBot_send_string(currentMode);
@@ -129,18 +125,18 @@ int main(void) {
                 turn_clockwise(sensor_data, 20);
                 socketFix();
                 }else if(got_Byte == 'm') {
-                scan_field(currentScanPtr);
+                scan_field();
                 socketFix();
             }
             }else{
                 if(got_Byte == 'h') {
                     if (plan_ready == 0) {
-                        scan_field(currentScanPtr);   // first 'h': scan and show plan
+                        scan_field();   // first 'h': scan and show plan
                         print_plan();
                         plan_ready = 1;
                     } else {
                         autonomous(sensor_data);      // second 'h': execute
-                        scan_field(currentScanPtr);   // rescan, show next plan
+                        scan_field();   // rescan, show next plan
                         print_plan();
                     }
                     socketFix();
@@ -166,6 +162,8 @@ void print_plan(void) {
 // This function minimizes the code to save space
 // Both manual and autonomous scan and can't move while scanning
 void scan_field() {
+    servo_move(0.0); //makes sure scan starts from 0 degrees
+    timer_waitMillis(10);
     object_count = 0; // Reset the object count before starting a new scan
     char infoHeader[50] = " ";
     strcpy(infoHeader, "Degrees   Ping(cm)   IR Dist**RAW DATA**\n\r");
@@ -189,6 +187,7 @@ void scan_field() {
         char distance_to_char[50];
         sprintf(distance_to_char, "%-7d   %-8.2f   %.1f\n\r", i, sensor_data_array2[i/2], ir_data_array[i/2]);
         cyBot_send_string(distance_to_char);
+        timer_waitMillis(20);
     }
 
     strcpy(infoHeader, "Degrees  IR Dist(cm)**CLEAN DATA**\n\r");
@@ -268,7 +267,7 @@ void object_detect(float distance, int current_angle){
 
                 //use the sonar for more accureate distance, but use the IR to get the angle and width of the object
                 float dist = 0.0;
-                dist = (sensor_data_array2[center_angle / 2 + 1] + sensor_data_array2[center_angle / 2 -1 ]) / 2.0; //average the two closest readings to get a more accurate distance
+                dist = (sensor_data_array2_cleaned[center_angle / 2 + 1] + sensor_data_array2_cleaned[center_angle / 2 -1 ]) / 2.0; //average the two closest readings to get a more accurate distance
                 
 
                 detected_objects[object_count].id = object_count + 1; //update all object values in the struct
@@ -306,7 +305,7 @@ void object_detect(float distance, int current_angle){
                 int center_angle = (start_angle + end_angle) / 2;
 
                 float dist = 0.0;
-                dist = (sensor_data_array2[center_angle / 2 + 1] + sensor_data_array2[center_angle / 2 -1 ]) / 2.0; //average the two closest readings to get a more accurate distance
+                dist = (sensor_data_array2_cleaned[center_angle / 2 + 1] + sensor_data_array2_cleaned[center_angle / 2 -1 ]) / 2.0; //average the two closest readings to get a more accurate distance
 
 
 
@@ -426,6 +425,9 @@ void clean_data(void) {
 
         // int val = (int) pow((ir_data_array[i]/10066.0), -1.736);
         // ir_data_array_clean[i] = val;
+        double pulse_ms = (double)sensor_data_array2[i] / 16000.0;
+        double distance_cm = (pulse_ms * 34.0) / 2.0;
+        sensor_data_array2_cleaned[i] = (float) distance_cm - 3; //subtraction is to account for error
 
 
         char distance_to_char[20];

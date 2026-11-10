@@ -37,8 +37,14 @@ void servo_init() {
 
 int servo_move(float degrees) {
     //(equation for cybot 1: y = 0.0097x + 0.7361)
+    //equation for cybot 28: y = 0.0096x + 0.4
+    //equation for cybot 4: y = 0.0094x + 0.4944
 
-    float actualMS = (0.0097 * degrees) + 0.7361; //converting to real ms needed (for cybot 1)
+
+    float actualMS = (0.0094 * degrees) + 0.4944; //converting to real ms needed
+
+    //float millisecondPerDegree = 0.00555555556; // This will get us to how many ms we need
+    //float actualMS = (millisecondPerDegree * degrees) + 1.0; //how long high should be (in ms)
 
     float pulse_width = 16000.0 * actualMS; //length of high
     float falling_edge_time = 320000.0 - pulse_width; //length of low
