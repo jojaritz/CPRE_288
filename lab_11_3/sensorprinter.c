@@ -163,7 +163,7 @@ void print_plan(void) {
 // Both manual and autonomous scan and can't move while scanning
 void scan_field() {
     servo_move(0.0); //makes sure scan starts from 0 degrees
-    timer_waitMillis(10);
+    timer_waitMillis(500);
     object_count = 0; // Reset the object count before starting a new scan
     char infoHeader[50] = " ";
     strcpy(infoHeader, "Degrees   Ping(cm)   IR Dist**RAW DATA**\n\r");
@@ -187,7 +187,7 @@ void scan_field() {
         char distance_to_char[50];
         sprintf(distance_to_char, "%-7d   %-8.2f   %.1f\n\r", i, sensor_data_array2[i/2], ir_data_array[i/2]);
         cyBot_send_string(distance_to_char);
-        timer_waitMillis(20);
+        timer_waitMillis(30);
     }
 
     strcpy(infoHeader, "Degrees  IR Dist(cm)**CLEAN DATA**\n\r");
@@ -427,7 +427,7 @@ void clean_data(void) {
         // ir_data_array_clean[i] = val;
         double pulse_ms = (double)sensor_data_array2[i] / 16000.0;
         double distance_cm = (pulse_ms * 34.0) / 2.0;
-        sensor_data_array2_cleaned[i] = (float) distance_cm - 3; //subtraction is to account for error
+        sensor_data_array2_cleaned[i] = (float) distance_cm - 4; //subtraction is to account for error
 
 
         char distance_to_char[20];
