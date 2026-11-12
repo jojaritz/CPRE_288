@@ -48,6 +48,7 @@ void autonomous(oi_t *sensor);
 void scan_field(void);
 void find_direction_to_move(int other_angles[4], int bump_state, oi_t *sensor);
 void print_plan(void);
+void socketFix(void);
 
 float sensor_data_array2_cleaned[91];
 float sensor_data_array2[91];
@@ -164,10 +165,10 @@ void print_plan(void) {
 void scan_field() {
     servo_move(0.0); //makes sure scan starts from 0 degrees
     timer_waitMillis(500);
-    object_count = 0; // Reset the object count before starting a new scan
-    char infoHeader[50] = " ";
-    strcpy(infoHeader, "Degrees   Ping(cm)   IR Dist**RAW DATA**\n\r");
-    cyBot_send_string(infoHeader);
+    // object_count = 0; // Reset the object count before starting a new scan
+    // char infoHeader[50] = " ";
+    // strcpy(infoHeader, "Degrees   Ping(cm)   IR Dist**RAW DATA**\n\r");
+    // cyBot_send_string(infoHeader);
 
     // does the 180 degree scan and prints it out to putty
 
@@ -184,10 +185,10 @@ void scan_field() {
             ir_data_array[i/2] += adc_read()/3.0;
         }
         //do we need the raw vals anymore?
-        char distance_to_char[50];
-        sprintf(distance_to_char, "%-7d   %-8.2f   %.1f\n\r", i, sensor_data_array2[i/2], ir_data_array[i/2]);
-        cyBot_send_string(distance_to_char);
-        timer_waitMillis(30);
+        // char distance_to_char[50];
+        // sprintf(distance_to_char, "%-7d   %-8.2f   %.1f\n\r", i, sensor_data_array2[i/2], ir_data_array[i/2]);
+        // cyBot_send_string(distance_to_char);
+        // timer_waitMillis(30);
     }
 
     strcpy(infoHeader, "Degrees  IR Dist(cm)**CLEAN DATA**\n\r");
