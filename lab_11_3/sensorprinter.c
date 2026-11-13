@@ -17,6 +17,7 @@
 #include "adc.h"
 #include "ping.h"
 #include "servo.h"
+#include "lcd.h"
 
 
 //#warning "Possible unimplemented functions"
@@ -85,6 +86,7 @@ int main(void) {
 
         if (uart_receive_nonblock(&got_Byte)) {
 
+            lcd_printf("%c", got_Byte);
             if (got_Byte == 't') { //if 't is pressed, the cybot will switch to autonomous mode, might change this to use the uart_data... is more of a rough draft
                 if(isAuto == 0) {
                     isAuto = 1;
@@ -164,6 +166,7 @@ void print_plan(void) {
 // Both manual and autonomous scan and can't move while scanning
 void scan_field() {
     servo_move(0.0); //makes sure scan starts from 0 degrees
+    char infoHeader[50] = " ";
     timer_waitMillis(500);
     // object_count = 0; // Reset the object count before starting a new scan
     // char infoHeader[50] = " ";
@@ -200,7 +203,8 @@ void scan_field() {
     for (i = 0; i < 91; i++) {
         object_detect(ir_data_array_clean[i], i*2);
     }
-    socketFix();
+    // Was messing with a few things on the socket side
+    // socketFix();
     print_detected_objects();
 }
 
