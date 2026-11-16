@@ -130,7 +130,7 @@ int main(void) {
                 }else if(got_Byte == 'm') {
                 scan_field();
                 socketFix();
-            }
+                }
             }else{
                 if(got_Byte == 'h') {
                     if (plan_ready == 0) {

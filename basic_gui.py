@@ -35,6 +35,7 @@ def send(cmd):
     cybot.write((cmd + '\n').encode())
     print("Sent command: " + cmd)
     objectDetect = False
+    hCounter = 0
     degrees = []
     dist = []
     while 1:
@@ -52,14 +53,22 @@ def send(cmd):
         
         print(rx_message.decode() + "\n") # Convert message from bytes to String (i.e., decode)
         
-    if cmd == "m":
+    if cmd == "m" or cmd == "h":
+
+        if hCounter == 1 and cmd == "h":
+            hCounter = 0
+            return
+        
         with open("sensor_cleaned.txt", "w") as f:
             f.write("Angle(Degrees)	Distance(m)\n")
             for i in range(len(dist)):
                 print(degrees[i] + "    " + dist[i])
                 f.write(degrees[i] + "               " + dist[i] + "\n")
             f.close()
-        
+
+        if cmd == "h":    
+            hCounter = hCounter + 1
+
         subprocess.run(["python", "CyBot-Plot-Sensor-Scan-Values-From-File.py", "sensor_cleaned.txt"])
 
 def to_quit():
@@ -69,6 +78,13 @@ def to_quit():
     cybot_socket.close()  # Close the socket (NOTE: comment out if using UART interface, only use for network socket option)
     window.destroy()
 
+
+def keystrokes(event):
+    letter = event.char
+    if 'q' == letter:
+        to_quit()
+
+    send(event.char)
 
 window = Tk()
 window.title("cybot communicate")
@@ -91,7 +107,11 @@ button_6.grid(row=0, column=1, pady=5)
 button_7.grid(row=0, column=2, pady=5)
 button_8.grid(row=0, column=0, pady=5)
 
+window.bind('<Key>', keystrokes)
 window.mainloop()
+
+
+
 
 '''
 # Send some text: Either 1) Choose "Hello" or 2) have the user enter text to send
