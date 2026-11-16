@@ -184,14 +184,14 @@ void scan_field() {
         ir_data_array[i/2] = 0;
         for(j = 0; j < 3; j++) {
             servo_move(i); //moves servo to correct angle, next 2 lines do actual scanning...
-            sensor_data_array2[i/2] += ping_read()/3.0;
+            sensor_data_array2[i/2] += (ping_read()/3.0);
             ir_data_array[i/2] += adc_read()/3.0;
         }
         //do we need the raw vals anymore?
         // char distance_to_char[50];
         // sprintf(distance_to_char, "%-7d   %-8.2f   %.1f\n\r", i, sensor_data_array2[i/2], ir_data_array[i/2]);
         // cyBot_send_string(distance_to_char);
-        // timer_waitMillis(30);
+         timer_waitMillis(500);
     }
 
     strcpy(infoHeader, "Degrees  IR Dist(cm)**CLEAN DATA**\n\r");
@@ -335,6 +335,7 @@ void object_detect(float distance, int current_angle){
 
 void print_detected_objects(void) {
    char out[80];
+   char test[10];
    cyBot_send_string("Object#   Angle   Distance   Angular Width   Linear Width\n\r");
 
    int smallest_idx = -1;
@@ -365,14 +366,16 @@ void print_detected_objects(void) {
        // Print the smallest object's information
        float center_rad = detected_objects[smallest_idx].center_angle * M_PI / 180.0;
        int accurate_angle = (int)(atan2(14 + detected_objects[smallest_idx].distance * sin(center_rad),detected_objects[smallest_idx].distance * cos(center_rad)) * (180.0 / M_PI));
+       smallest_object[0] = detected_objects[smallest_idx];
+       smallest_object[0].center_angle = accurate_angle;
        sprintf(out, "\n\rSmallest length Object: #%d at %d deg (Width: %.2f cm), Accurate Angle: %d deg\n\r",
                detected_objects[smallest_idx].id,
                detected_objects[smallest_idx].center_angle,
                detected_objects[smallest_idx].linear_width,
                accurate_angle);
-       smallest_object[0] = detected_objects[smallest_idx];
-       smallest_object[0].center_angle = accurate_angle;
        cyBot_send_string(out);
+       sprintf(test, "%f\n\r", smallest_object[0].distance);
+       cyBot_send_string(test);
        servo_move(detected_objects[smallest_idx].center_angle); //move the servo to the angle of the smallest object
    } else {
        cyBot_send_string("\n\rNo objects detected.\n\r");
