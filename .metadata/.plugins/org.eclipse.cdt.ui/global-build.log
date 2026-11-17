@@ -16615,3 +16615,909 @@ Finished building target: "lab_11_3.out"
  
 
 **** Build Finished ****
+
+**** Clean-only build of configuration Debug for project lab_2_4 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 clean -O 
+ 
+DEL /F  "lab_2_4.out" 
+DEL /F "Timer.obj" "lcd.obj" "main.obj" "movement.obj" "open_interface.obj" "tm4c123gh6pm_startup_ccs.obj" 
+DEL /F "Timer.d" "lcd.d" "main.d" "movement.d" "open_interface.d" "tm4c123gh6pm_startup_ccs.d" 
+Finished clean
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_2_4 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../tm4c123gh6pm_startup_ccs.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_2_4" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="tm4c123gh6pm_startup_ccs.d_raw"  "../tm4c123gh6pm_startup_ccs.c"
+Finished building: "../tm4c123gh6pm_startup_ccs.c"
+ 
+Building file: "../Timer.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_2_4" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="Timer.d_raw"  "../Timer.c"
+Finished building: "../Timer.c"
+ 
+Building file: "../lcd.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_2_4" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="lcd.d_raw"  "../lcd.c"
+Finished building: "../lcd.c"
+ 
+Building file: "../main.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_2_4" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+Finished building: "../main.c"
+ 
+Building file: "../movement.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_2_4" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="movement.d_raw"  "../movement.c"
+Finished building: "../movement.c"
+ 
+Building file: "../open_interface.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_2_4" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="open_interface.d_raw"  "../open_interface.c"
+"../open_interface.c", line 356: warning #179-D: variable "charging_state" was declared but never referenced
+Finished building: "../open_interface.c"
+ 
+Building target: "lab_2_4.out"
+Invoking: Arm Linker
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"lab_2_4.map" --heap_size=1024 --stack_size=2048 -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="lab_2_4_linkInfo.xml" --rom_model -o "lab_2_4.out" "./Timer.obj" "./lcd.obj" "./main.obj" "./movement.obj" "./open_interface.obj" "./tm4c123gh6pm_startup_ccs.obj" "../libcybotUART.lib" "../tm4c123gh6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ccs/Debug/driverlib.lib" 
+<Linking>
+Finished building target: "lab_2_4.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_2_4 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+gmake[1]: 'lab_2_4.out' is up to date.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_2_4 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../main.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_2_4" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+Finished building: "../main.c"
+ 
+Building target: "lab_2_4.out"
+Invoking: Arm Linker
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"lab_2_4.map" --heap_size=1024 --stack_size=2048 -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="lab_2_4_linkInfo.xml" --rom_model -o "lab_2_4.out" "./Timer.obj" "./lcd.obj" "./main.obj" "./movement.obj" "./open_interface.obj" "./tm4c123gh6pm_startup_ccs.obj" "../libcybotUART.lib" "../tm4c123gh6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ccs/Debug/driverlib.lib" 
+<Linking>
+Finished building target: "lab_2_4.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_2_4 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+gmake[1]: 'lab_2_4.out' is up to date.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_2_4 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+gmake[1]: 'lab_2_4.out' is up to date.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_2_4 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../main.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_2_4" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+"../main.c", line 7: warning #225-D: function "cyBot_uart_init" declared implicitly
+"../main.c", line 28: warning #225-D: function "cyBot_sendByte" declared implicitly
+Finished building: "../main.c"
+ 
+Building target: "lab_2_4.out"
+Invoking: Arm Linker
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"lab_2_4.map" --heap_size=1024 --stack_size=2048 -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="lab_2_4_linkInfo.xml" --rom_model -o "lab_2_4.out" "./Timer.obj" "./lcd.obj" "./main.obj" "./movement.obj" "./open_interface.obj" "./tm4c123gh6pm_startup_ccs.obj" "../libcybotUART.lib" "../tm4c123gh6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ccs/Debug/driverlib.lib" 
+<Linking>
+Finished building target: "lab_2_4.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_2_4 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+gmake[1]: 'lab_2_4.out' is up to date.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_2_4 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+gmake[1]: 'lab_2_4.out' is up to date.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_2_4 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../main.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_2_4" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+"../main.c", line 7: warning #225-D: function "cyBot_uart_init" declared implicitly
+"../main.c", line 28: warning #522-D: initialization with "{...}" expected for aggregate object
+"../main.c", line 29: warning #225-D: function "cyBot_sendByte" declared implicitly
+Finished building: "../main.c"
+ 
+Building target: "lab_2_4.out"
+Invoking: Arm Linker
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"lab_2_4.map" --heap_size=1024 --stack_size=2048 -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="lab_2_4_linkInfo.xml" --rom_model -o "lab_2_4.out" "./Timer.obj" "./lcd.obj" "./main.obj" "./movement.obj" "./open_interface.obj" "./tm4c123gh6pm_startup_ccs.obj" "../libcybotUART.lib" "../tm4c123gh6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ccs/Debug/driverlib.lib" 
+<Linking>
+Finished building target: "lab_2_4.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_2_4 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../main.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_2_4" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+"../main.c", line 7: warning #225-D: function "cyBot_uart_init" declared implicitly
+"../main.c", line 29: warning #522-D: initialization with "{...}" expected for aggregate object
+"../main.c", line 31: warning #225-D: function "cyBot_sendByte" declared implicitly
+Finished building: "../main.c"
+ 
+Building target: "lab_2_4.out"
+Invoking: Arm Linker
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"lab_2_4.map" --heap_size=1024 --stack_size=2048 -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="lab_2_4_linkInfo.xml" --rom_model -o "lab_2_4.out" "./Timer.obj" "./lcd.obj" "./main.obj" "./movement.obj" "./open_interface.obj" "./tm4c123gh6pm_startup_ccs.obj" "../libcybotUART.lib" "../tm4c123gh6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ccs/Debug/driverlib.lib" 
+<Linking>
+Finished building target: "lab_2_4.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_2_4 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../main.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_2_4" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+Finished building: "../main.c"
+ 
+Building target: "lab_2_4.out"
+Invoking: Arm Linker
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"lab_2_4.map" --heap_size=1024 --stack_size=2048 -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="lab_2_4_linkInfo.xml" --rom_model -o "lab_2_4.out" "./Timer.obj" "./lcd.obj" "./main.obj" "./movement.obj" "./open_interface.obj" "./tm4c123gh6pm_startup_ccs.obj" "../libcybotUART.lib" "../tm4c123gh6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ccs/Debug/driverlib.lib" 
+<Linking>
+Finished building target: "lab_2_4.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_2_4 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../main.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_2_4" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+Finished building: "../main.c"
+ 
+Building target: "lab_2_4.out"
+Invoking: Arm Linker
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"lab_2_4.map" --heap_size=1024 --stack_size=2048 -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="lab_2_4_linkInfo.xml" --rom_model -o "lab_2_4.out" "./Timer.obj" "./lcd.obj" "./main.obj" "./movement.obj" "./open_interface.obj" "./tm4c123gh6pm_startup_ccs.obj" "../libcybotUART.lib" "../tm4c123gh6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ccs/Debug/driverlib.lib" 
+<Linking>
+Finished building target: "lab_2_4.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_2_4 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../main.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_2_4" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+Finished building: "../main.c"
+ 
+Building target: "lab_2_4.out"
+Invoking: Arm Linker
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"lab_2_4.map" --heap_size=1024 --stack_size=2048 -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="lab_2_4_linkInfo.xml" --rom_model -o "lab_2_4.out" "./Timer.obj" "./lcd.obj" "./main.obj" "./movement.obj" "./open_interface.obj" "./tm4c123gh6pm_startup_ccs.obj" "../libcybotUART.lib" "../tm4c123gh6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ccs/Debug/driverlib.lib" 
+<Linking>
+Finished building target: "lab_2_4.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_2_4 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+gmake[1]: 'lab_2_4.out' is up to date.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_2_4 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+gmake[1]: 'lab_2_4.out' is up to date.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_2_4 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+gmake[1]: 'lab_2_4.out' is up to date.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_2_4 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+gmake[1]: 'lab_2_4.out' is up to date.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_2_4 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../main.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_2_4" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+"../main.c", line 38: warning #112-D: statement is unreachable
+"../main.c", line 13: warning #179-D: variable "tot_distance_left" was declared but never referenced
+Finished building: "../main.c"
+ 
+Building target: "lab_2_4.out"
+Invoking: Arm Linker
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"lab_2_4.map" --heap_size=1024 --stack_size=2048 -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="lab_2_4_linkInfo.xml" --rom_model -o "lab_2_4.out" "./Timer.obj" "./lcd.obj" "./main.obj" "./movement.obj" "./open_interface.obj" "./tm4c123gh6pm_startup_ccs.obj" "../libcybotUART.lib" "../tm4c123gh6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ccs/Debug/driverlib.lib" 
+<Linking>
+Finished building target: "lab_2_4.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_2_4 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../main.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_2_4" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+"../main.c", line 34: warning #522-D: initialization with "{...}" expected for aggregate object
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #522-D: initialization with "{...}" expected for aggregate object
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 37: warning #169-D: argument of type "char *" is incompatible with parameter of type "unsigned char *"
+"../main.c", line 37: warning #169-D: argument of type "char *" is incompatible with parameter of type "unsigned char *"
+Finished building: "../main.c"
+ 
+Building target: "lab_2_4.out"
+Invoking: Arm Linker
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"lab_2_4.map" --heap_size=1024 --stack_size=2048 -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="lab_2_4_linkInfo.xml" --rom_model -o "lab_2_4.out" "./Timer.obj" "./lcd.obj" "./main.obj" "./movement.obj" "./open_interface.obj" "./tm4c123gh6pm_startup_ccs.obj" "../libcybotUART.lib" "../tm4c123gh6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ccs/Debug/driverlib.lib" 
+<Linking>
+Finished building target: "lab_2_4.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_2_4 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+gmake[1]: 'lab_2_4.out' is up to date.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_2_4 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../main.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_2_4" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+"../main.c", line 34: warning #522-D: initialization with "{...}" expected for aggregate object
+"../main.c", line 35: warning #522-D: initialization with "{...}" expected for aggregate object
+"../main.c", line 37: warning #145-D: a value of type "char (*)[1]" cannot be used to initialize an entity of type "char *"
+"../main.c", line 38: warning #145-D: a value of type "char (*)[1]" cannot be used to initialize an entity of type "char *"
+"../main.c", line 40: warning #169-D: argument of type "char" is incompatible with parameter of type "unsigned char *"
+"../main.c", line 40: warning #169-D: argument of type "char" is incompatible with parameter of type "unsigned char *"
+"../main.c", line 37: warning #179-D: variable "notePtr" was declared but never referenced
+"../main.c", line 38: warning #179-D: variable "durationPtr" was declared but never referenced
+Finished building: "../main.c"
+ 
+Building target: "lab_2_4.out"
+Invoking: Arm Linker
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"lab_2_4.map" --heap_size=1024 --stack_size=2048 -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="lab_2_4_linkInfo.xml" --rom_model -o "lab_2_4.out" "./Timer.obj" "./lcd.obj" "./main.obj" "./movement.obj" "./open_interface.obj" "./tm4c123gh6pm_startup_ccs.obj" "../libcybotUART.lib" "../tm4c123gh6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ccs/Debug/driverlib.lib" 
+<Linking>
+Finished building target: "lab_2_4.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_2_4 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../main.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_2_4" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+ 
+>> Compilation failure
+subdir_rules.mk:9: recipe for target 'main.obj' failed
+"../main.c", line 34: warning #522-D: initialization with "{...}" expected for aggregate object
+"../main.c", line 34: error #41: expected an identifier
+"../main.c", line 34: error #41: expected an identifier
+"../main.c", line 34: error #41: expected an identifier
+"../main.c", line 34: error #41: expected an identifier
+"../main.c", line 34: error #41: expected an identifier
+"../main.c", line 34: error #41: expected an identifier
+"../main.c", line 34: error #41: expected an identifier
+"../main.c", line 34: error #41: expected an identifier
+"../main.c", line 34: error #41: expected an identifier
+"../main.c", line 34: error #41: expected an identifier
+"../main.c", line 34: error #41: expected an identifier
+"../main.c", line 34: error #41: expected an identifier
+"../main.c", line 34: error #41: expected an identifier
+"../main.c", line 35: warning #522-D: initialization with "{...}" expected for aggregate object
+"../main.c", line 35: error #41: expected an identifier
+"../main.c", line 35: error #41: expected an identifier
+"../main.c", line 35: error #41: expected an identifier
+"../main.c", line 35: error #41: expected an identifier
+"../main.c", line 35: error #41: expected an identifier
+"../main.c", line 35: error #41: expected an identifier
+"../main.c", line 35: error #41: expected an identifier
+"../main.c", line 35: error #41: expected an identifier
+"../main.c", line 35: error #41: expected an identifier
+"../main.c", line 35: error #41: expected an identifier
+"../main.c", line 35: error #41: expected an identifier
+"../main.c", line 35: error #41: expected an identifier
+"../main.c", line 35: error #41: expected an identifier
+"../main.c", line 37: warning #169-D: argument of type "char" is incompatible with parameter of type "unsigned char *"
+"../main.c", line 37: warning #169-D: argument of type "char" is incompatible with parameter of type "unsigned char *"
+26 errors detected in the compilation of "../main.c".
+gmake: *** [main.obj] Error 1
+gmake: Target 'all' not remade because of errors.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_2_4 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../main.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_2_4" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+"../main.c", line 37: warning #169-D: argument of type "char" is incompatible with parameter of type "unsigned char *"
+"../main.c", line 37: warning #169-D: argument of type "char" is incompatible with parameter of type "unsigned char *"
+Finished building: "../main.c"
+ 
+Building target: "lab_2_4.out"
+Invoking: Arm Linker
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"lab_2_4.map" --heap_size=1024 --stack_size=2048 -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="lab_2_4_linkInfo.xml" --rom_model -o "lab_2_4.out" "./Timer.obj" "./lcd.obj" "./main.obj" "./movement.obj" "./open_interface.obj" "./tm4c123gh6pm_startup_ccs.obj" "../libcybotUART.lib" "../tm4c123gh6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ccs/Debug/driverlib.lib" 
+<Linking>
+Finished building target: "lab_2_4.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_2_4 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+gmake[1]: 'lab_2_4.out' is up to date.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_2_4 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../main.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_2_4" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+"../main.c", line 37: warning #169-D: argument of type "char" is incompatible with parameter of type "unsigned char *"
+"../main.c", line 37: warning #169-D: argument of type "char" is incompatible with parameter of type "unsigned char *"
+Finished building: "../main.c"
+ 
+Building target: "lab_2_4.out"
+Invoking: Arm Linker
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"lab_2_4.map" --heap_size=1024 --stack_size=2048 -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="lab_2_4_linkInfo.xml" --rom_model -o "lab_2_4.out" "./Timer.obj" "./lcd.obj" "./main.obj" "./movement.obj" "./open_interface.obj" "./tm4c123gh6pm_startup_ccs.obj" "../libcybotUART.lib" "../tm4c123gh6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ccs/Debug/driverlib.lib" 
+<Linking>
+Finished building target: "lab_2_4.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_2_4 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../main.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_2_4" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 37: warning #169-D: argument of type "unsigned char **" is incompatible with parameter of type "unsigned char *"
+"../main.c", line 37: warning #169-D: argument of type "unsigned char **" is incompatible with parameter of type "unsigned char *"
+Finished building: "../main.c"
+ 
+Building target: "lab_2_4.out"
+Invoking: Arm Linker
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"lab_2_4.map" --heap_size=1024 --stack_size=2048 -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="lab_2_4_linkInfo.xml" --rom_model -o "lab_2_4.out" "./Timer.obj" "./lcd.obj" "./main.obj" "./movement.obj" "./open_interface.obj" "./tm4c123gh6pm_startup_ccs.obj" "../libcybotUART.lib" "../tm4c123gh6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ccs/Debug/driverlib.lib" 
+<Linking>
+Finished building target: "lab_2_4.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_2_4 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../main.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_2_4" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 37: warning #169-D: argument of type "unsigned char **" is incompatible with parameter of type "unsigned char *"
+"../main.c", line 37: warning #169-D: argument of type "unsigned char **" is incompatible with parameter of type "unsigned char *"
+Finished building: "../main.c"
+ 
+Building target: "lab_2_4.out"
+Invoking: Arm Linker
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"lab_2_4.map" --heap_size=1024 --stack_size=2048 -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="lab_2_4_linkInfo.xml" --rom_model -o "lab_2_4.out" "./Timer.obj" "./lcd.obj" "./main.obj" "./movement.obj" "./open_interface.obj" "./tm4c123gh6pm_startup_ccs.obj" "../libcybotUART.lib" "../tm4c123gh6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ccs/Debug/driverlib.lib" 
+<Linking>
+Finished building target: "lab_2_4.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_2_4 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../main.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_2_4" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+"../main.c", line 34: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 34: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 34: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 34: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 34: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 34: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 34: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 34: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 34: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 34: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 34: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 34: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 34: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 34: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 34: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 34: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 35: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 35: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 35: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 35: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 35: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 35: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 35: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 35: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 35: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 35: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 35: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 35: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 35: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 35: warning #145-D: a value of type "int" cannot be used to initialize an entity of type "unsigned char *"
+"../main.c", line 35: warning #154-D: conversion of nonzero integer to pointer
+"../main.c", line 37: warning #169-D: argument of type "unsigned char **" is incompatible with parameter of type "unsigned char *"
+"../main.c", line 37: warning #169-D: argument of type "unsigned char **" is incompatible with parameter of type "unsigned char *"
+Finished building: "../main.c"
+ 
+Building target: "lab_2_4.out"
+Invoking: Arm Linker
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"lab_2_4.map" --heap_size=1024 --stack_size=2048 -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="lab_2_4_linkInfo.xml" --rom_model -o "lab_2_4.out" "./Timer.obj" "./lcd.obj" "./main.obj" "./movement.obj" "./open_interface.obj" "./tm4c123gh6pm_startup_ccs.obj" "../libcybotUART.lib" "../tm4c123gh6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ccs/Debug/driverlib.lib" 
+<Linking>
+Finished building target: "lab_2_4.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_2_4 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../main.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_2_4" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+"../main.c", line 34: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 34: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 34: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 34: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 34: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 34: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 34: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 34: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 34: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 34: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 34: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 34: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 34: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 34: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 34: warning #70-D: integer conversion resulted in truncation
+"../main.c", line 34: warning #70-D: integer conversion resulted in truncation
+"../main.c", line 34: warning #70-D: integer conversion resulted in truncation
+"../main.c", line 34: warning #70-D: integer conversion resulted in truncation
+"../main.c", line 34: warning #70-D: integer conversion resulted in truncation
+"../main.c", line 34: warning #70-D: integer conversion resulted in truncation
+"../main.c", line 34: warning #70-D: integer conversion resulted in truncation
+"../main.c", line 34: warning #70-D: integer conversion resulted in truncation
+"../main.c", line 34: warning #70-D: integer conversion resulted in truncation
+"../main.c", line 34: warning #70-D: integer conversion resulted in truncation
+"../main.c", line 34: warning #70-D: integer conversion resulted in truncation
+"../main.c", line 34: warning #70-D: integer conversion resulted in truncation
+"../main.c", line 34: warning #70-D: integer conversion resulted in truncation
+"../main.c", line 34: warning #70-D: integer conversion resulted in truncation
+"../main.c", line 35: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 35: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 35: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 35: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 35: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 35: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 35: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 35: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 35: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 35: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 35: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 35: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 35: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 35: warning #1696-D: multicharacter character literal (potential portability problem)
+"../main.c", line 35: warning #70-D: integer conversion resulted in truncation
+"../main.c", line 35: warning #70-D: integer conversion resulted in truncation
+"../main.c", line 35: warning #70-D: integer conversion resulted in truncation
+"../main.c", line 35: warning #70-D: integer conversion resulted in truncation
+"../main.c", line 35: warning #70-D: integer conversion resulted in truncation
+"../main.c", line 35: warning #70-D: integer conversion resulted in truncation
+"../main.c", line 35: warning #70-D: integer conversion resulted in truncation
+"../main.c", line 35: warning #70-D: integer conversion resulted in truncation
+"../main.c", line 35: warning #70-D: integer conversion resulted in truncation
+"../main.c", line 35: warning #70-D: integer conversion resulted in truncation
+"../main.c", line 35: warning #70-D: integer conversion resulted in truncation
+"../main.c", line 35: warning #70-D: integer conversion resulted in truncation
+"../main.c", line 35: warning #70-D: integer conversion resulted in truncation
+"../main.c", line 35: warning #70-D: integer conversion resulted in truncation
+"../main.c", line 37: warning #169-D: argument of type "unsigned char" is incompatible with parameter of type "unsigned char *"
+"../main.c", line 37: warning #169-D: argument of type "unsigned char" is incompatible with parameter of type "unsigned char *"
+Finished building: "../main.c"
+ 
+Building target: "lab_2_4.out"
+Invoking: Arm Linker
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"lab_2_4.map" --heap_size=1024 --stack_size=2048 -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="lab_2_4_linkInfo.xml" --rom_model -o "lab_2_4.out" "./Timer.obj" "./lcd.obj" "./main.obj" "./movement.obj" "./open_interface.obj" "./tm4c123gh6pm_startup_ccs.obj" "../libcybotUART.lib" "../tm4c123gh6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ccs/Debug/driverlib.lib" 
+<Linking>
+Finished building target: "lab_2_4.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_2_4 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../main.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_2_4" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+"../main.c", line 37: warning #169-D: argument of type "unsigned char" is incompatible with parameter of type "unsigned char *"
+"../main.c", line 37: warning #169-D: argument of type "unsigned char" is incompatible with parameter of type "unsigned char *"
+Finished building: "../main.c"
+ 
+Building target: "lab_2_4.out"
+Invoking: Arm Linker
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"lab_2_4.map" --heap_size=1024 --stack_size=2048 -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="lab_2_4_linkInfo.xml" --rom_model -o "lab_2_4.out" "./Timer.obj" "./lcd.obj" "./main.obj" "./movement.obj" "./open_interface.obj" "./tm4c123gh6pm_startup_ccs.obj" "../libcybotUART.lib" "../tm4c123gh6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ccs/Debug/driverlib.lib" 
+<Linking>
+Finished building target: "lab_2_4.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_2_4 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../main.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_2_4" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+"../main.c", line 37: warning #169-D: argument of type "unsigned char (*)[14]" is incompatible with parameter of type "unsigned char *"
+"../main.c", line 37: warning #169-D: argument of type "unsigned char (*)[14]" is incompatible with parameter of type "unsigned char *"
+Finished building: "../main.c"
+ 
+Building target: "lab_2_4.out"
+Invoking: Arm Linker
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"lab_2_4.map" --heap_size=1024 --stack_size=2048 -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="lab_2_4_linkInfo.xml" --rom_model -o "lab_2_4.out" "./Timer.obj" "./lcd.obj" "./main.obj" "./movement.obj" "./open_interface.obj" "./tm4c123gh6pm_startup_ccs.obj" "../libcybotUART.lib" "../tm4c123gh6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ccs/Debug/driverlib.lib" 
+<Linking>
+Finished building target: "lab_2_4.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_2_4 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../main.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_2_4" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+"../main.c", line 37: warning #169-D: argument of type "unsigned char (*)[14]" is incompatible with parameter of type "unsigned char *"
+"../main.c", line 37: warning #169-D: argument of type "unsigned char (*)[14]" is incompatible with parameter of type "unsigned char *"
+Finished building: "../main.c"
+ 
+Building target: "lab_2_4.out"
+Invoking: Arm Linker
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"lab_2_4.map" --heap_size=1024 --stack_size=2048 -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="lab_2_4_linkInfo.xml" --rom_model -o "lab_2_4.out" "./Timer.obj" "./lcd.obj" "./main.obj" "./movement.obj" "./open_interface.obj" "./tm4c123gh6pm_startup_ccs.obj" "../libcybotUART.lib" "../tm4c123gh6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ccs/Debug/driverlib.lib" 
+<Linking>
+Finished building target: "lab_2_4.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_2_4 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../main.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_2_4" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+"../main.c", line 37: warning #169-D: argument of type "unsigned char (*)[14]" is incompatible with parameter of type "unsigned char *"
+"../main.c", line 37: warning #169-D: argument of type "unsigned char (*)[14]" is incompatible with parameter of type "unsigned char *"
+Finished building: "../main.c"
+ 
+Building target: "lab_2_4.out"
+Invoking: Arm Linker
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"lab_2_4.map" --heap_size=1024 --stack_size=2048 -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="lab_2_4_linkInfo.xml" --rom_model -o "lab_2_4.out" "./Timer.obj" "./lcd.obj" "./main.obj" "./movement.obj" "./open_interface.obj" "./tm4c123gh6pm_startup_ccs.obj" "../libcybotUART.lib" "../tm4c123gh6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ccs/Debug/driverlib.lib" 
+<Linking>
+Finished building target: "lab_2_4.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_2_4 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../main.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_2_4" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+"../main.c", line 37: warning #169-D: argument of type "unsigned char (*)[14]" is incompatible with parameter of type "unsigned char *"
+"../main.c", line 37: warning #169-D: argument of type "unsigned char (*)[14]" is incompatible with parameter of type "unsigned char *"
+Finished building: "../main.c"
+ 
+Building target: "lab_2_4.out"
+Invoking: Arm Linker
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"lab_2_4.map" --heap_size=1024 --stack_size=2048 -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="lab_2_4_linkInfo.xml" --rom_model -o "lab_2_4.out" "./Timer.obj" "./lcd.obj" "./main.obj" "./movement.obj" "./open_interface.obj" "./tm4c123gh6pm_startup_ccs.obj" "../libcybotUART.lib" "../tm4c123gh6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ccs/Debug/driverlib.lib" 
+<Linking>
+Finished building target: "lab_2_4.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_2_4 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../main.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_2_4" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+"../main.c", line 38: warning #169-D: argument of type "unsigned char (*)[14]" is incompatible with parameter of type "unsigned char *"
+"../main.c", line 38: warning #169-D: argument of type "unsigned char (*)[14]" is incompatible with parameter of type "unsigned char *"
+Finished building: "../main.c"
+ 
+Building target: "lab_2_4.out"
+Invoking: Arm Linker
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"lab_2_4.map" --heap_size=1024 --stack_size=2048 -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="lab_2_4_linkInfo.xml" --rom_model -o "lab_2_4.out" "./Timer.obj" "./lcd.obj" "./main.obj" "./movement.obj" "./open_interface.obj" "./tm4c123gh6pm_startup_ccs.obj" "../libcybotUART.lib" "../tm4c123gh6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ccs/Debug/driverlib.lib" 
+<Linking>
+Finished building target: "lab_2_4.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project lab_2_4 ****
+
+"C:\\ti\\ccs1271\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
+ 
+Building file: "../main.c"
+Invoking: Arm Compiler
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="U:/CPRE_288/lab_2_4" --include_path="C:/ti/TivaWare_C_Series-2.2.0.295" --include_path="C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+Finished building: "../main.c"
+ 
+Building target: "lab_2_4.out"
+Invoking: Arm Linker
+"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"lab_2_4.map" --heap_size=1024 --stack_size=2048 -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1271/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="lab_2_4_linkInfo.xml" --rom_model -o "lab_2_4.out" "./Timer.obj" "./lcd.obj" "./main.obj" "./movement.obj" "./open_interface.obj" "./tm4c123gh6pm_startup_ccs.obj" "../libcybotUART.lib" "../tm4c123gh6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ccs/Debug/driverlib.lib" 
+<Linking>
+Finished building target: "lab_2_4.out"
+ 
+
+**** Build Finished ****
